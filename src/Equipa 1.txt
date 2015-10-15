@@ -1,0 +1,12 @@
+nome: Totil Fixe
+
+Desportos: Football | Atletismo ;
+
+Atletas:
+
+nome: Jaquim 
+desportos: Football , Avançado | Atletismo , Sprint ;
+nome: Manel
+desportos: Atletismo , Sprint ;
+
+Medalhas: Nenhuma

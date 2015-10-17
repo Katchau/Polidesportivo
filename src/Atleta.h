@@ -9,8 +9,8 @@
 
 
 
-class Atleta
-{
+class Atleta {
+private:
     string nome;
     vector<Desporto *> desportosInscrito; // pois pois xD
 public:

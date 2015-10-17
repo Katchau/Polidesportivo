@@ -21,8 +21,9 @@ struct evento {
 	Data inicial;
 	Data final;
 };
-class Calendario{
 
+class Calendario {
+private:
 	Data inicio;
 	Data fim;
 	vector<evento*> eventos;

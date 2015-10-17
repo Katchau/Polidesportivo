@@ -6,7 +6,8 @@
 #include "Infrastrutura.h"
 
 
-class Campeonato{
+class Campeonato {
+private:
 	vector<Desporto*> Desportos;
 	vector<Infrastrutura *> Infratruturas;
 	vector<Equipa *> Equipas;

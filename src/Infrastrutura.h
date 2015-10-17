@@ -7,13 +7,13 @@
 using namespace std;
 
 
-class Infrastrutura{
-string Nome;
-Calendario* Horario;
+class Infrastrutura {
+private:
+	string Nome;
+	Calendario* Horario;
 
 public:
-Infrastrutura(string Nome);
-
+	Infrastrutura(string Nome);
 };
 
 #endif

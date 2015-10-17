@@ -6,15 +6,15 @@
 #include "Modalidade.h"
 
 
-class Desporto{
-string Nome;
-vector < Modalidade *> Modalidades;
-
+class Desporto {
+private:
+	string Nome;
+	vector < Modalidade *> Modalidades
 
 public:
-bool adiciona_Modalidade(string Nome);
-bool remove_Modalidade(string Nome);
-string get_Nome();
+	bool adiciona_Modalidade(string Nome);
+	bool remove_Modalidade(string Nome);
+	string get_Nome();
 
 };
 #endif

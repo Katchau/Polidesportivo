@@ -6,6 +6,7 @@
 #include "Modalidade.h"
 
 
+<<<<<<< HEAD
 class Desporto{
 	string nome;
 	vector<Modalidade *> modalidades;
@@ -14,5 +15,17 @@ public:
 	void adicionaModalidade(Modalidade *m);
 	vector<Modalidade* > getModalidades();
 	string getNome();
+=======
+class Desporto {
+private:
+	string Nome;
+	vector < Modalidade *> Modalidades
+
+public:
+	bool adiciona_Modalidade(string Nome);
+	bool remove_Modalidade(string Nome);
+	string get_Nome();
+
+>>>>>>> origin/master
 };
 #endif

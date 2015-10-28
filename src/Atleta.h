@@ -6,8 +6,16 @@
 #include <iostream>
 #include "Desporto.h"
 
+<<<<<<< HEAD
 class Atleta
 {
+=======
+
+
+
+class Atleta {
+private:
+>>>>>>> origin/master
     string nome;
     vector<Desporto *> desportosInscrito; // pois pois xD
 public:

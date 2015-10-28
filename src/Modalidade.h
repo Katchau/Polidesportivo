@@ -5,7 +5,6 @@
 #include "Prova.h"
 
 
-
 class Modalidade{
 string Nome;
 Infrastrutura* local;

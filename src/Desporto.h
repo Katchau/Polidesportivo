@@ -7,14 +7,12 @@
 
 
 class Desporto{
-string Nome;
-vector < Modalidade *> Modalidades;
-
-
+	string nome;
+	vector<Modalidade *> modalidades;
 public:
-bool adiciona_Modalidade(string Nome);
-bool remove_Modalidade(string Nome);
-string get_Nome();
-
+	Desporto(string nome);
+	void adicionaModalidade(Modalidade *m);
+	vector<Modalidade* > getModalidades();
+	string getNome();
 };
 #endif

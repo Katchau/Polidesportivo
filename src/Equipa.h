@@ -21,7 +21,7 @@ class Equipa
 		string tipo;
 	};
 	vector<Desporto *> desportosInscritos;
-	vector<medal> conquests;
+	vector<medal> medalhas;
 	vector<Atleta> atletasInscritos;
 
 public:

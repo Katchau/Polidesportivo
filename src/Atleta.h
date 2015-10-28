@@ -6,16 +6,14 @@
 #include <iostream>
 #include "Desporto.h"
 
-
-
-
 class Atleta
 {
     string nome;
     vector<Desporto *> desportosInscrito; // pois pois xD
 public:
     Atleta(string nome);
-    void addDesporto(Desporto * p);
+    void adicionaDesporto(Desporto *d);
+    vector<Desporto *> getDesportos();
     void showDesportos();
     string getNome();
 };

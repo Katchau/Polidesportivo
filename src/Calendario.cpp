@@ -1,33 +1,45 @@
 #include "Calendario.h"
-
+#include <iostream>
 using namespace std;
 
 
 Calendario::Calendario(Data inicio,Data fim){
-this->inicio = inicio;
-this->fim = fim;
+	this->inicio = inicio;
+	this->fim = fim;
 
 }
 bool Calendario::adiciona_evento(evento * alpha)
 {
-  for(unsigned int i = 0; i < eventos.size(); i++)
-  {
-     if(eventos_sobrepostos(eventos[i],alpha))
-    	 return false;
-  }
-  eventos.push_back(alpha);
-  return true;
+	if((inicio <= alpha-> inicial && alpha-> inicial <= fim)||
+			(inicio <= alpha->final && alpha->final <= fim)||
+			inicio <= alpha->inicial && alpha->final <= fim){
+		for(unsigned int i = 0; i < eventos.size(); i++)
+		{
+			if(eventos_sobrepostos(eventos[i],alpha) ){
+				cout << 1;
+				return false;}
+			if(alpha == eventos[i])
+			{
+				cout << 2;
+				return false;
+			}
+		}
+		eventos.push_back(alpha);
+		return true;
+	}
+return false;
+
 }
 bool Calendario::remove_evento(evento *alpha)
 {
-   for(unsigned int i = 0; i < eventos.size(); i++)
-   {
-	   if(eventos[i] == alpha){
-		   eventos.erase(eventos.begin()+i);
-		   return true;
-	   }
-   }
-   return false;
+	for(unsigned int i = 0; i < eventos.size(); i++)
+	{
+		if(eventos[i] == alpha){
+			eventos.erase(eventos.begin()+i);
+			return true;
+		}
+	}
+	return false;
 }
 void Calendario::print()
 {
@@ -36,7 +48,7 @@ void Calendario::print()
 
 bool ValidaData(Data Marcacao, bool atual)
 {
-	if (Marcacao.mes >12 || Marcacao.dia > 0)
+	if (Marcacao.mes >12 || Marcacao.dia < 0)
 		return false;
 	if (Marcacao.dia > diasMes(Marcacao.ano,Marcacao.mes))
 		return false;
@@ -59,8 +71,8 @@ bool ValidaData(Data Marcacao, bool atual)
 			return false;
 		if (Marcacao.mes == mes && Marcacao.dia < dia)
 			return false;
-        if (Marcacao.horas < horas ||Marcacao.minutos < min )
-        	return false;
+		if (Marcacao.horas < horas ||Marcacao.minutos < min )
+			return false;
 	}
 	return true;
 }
@@ -90,25 +102,54 @@ bool operator< (const Data &inicio,const Data &fim){
 
 	if(inicio.ano <  fim.ano )
 		return true;
-	if(inicio.mes < fim.ano && inicio.ano == fim.ano )
-			return true;
+	if(inicio.mes < fim.mes && inicio.ano == fim.ano )
+		return true;
 	if(inicio.dia < fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
-			return true;
+		return true;
+	if(inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+		return false;
+	return false;
 
+}
+bool operator <= (const Data &inicio,const Data &fim){
+	if(inicio.ano <=  fim.ano )
+		return true;
+	if(inicio.mes <= fim.mes && inicio.ano == fim.ano )
+		return true;
+	if(inicio.dia <= fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
+		return true;
+	if(inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+		return true;
 	return false;
 }
-bool eventos_sobrepostos(evento *alpha, evento *beta){
-
-	if(alpha->inicial < beta->final && beta->inicial < alpha->final)
-		return false;
-	if(beta->inicial <  alpha->final && alpha->inicial < beta->final)
-		return false;
-	if(beta->inicial < alpha->inicial && alpha->final < beta->final)
-		return false;
-	if(alpha->inicial < beta->inicial && beta->final < alpha->inicial)
-		return false;
-
+bool operator == (const Data &esquerda, const Data &direita){
+	if(esquerda.ano != direita.ano) return  false;
+	if(esquerda.dia != direita.dia) return false;
+	if(esquerda.mes != direita.mes) return false;
+	if(esquerda.horas != direita.horas) return false;
+	if(esquerda.minutos != direita.minutos) return false;
 	return true;
+}
+
+bool eventos_sobrepostos(const evento *alpha,const  evento *beta){
+
+	if(alpha->inicial< beta-> final && beta-> final < alpha -> final)
+		return true;
+	if(alpha->inicial< beta-> inicial && beta-> inicial < alpha -> final)
+		return true;
+	if(beta->inicial  < alpha-> inicial&& alpha-> inicial < beta->final)
+		return true;
+	if(beta->inicial  < alpha-> final&& alpha-> final < beta->final)
+		return true;
+	if(alpha->inicial == beta-> final) return true;
+	if(alpha->inicial == beta->inicial) return true;
+	if(alpha->final== beta-> final) return true;
+	if(alpha->final == beta->inicial)return true;
+
+
+
+
+	return false;
 }
 
 Data::Data(){
@@ -134,6 +175,7 @@ Data::Data(int dia,int mes,int ano,int horas,int minutos){
 	this->minutos = minutos;
 }
 evento::evento(Data inicial,Data final){
-this->inicial = inicial;
-this->final = final;
+	this->inicial = inicial;
+	this->final = final;
 }
+

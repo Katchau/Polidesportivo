@@ -42,8 +42,10 @@ bool ValidaData(Data Marcacao, bool atual);
 bool bissexto(int ano);
 unsigned int diasMes(int ano, int mes);
 bool operator< (const Data &inicio,const Data &fim);
+bool operator == (const Data &esquerda, const Data &direita);
+bool operator <= (const Data &inicio,const Data &fim);
 /*EVENTOS*/
 
-bool eventos_sobrepostos(evento *alpha, evento *beta);
+bool eventos_sobrepostos(const evento *alpha,const  evento *beta);
 
 #endif

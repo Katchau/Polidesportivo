@@ -21,6 +21,7 @@ int main()
 	else cout << "Test 3: failed \n";
 
 	//Comp. a1 < a1
+
 	if(!(a1<a1))cout << "Test 4: success \n";
 	else cout << "Test 4: failed \n";
 
@@ -59,7 +60,28 @@ int main()
 
 	//eventos
 	cout << "eventos \n";
+	evento c1(a1,a2);
+	evento c2(a3,a4);
+	if(!(eventos_sobrepostos(&c1,&c2)))cout << "Test 7: success \n";
+	else cout << "Test 7: failed \n";
+	if(eventos_sobrepostos(&c1,&c1))cout << "Test 8: success \n";
+		else cout << "Test 8: failed \n";
 
+	// calendario
+	cout << "calendario\n";
+	Data e1(1,1,1993);
+	Data e3(1,1,3000);
 
+	Calendario jota(e1,e3);
+	if(jota.adiciona_evento(&c1))cout << "Test 9: success \n";
+	else cout << "Test 9: failed \n";
+	if(!(jota.adiciona_evento(&c1)))cout << "Test 9: success \n";
+	else cout << "Test 9: failed \n";
+	if(jota.adiciona_evento(&c2))cout << "Test 10: success \n";
+		else cout << "Test 10: failed \n";
+	if(jota.remove_evento(&c1))cout << "Test 11: success \n";
+	else cout << "Test 11: failed \n";
+	if(!(jota.remove_evento(&c1)))cout << "Test 12: success \n";
+		else cout << "Test 12: failed \n";
 	return 0;
 }

@@ -3,20 +3,14 @@
 
 #include <string>
 #include <vector>
-#include "Modalidade.h"
 
-
+using namespace std;
 
 class Desporto{
+private:
 	string nome;
-	vector<Modalidade *> modalidades;
 public:
 	Desporto(string nome);
-	void adicionaModalidade(Modalidade *m);
-	vector<Modalidade* > getModalidades();
 	string getNome();
-
-
-
 };
 #endif

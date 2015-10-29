@@ -1,5 +1,5 @@
-#ifndef INFRASTRUTURA_H
-#define INFRASTRUTURA_H
+#ifndef INFRAESTRUTURA_H
+#define INFRAESTRUTURA_H
 
 #include <string>
 #include "Calendario.h"
@@ -7,13 +7,13 @@
 using namespace std;
 
 
-class Infrastrutura {
+class Infraestrutura {
 private:
 	string Nome;
 	Calendario* Horario;
 
 public:
-	Infrastrutura(string Nome);
+	Infraestrutura(string Nome);
 };
 
 #endif

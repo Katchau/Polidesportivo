@@ -1,18 +1,27 @@
 #ifndef CAMPEONATO_H
 #define CAMPEONATO_H
 
-#include "Desporto.h"
+#include "Modalidade.h"
 #include "Equipa.h"
 #include "Infrastrutura.h"
 
+using namespace std;
 
 class Campeonato {
 private:
-	vector<Desporto*> Desportos;
-	vector<Infrastrutura *> Infratruturas;
+	string nome;
+	vector<Infraestrutura *> Infraestruturas;
 	vector<Equipa *> Equipas;
-
+	vector<Desporto*> Modalidades;
 public:
+	Campeonato(string nome);
+	bool adicionaInfraestrutura(Infraestrutura *i);
+	bool removeInfraestrutura(Infraestrutura *i);
+	bool adicionaEquipa(Equipa *e);
+	bool removeEquipa(Equipa *e);
+	bool adicionaModalidade(Desporto *m);
+	bool removeModalidade(Desporto *m);
+	string getNome() const;
 
 };
 

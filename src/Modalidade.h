@@ -1,22 +1,21 @@
 #ifndef MODALIDADE_H
 #define MODALIDADE_H
 
-#include "Infrastrutura.h"
+#include <string>
+#include <vector>
+
+#include "Desporto.h"
 #include "Prova.h"
+#include "templates.h"
 
-
-
-
-class Modalidade {
+class Modalidade : public Desporto {
 private:
-	string Nome;
-	Infrastrutura* local;
-	vector <Prova *> Provas;
-
-
+	string tipo;
+	vector<Prova *> Provas;
 public:
-	bool adiciona_prova(Prova * evento);
-	bool remove_prova(Prova * evento);
+	Modalidade (string nome, string tipo);
+	bool adicionaProva (Prova * evento);
+	bool removeProva (Prova * evento);
 };
 
 #endif

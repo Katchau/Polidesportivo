@@ -70,23 +70,31 @@ bool bissexto(int ano)
 		return true;
 	return false;
 }
+
+
+
+
+
 unsigned int diasMes(int ano, int mes)
 {
-	if ((bissexto(ano)) && mes == 2)
+	if (bissexto(ano) && mes == 2)
 		return 29;
-	else if (!(bissexto(ano)) && mes == 2)
+	else if (!bissexto(ano) && mes == 2)
 		return  28;
 	else if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12)
 		return 31;
 	return 30;
 }
 bool operator< (const Data &inicio,const Data &fim){
+
+
 	if(inicio.ano <  fim.ano )
 		return true;
-	if(inicio.mes < fim.ano)
-		return true;
-	if(inicio.dia < fim.dia)
-		return true;
+	if(inicio.mes < fim.ano && inicio.ano == fim.ano )
+			return true;
+	if(inicio.dia < fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
+			return true;
+
 	return false;
 }
 bool eventos_sobrepostos(evento *alpha, evento *beta){
@@ -103,3 +111,29 @@ bool eventos_sobrepostos(evento *alpha, evento *beta){
 	return true;
 }
 
+Data::Data(){
+	dia =0;
+	mes= 0;
+	ano = 0;
+	horas= 0;
+	minutos= 0;
+};
+
+Data::Data(int dia,int mes,int ano){
+	this->dia = dia;
+	this->mes = mes;
+	this->ano= ano;
+	horas = 0;
+	minutos = 0;
+}
+Data::Data(int dia,int mes,int ano,int horas,int minutos){
+	this->dia = dia;
+	this->mes= mes;
+	this-> ano = ano;
+	this->horas = horas;
+	this->minutos = minutos;
+}
+evento::evento(Data inicial,Data final){
+this->inicial = inicial;
+this->final = final;
+}

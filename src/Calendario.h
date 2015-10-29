@@ -14,12 +14,15 @@ struct Data {
 	unsigned int ano;
 	unsigned int horas;
 	unsigned int minutos;
-
+    Data(int dia,int mes,int ano);
+    Data(int dia,int mes,int ano,int horas,int minutos);
+    Data();
 };
 
 struct evento {
 	Data inicial;
 	Data final;
+	evento(Data inicial,Data final);
 };
 
 class Calendario {
@@ -39,7 +42,8 @@ bool ValidaData(Data Marcacao, bool atual);
 bool bissexto(int ano);
 unsigned int diasMes(int ano, int mes);
 bool operator< (const Data &inicio,const Data &fim);
-/*Eventos*/
+/*EVENTOS*/
+
 bool eventos_sobrepostos(evento *alpha, evento *beta);
 
 #endif

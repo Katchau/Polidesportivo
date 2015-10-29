@@ -2,8 +2,14 @@
 //falta header files
 
 #include "Equipa.h"
+#include <fstream>
 
 int Equipa::idN = 0;
+
+Equipa::EquipaNaoExistente::EquipaNaoExistente(string nomeficheiro)
+{
+	this->nomeficheiro = nomeficheiro;
+}
 
 
 void Equipa::funcaoPorCoiso() // opah isto atualiza o id e o nome do ficheiro a guardar
@@ -53,8 +59,8 @@ Equipa::Equipa() //buggs de ler no ficheiro: se tiver nomes com espaco nos despo
     if(read.fail()) // falta esta merda, n me apetece agr
     {
         read.close();
-        cerr << "Equipa com id: " << idN << " nao foi encontrado";
-        //do some shit later
+        throw Equipa::EquipaNaoExistente(nameFile);
+
     }
     importTeamFile(read);
     read.close();
@@ -117,4 +123,51 @@ void Equipa::addAtlhetesFromFile()
         read >> linha_1;
     }
 */
+}
+
+void Equipa::writetoFile()
+{
+    ofstream save;
+    string text_lixo;
+    save.open(nameFile.c_str()); //dafuq isto nao deu erro????
+    save << "nome: " << name << endl << endl;
+    save << "Desportos: ";
+    for(size_t i = 0;i<desportosInscritos.size();i++)
+    {
+        if(desportosInscritos.size()-i == 1)
+        {
+            save << desportosInscritos[i]->getNome() << " ;";
+        }
+        else
+        {
+            save << desportosInscritos[i]->getNome() << " | ";
+        }
+
+    }
+    save << endl << endl << "Atletas: " << endl;
+    for(unsigned int i = 0;i<atletasInscritos.size();i++)
+    {
+
+        vector<Desporto *> d = atletasInscritos[i].getDesportosInsc(); //eu nao percebo o eclipse ta td fdd
+        save << "Nome: " << atletasInscritos[i].getNome() << endl << "Desportos: ";
+        for(size_t j = 0; j < d.size(); j++)
+        {
+            if(d.size()-j == 1)
+            {
+                save << d[j]->getNome() << " ;" << endl;
+            }
+            else
+            {
+                save << d[j]->getNome() << " | ";
+            }
+        }
+    }
+
+    save << endl << endl << "Medalhas: "; //fazer dp
+    save.close();
+}
+
+vector<Atleta> Equipa::getAtletas()
+{
+	return atletasInscritos;
 }

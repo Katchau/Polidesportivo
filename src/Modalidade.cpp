@@ -7,18 +7,27 @@ Modalidade::Modalidade (string nome, string tipo) : Desporto(nome)
 
 bool Modalidade::adicionaProva(Prova * evento)
 {
-	Provas.push_back(evento);
-	return true;
+	return adicionaVetor(Provas, evento);
 }
 
 bool Modalidade::removeProva(Prova * evento)
 {
-	int indice = sequentialSearch(Provas, evento);
+	return removeVetor(Provas, evento);
 
-	if (indice == -1)
-		return false;
+}
 
-	Provas.erase(Provas.begin() + indice);
-	return true;
+string Modalidade::getNome()
+{
+	string nome;
+	nome = Desporto::getNome() + " , " + tipo;
+	nomeT = nome;
+	return nome;
+}
 
+bool Modalidade::operator == (Desporto * des) const
+{
+	string n1 = des->getNome();
+	string n2 = nomeT;
+	if(n2 == n1) return true;
+	else return false;
 }

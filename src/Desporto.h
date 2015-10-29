@@ -11,6 +11,8 @@ private:
 	string nome;
 public:
 	Desporto(string nome);
-	string getNome();
+	virtual ~Desporto(){}
+	virtual string getNome();
+	virtual bool operator == (Desporto * des) const;
 };
 #endif

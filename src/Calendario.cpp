@@ -8,7 +8,7 @@ Calendario::Calendario(Data inicio,Data fim){
 	this->fim = fim;
 
 }
-bool Calendario::adiciona_evento(evento * alpha)
+void Calendario::adiciona_evento(evento * alpha)
 {
 	if((inicio <= alpha-> getInicial() && alpha-> getInicial() <= fim)||
 			(inicio <= alpha->getFinal() && alpha->getFinal() <= fim)||
@@ -17,29 +17,27 @@ bool Calendario::adiciona_evento(evento * alpha)
 		{
 			if(eventos_sobrepostos(eventos[i],alpha) ){
 
-				return false;}
+				throw EventoSobreposto();}
 			if(alpha == eventos[i])
 			{
 
-				return false;
+				throw EventoExiste(alpha->getNome());
 			}
 		}
 		eventos.push_back(alpha);
-		return true;
 	}
-	return false;
+	throw EventoNaoAdicionado();
 
 }
-bool Calendario::remove_evento(evento *alpha)
+void Calendario::remove_evento(evento *alpha)
 {
 	for(unsigned int i = 0; i < eventos.size(); i++)
 	{
 		if(eventos[i] == alpha){
 			eventos.erase(eventos.begin()+i);
-			return true;
 		}
 	}
-	return false;
+	throw EventoNaoExiste(alpha->getNome());
 }
 void Calendario::imprime() const
 {
@@ -99,6 +97,14 @@ unsigned int diasMes(int ano, int mes)
 		return 31;
 	return 30;
 }
+
+EventoNaoExiste::EventoNaoExiste(string nome){
+ this->nome = nome;
+}
+EventoExiste::EventoExiste(string nome){
+	this->nome = nome;
+}
+
 //data
 bool operator< (const Data &inicio,const Data &fim){
 

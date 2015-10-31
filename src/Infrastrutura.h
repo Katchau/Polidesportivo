@@ -3,7 +3,7 @@
 
 #include <string>
 #include "Calendario.h"
-
+#include <iostream>
 using namespace std;
 
 
@@ -18,7 +18,7 @@ public:
 	void adicionaEvento(evento* A );
 	void removeEvento(evento* B);
 	Calendario*  getCalendario() const;
-	Calendario*  setCalendario();
+	void  setCalendario( Calendario * Novo);
 	string getNome()const;
 	void imprime() const;
 };

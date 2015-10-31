@@ -10,24 +10,24 @@ Calendario::Calendario(Data inicio,Data fim){
 }
 bool Calendario::adiciona_evento(evento * alpha)
 {
-	if((inicio <= alpha-> inicial && alpha-> inicial <= fim)||
-			(inicio <= alpha->final && alpha->final <= fim)||
-			inicio <= alpha->inicial && alpha->final <= fim){
+	if((inicio <= alpha-> getInicial() && alpha-> getInicial() <= fim)||
+			(inicio <= alpha->getFinal() && alpha->getFinal() <= fim)||
+			(inicio <= alpha->getFinal() && alpha->getFinal() <= fim)){
 		for(unsigned int i = 0; i < eventos.size(); i++)
 		{
 			if(eventos_sobrepostos(eventos[i],alpha) ){
-				cout << 1;
+
 				return false;}
 			if(alpha == eventos[i])
 			{
-				cout << 2;
+
 				return false;
 			}
 		}
 		eventos.push_back(alpha);
 		return true;
 	}
-return false;
+	return false;
 
 }
 bool Calendario::remove_evento(evento *alpha)
@@ -41,9 +41,11 @@ bool Calendario::remove_evento(evento *alpha)
 	}
 	return false;
 }
-void Calendario::print()
+void Calendario::imprime() const
 {
-
+	for(unsigned int i = 0;i < eventos.size();i++){
+		cout << eventos[i]->getNome() << " " <<eventos[i]->getInicial() << " "<<eventos[i]->getFinal()<< endl;
+	}
 }
 
 bool ValidaData(Data Marcacao, bool atual)
@@ -97,6 +99,7 @@ unsigned int diasMes(int ano, int mes)
 		return 31;
 	return 30;
 }
+//data
 bool operator< (const Data &inicio,const Data &fim){
 
 
@@ -131,26 +134,13 @@ bool operator == (const Data &esquerda, const Data &direita){
 	return true;
 }
 
-bool eventos_sobrepostos(const evento *alpha,const  evento *beta){
-
-	if(alpha->inicial< beta-> final && beta-> final < alpha -> final)
-		return true;
-	if(alpha->inicial< beta-> inicial && beta-> inicial < alpha -> final)
-		return true;
-	if(beta->inicial  < alpha-> inicial&& alpha-> inicial < beta->final)
-		return true;
-	if(beta->inicial  < alpha-> final&& alpha-> final < beta->final)
-		return true;
-	if(alpha->inicial == beta-> final) return true;
-	if(alpha->inicial == beta->inicial) return true;
-	if(alpha->final== beta-> final) return true;
-	if(alpha->final == beta->inicial)return true;
-
-
-
-
-	return false;
+ostream& operator<<(ostream& os, const Data& dt)
+{
+    os << dt.dia << '/' << dt.mes << '/' << dt.ano;
+    os << dt.horas << ':'<<dt.minutos;
+    return os;
 }
+
 
 Data::Data(){
 	dia =0;
@@ -174,8 +164,44 @@ Data::Data(int dia,int mes,int ano,int horas,int minutos){
 	this->horas = horas;
 	this->minutos = minutos;
 }
+//evento
 evento::evento(Data inicial,Data final){
 	this->inicial = inicial;
 	this->final = final;
+	nome = "sem nome";
+}
+evento::evento(string nome,Data inicial,Data final){
+	this->inicial=inicial;
+	this->final = final;
+	this->nome = nome;
+}
+bool eventos_sobrepostos(const evento *alpha,const  evento *beta){
+
+	if(alpha->getInicial()< beta-> getFinal() && beta-> getFinal() < alpha -> getFinal())
+		return true;
+	if(alpha->getInicial()< beta-> getInicial() && beta-> getInicial() < alpha -> getFinal())
+		return true;
+	if(beta->getInicial()  < alpha-> getInicial()&& alpha-> getInicial() < beta->getFinal())
+		return true;
+	if(beta->getInicial()  < alpha-> getFinal()&& alpha-> getFinal() < beta->getFinal())
+		return true;
+	if(alpha->getInicial() == beta-> getFinal()) return true;
+	if(alpha->getInicial() == beta->getInicial()) return true;
+	if(alpha->getInicial()== beta-> getFinal()) return true;
+
+
+
+
+
+	return false;
 }
 
+string evento::getNome() const{
+	return nome;
+}
+Data evento::getInicial() const{
+	return inicial;
+}
+Data evento::getFinal() const{
+	return final;
+}

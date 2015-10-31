@@ -17,12 +17,20 @@ struct Data {
     Data(int dia,int mes,int ano);
     Data(int dia,int mes,int ano,int horas,int minutos);
     Data();
+    friend ostream& operator<<(ostream& os, const Data& dt);
 };
 
-struct evento {
+class evento {
+private:
+	string nome;
 	Data inicial;
 	Data final;
+public:
 	evento(Data inicial,Data final);
+	evento(string nome,Data inicial,Data final);
+	string getNome() const;
+	Data getInicial() const;
+	Data getFinal() const;
 };
 
 class Calendario {
@@ -34,7 +42,7 @@ public:
 Calendario(Data inicio,Data fim);
 bool adiciona_evento(evento *alpha);
 bool remove_evento(evento * alpha);
-void print();
+void imprime() const;
 
 };
 /* DATA */

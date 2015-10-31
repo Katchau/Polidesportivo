@@ -14,6 +14,13 @@ private:
 
 public:
 	Infraestrutura(string Nome);
+	Infraestrutura(string Nome, Calendario * Horario);
+	void adicionaEvento(evento* A );
+	void removeEvento(evento* B);
+	Calendario*  getCalendario() const;
+	Calendario*  setCalendario();
+	string getNome()const;
+	void imprime() const;
 };
 
 #endif

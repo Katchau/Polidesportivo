@@ -6,7 +6,6 @@
 
 #include "Desporto.h"
 #include "Prova.h"
-#include "templates.h"
 
 class Modalidade : public Desporto {
 private:

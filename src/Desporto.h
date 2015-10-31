@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "templates.h"
+
 using namespace std;
 
 class Desporto{

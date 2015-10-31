@@ -12,7 +12,7 @@ Equipa::EquipaNaoExistente::EquipaNaoExistente(string nomeficheiro)
 }
 
 
-void Equipa::funcaoPorCoiso() // opah isto atualiza o id e o nome do ficheiro a guardar
+void Equipa::atualizarID()
 {
     idN++;
     int id = idN;
@@ -47,7 +47,7 @@ bool Equipa::removeAtleta(string nome)
 Equipa::Equipa(string nome)
 {
     name = nome;
-    funcaoPorCoiso();
+    atualizarID();
 
 }
 

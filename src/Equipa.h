@@ -33,7 +33,7 @@ public:
 	void addAtlhetesFromFile();
 	bool addAtleta(string nome);
 	bool removeAtleta(string nome);
-	void funcaoPorCoiso(); //falta dar um nome decente a isto
+	void atualizarID(); //falta dar um nome decente a isto
 	void writetoFile(); //TODO falta a parte das medalhas
 	vector<Atleta> getAtletas(); // e mais para testes
 };

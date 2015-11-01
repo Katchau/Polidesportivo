@@ -12,14 +12,14 @@ int sequentialSearch(const vector<T> &v, T x)
 }
 
 template <class T>
-bool adicionaVetor(vector<T *> v, T *elem)
+bool adicionaVetor(vector<T> &v, T elem)
 {
 	v.push_back(elem);
 	return true;
 }
 
 template <class T>
-bool removeVetor(vector<T *> v, T *elem)
+bool removeVetor(vector<T> &v, T elem)
 {
 	int indice = sequentialSearch(v, elem);
 

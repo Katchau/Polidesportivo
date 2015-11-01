@@ -1,38 +1,37 @@
 #include "Campeonato.h"
 
-Campeonato::Campeonato(string nome)
+Campeonato::Campeonato(const string &filename)
 {
-	this->nome = nome;
+	ifstream ReadConfig(filename.c_str());
 }
 
-bool Campeonato::adicionaInfraestrutura(Infraestrutura *i)
+Campeonato::Campeonato()
 {
-	return adicionaVetor(Infraestruturas, i);
+	bool valido = true;
+	do
+	{
+		cin.clear();
+		if (!valido)
+			cout << "Introduza um nome nao vazio: ";
+		else
+			cout << "Introduza o nome do campeonato: ";
+
+		getline(cin, nome);
+
+		valido = false;
+
+		for (size_t i = 0; i < nome.size(); i++)
+			if (nome[i] != ' ')
+				valido = true;
+
+	} while (cin.eof() || !valido);
 }
 
-bool Campeonato::removeInfraestrutura(Infraestrutura *i)
+void Campeonato::criaEquipa()
 {
-	return removeVetor(Infraestruturas, i);
-}
+	Equipa novaEquipa;
 
-bool Campeonato::adicionaEquipa(Equipa *e)
-{
-	return adicionaVetor(Equipas, e);
-}
-
-bool Campeonato::removeEquipa(Equipa *e)
-{
-	return removeVetor(Equipas, e);
-}
-
-bool Campeonato::adicionaModalidade(Desporto *m)
-{
-	return adicionaVetor(Modalidades, m);
-}
-
-bool Campeonato::removeModalidade(Desporto *m)
-{
-	return removeVetor(Modalidades, m);
+	adicionaVetor(Equipas, &novaEquipa);
 }
 
 string Campeonato::getNome() const
@@ -40,3 +39,22 @@ string Campeonato::getNome() const
 	return nome;
 }
 
+vector<Infraestrutura *> Campeonato::getInfraestruturas()
+{
+	return Infraestruturas;
+}
+
+vector<Equipa *> Campeonato::getEquipas()
+{
+	return Equipas;
+}
+
+vector<Desporto*> Campeonato::getModalidades()
+{
+	return Modalidades;
+}
+
+void Campeonato::gravarCampeonato()
+{
+
+}

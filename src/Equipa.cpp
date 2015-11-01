@@ -1,8 +1,5 @@
-
-//falta header files
-
 #include "Equipa.h"
-#include <fstream>
+
 
 int Equipa::idN = 0;
 
@@ -11,47 +8,60 @@ Equipa::EquipaNaoExistente::EquipaNaoExistente(string nomeficheiro)
 	this->nomeficheiro = nomeficheiro;
 }
 
-
 void Equipa::atualizarID()
 {
-    idN++;
-    int id = idN;
-    string nEq = "Equipa ";
-    stringstream ss;
-    ss << id;
-    nEq =  nEq + ss.str() + ".txt";
-    nameFile = nEq;
+	idN++;
 }
 
 bool Equipa::addAtleta(string nome) //falta a condicao para false
 {
-    Atleta atl(nome);
-    atletasInscritos.push_back(atl);
-    return true;
+	Atleta atl(nome);
+	atletasInscritos.push_back(atl);
+	return true;
 }
 
 bool Equipa::removeAtleta(string nome)
 {
-    for(vector<Atleta>::iterator it = atletasInscritos.begin();it!=atletasInscritos.end();it++)
-    {
-        if(it->getNome() == nome)
-        {
-            atletasInscritos.erase(it);
-            it--;
-            return true;
-        }
-    }
-    return false;
+	for(vector<Atleta>::iterator it = atletasInscritos.begin();it!=atletasInscritos.end();it++)
+	{
+		if(it->getNome() == nome)
+		{
+			atletasInscritos.erase(it);
+			it--;
+			return true;
+		}
+	}
+	return false;
 }
 
-Equipa::Equipa(string nome)
+Equipa::Equipa()
 {
-    name = nome;
-    atualizarID();
+	bool valido = true;
+	do
+	{
+		cin.clear();
+		if (!valido)
+			cout << "Introduza um nome nao vazio: ";
+		else
+			cout << "Introduza o nome da equipa: ";
+
+		getline(cin, nome);
+
+		valido = false;
+
+		for (size_t i = 0; i < nome.size(); i++)
+			if (nome[i] != ' ')
+				valido = true;
+
+	} while (cin.eof() || !valido);
+
+	atualizarID();
+
+	nameFile = nome + ".txt";
 
 }
 
-Equipa::Equipa() //buggs de ler no ficheiro: se tiver nomes com espaco nos desportos ou nas modalidades lixa isto td
+Equipa::Equipa(string filename) //buggs de ler no ficheiro: se tiver nomes com espaco nos desportos ou nas modalidades lixa isto td
 {/*
     ifstream read;
     funcaoPorCoiso(); //edit later
@@ -65,7 +75,7 @@ Equipa::Equipa() //buggs de ler no ficheiro: se tiver nomes com espaco nos despo
     importTeamFile(read);
     read.close();
     addAtlhetesFromFile();
-    */
+ */
 }
 
 void Equipa::importTeamFile(ifstream &read) //falta comentar isto
@@ -75,7 +85,7 @@ void Equipa::importTeamFile(ifstream &read) //falta comentar isto
     read.ignore(1);
     getline(read, name);
     this->name = name;
-    */
+ */
 }
 
 void Equipa::addAtlhetesFromFile()
@@ -122,49 +132,49 @@ void Equipa::addAtlhetesFromFile()
         atletasInscritos.push_back(atl);
         read >> linha_1;
     }
-*/
+	 */
 }
 
 void Equipa::writetoFile()
 {
-    ofstream save;
-    string text_lixo;
-    save.open(nameFile.c_str()); //dafuq isto nao deu erro????
-    save << "nome: " << name << endl << endl;
-    save << "Desportos: ";
-    for(size_t i = 0;i<desportosInscritos.size();i++)
-    {
-        if(desportosInscritos.size()-i == 1)
-        {
-            save << desportosInscritos[i]->getNome() << " ;";
-        }
-        else
-        {
-            save << desportosInscritos[i]->getNome() << " | ";
-        }
+	ofstream save;
+	string text_lixo;
+	save.open(nameFile.c_str()); //dafuq isto nao deu erro????
+	save << "nome: " << nome << endl << endl;
+	save << "Desportos: ";
+	for(size_t i = 0;i<desportosInscritos.size();i++)
+	{
+		if(desportosInscritos.size()-i == 1)
+		{
+			save << desportosInscritos[i]->getNome() << " ;";
+		}
+		else
+		{
+			save << desportosInscritos[i]->getNome() << " | ";
+		}
 
-    }
-    save << endl << endl << "Atletas: " << endl;
-    for(unsigned int i = 0;i<atletasInscritos.size();i++)
-    {
+	}
+	save << endl << endl << "Atletas: " << endl;
+	for(unsigned int i = 0;i<atletasInscritos.size();i++)
+	{
 
-        vector<Desporto *> d = atletasInscritos[i].getDesportosInsc(); //eu nao percebo o eclipse ta td fdd
-        save << "Nome: " << atletasInscritos[i].getNome() << endl << "Desportos: ";
-        for(size_t j = 0; j < d.size(); j++)
-        {
-            if(d.size()-j == 1)
-            {
-                save << d[j]->getNome() << " ;" << endl;
-            }
-            else
-            {
-                save << d[j]->getNome() << " | ";
-            }
-        }
-    }
+		vector<Desporto *> d = atletasInscritos[i].getDesportosInsc(); //eu nao percebo o eclipse ta td fdd
+		save << "Nome: " << atletasInscritos[i].getNome() << endl << "Desportos: ";
+		for(size_t j = 0; j < d.size(); j++)
+		{
+			if(d.size()-j == 1)
+			{
+				save << d[j]->getNome() << " ;" << endl;
+			}
+			else
+			{
+				save << d[j]->getNome() << " | ";
+			}
+		}
+	}
 
-    save << endl << endl << "Medalhas: "; //fazer dp
-    save.close();
+	save << endl << endl << "Medalhas: "; //fazer dp
+	save.close();
 }
 
 vector<Atleta> Equipa::getAtletas()

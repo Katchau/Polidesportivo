@@ -19,6 +19,7 @@ private:
     vector<Desporto *> desportosInscrito; // pois pois xD
     vector<int> classificacoes;
 public:
+    Atleta();
     Atleta(string nome);
     bool adicionaDesporto(Desporto *d);
     bool removeDesporto(Desporto * d);

@@ -14,14 +14,71 @@ private:
 	vector<Equipa *> Equipas;
 	vector<Desporto*> Modalidades;
 public:
-	Campeonato(string nome);
-	bool adicionaInfraestrutura(Infraestrutura *i);
-	bool removeInfraestrutura(Infraestrutura *i);
-	bool adicionaEquipa(Equipa *e);
-	bool removeEquipa(Equipa *e);
-	bool adicionaModalidade(Desporto *m);
-	bool removeModalidade(Desporto *m);
+	// Criar
+
+	/**
+	 *  Constroi um campeonato a partir de um ficheiro
+	 *  criado segundo o formato do programa.
+	 *
+	 * @param filename nome do ficheiro do campeonato (incluindo extensao)
+	 */
+	Campeonato(const string &filename);
+
+	/**
+	 *  Constroi um campeonato a partir do proprio programa
+	 *  pedindo ao utilizador o nome
+	 */
+	Campeonato();
+
+	/**
+	 *  Cria uma nova equipa a partir do proprio programa
+	 *  chamando o construtor adequado e adiciona-a ao vetor
+	 *  de equipas
+	 */
+	void criaEquipa();
+
+	// Gerir
+
+	// Ler
+
+
+	/**
+	 * @return nome do campeonato
+	 */
 	string getNome() const;
+
+	/**
+	 * @return vetor de infraestruturas
+	 */
+	vector<Infraestrutura *> getInfraestruturas();
+
+	/**
+	 * @return vetor de equipas
+	 */
+	vector<Equipa *> getEquipas();
+
+	/**
+	 * @return vetor de modalidades
+	 */
+	vector<Desporto*> getModalidades();
+
+	// Gravar
+
+	/**
+	 * Grava o campeonato num ficheiro .txt com nome igual
+	 * ao nome do campeonato
+	 */
+	void gravarCampeonato();
+
+	// Excecoes
+	class EquipaJaExistente
+	{
+	private:
+		string nome;
+	public:
+		EquipaJaExistente(string nome) {this->nome = nome;}
+		string getNome() {return nome;}
+	};
 
 };
 

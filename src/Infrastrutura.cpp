@@ -15,9 +15,10 @@ void Infraestrutura::adicionaEvento(evento* A ){
 	catch(EventoExiste &e){
 		cout << "O Evento já exite! \n";
 	}
-	catch(EventoNaoAdicionado &e){
-		cout << "Nao foi possivel adiconar o evento \n";
+	catch(EventoSobreposto &e){
+		cout << "Evento Sobreposto"
 	}
+
 
 }
 void Infraestrutura::removeEvento(evento* B){
@@ -36,6 +37,4 @@ void  Infraestrutura::setCalendario(Calendario * Novo){
 string Infraestrutura::getNome()const{
 	return Nome;
 }
-void Infraestrutura::imprime() const{
 
-}

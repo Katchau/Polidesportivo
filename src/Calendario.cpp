@@ -2,50 +2,6 @@
 #include <iostream>
 using namespace std;
 
-
-Calendario::Calendario(Data inicio,Data fim){
-	this->inicio = inicio;
-	this->fim = fim;
-
-}
-void Calendario::adiciona_evento(evento * alpha)
-{
-	if((inicio <= alpha-> getInicial() && alpha-> getInicial() <= fim)||
-			(inicio <= alpha->getFinal() && alpha->getFinal() <= fim)||
-			(inicio <= alpha->getFinal() && alpha->getFinal() <= fim)){
-		for(unsigned int i = 0; i < eventos.size(); i++)
-		{
-			if(eventos_sobrepostos(eventos[i],alpha) ){
-
-				throw EventoSobreposto();}
-			if(alpha == eventos[i])
-			{
-
-				throw EventoExiste(alpha->getNome());
-			}
-		}
-		eventos.push_back(alpha);
-	}
-	throw EventoNaoAdicionado();
-
-}
-void Calendario::remove_evento(evento *alpha)
-{
-	for(unsigned int i = 0; i < eventos.size(); i++)
-	{
-		if(eventos[i] == alpha){
-			eventos.erase(eventos.begin()+i);
-		}
-	}
-	throw EventoNaoExiste(alpha->getNome());
-}
-void Calendario::imprime() const
-{
-	for(unsigned int i = 0;i < eventos.size();i++){
-		cout << eventos[i]->getNome() << " " <<eventos[i]->getInicial() << " "<<eventos[i]->getFinal()<< endl;
-	}
-}
-
 bool ValidaData(Data Marcacao, bool atual)
 {
 	if (Marcacao.mes >12 || Marcacao.dia < 0)
@@ -82,11 +38,6 @@ bool bissexto(int ano)
 		return true;
 	return false;
 }
-
-
-
-
-
 unsigned int diasMes(int ano, int mes)
 {
 	if (bissexto(ano) && mes == 2)
@@ -97,6 +48,73 @@ unsigned int diasMes(int ano, int mes)
 		return 31;
 	return 30;
 }
+
+
+//Calendario
+Calendario::Calendario(Data inicio,Data fim){
+	this->inicio = inicio;
+	this->fim = fim;
+
+}
+void Calendario::adiciona_evento(evento * alpha)
+{
+	if((inicio <= alpha-> getInicial() && alpha-> getInicial() <= fim)||
+			(inicio <= alpha->getFinal() && alpha->getFinal() <= fim)||
+			(inicio <= alpha->getFinal() && alpha->getFinal() <= fim)){
+		for(unsigned int i = 0; i < eventos.size(); i++)
+		{
+			if(eventos_sobrepostos(eventos[i],alpha) ){
+
+				throw EventoSobreposto();}
+			if(alpha == eventos[i])
+			{
+
+				throw EventoExiste(alpha->getNome());
+			}
+		}
+		eventos.push_back(alpha);
+	}
+
+
+}
+void Calendario::remove_evento(evento *alpha)
+{
+	for(unsigned int i = 0; i < eventos.size(); i++)
+	{
+		if(eventos[i] == alpha){
+			eventos.erase(eventos.begin()+i);
+			return;
+		}
+	}
+	throw EventoNaoExiste(alpha->getNome());
+}
+void Calendario::imprime() const
+{
+	for(unsigned int i = 0;i < eventos.size();i++){
+		cout << eventos[i]->getNome() << " " <<eventos[i]->getInicial() << " "<<eventos[i]->getFinal()<< endl;
+	}
+}
+void Calendario::setInicio(Data inicio){
+	this->inicio = inicio;
+}
+void Calendario::setFim(Data fim){
+	this->fim=fim;
+}
+Data Calendario::getInicio() const{
+	return inicio;
+}
+Data Calendario::getFim() const{
+	return fim;
+}
+vector<evento *> Calendario::getEventos() const{
+	return eventos;
+}
+
+
+
+
+
+
 
 EventoNaoExiste::EventoNaoExiste(string nome){
  this->nome = nome;

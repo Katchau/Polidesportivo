@@ -7,6 +7,10 @@
 
 using namespace std;
 
+bool checkExistence(string filename);
+string selectFile();
+int selectMenu(char menor, char maior);
+
 class Campeonato {
 private:
 	string nome;
@@ -39,9 +43,19 @@ public:
 
 	// Gerir
 
+	/**
+	 *  Faz display de um menu que permite visualizar e alterar
+	 *  os atributos do campeonato
+	 */
+	void menuCampeonato();
+
+	/**
+	 *  Faz display de um menu que permite escolher entre visualizar ou alterar
+	 *  as equipas do campeonato
+	 */
+	void menuEquipas();
+
 	// Ler
-
-
 	/**
 	 * @return nome do campeonato
 	 */

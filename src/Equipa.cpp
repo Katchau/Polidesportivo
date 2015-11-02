@@ -177,6 +177,11 @@ void Equipa::writetoFile()
 	save.close();
 }
 
+string Equipa::getNome()
+{
+	return nome;
+}
+
 vector<Atleta> Equipa::getAtletas()
 {
 	return atletasInscritos;

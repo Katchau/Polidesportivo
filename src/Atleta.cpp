@@ -27,14 +27,6 @@ Atleta::Atleta(string nome)
 }
 bool Atleta::adicionaDesporto(Desporto *d)
 {
-	//fazer excepcoes???
-
-	int x = sequentialSearch(desportosInscrito, d);
-
-	if(x != -1)
-	{
-		throw DesportoRepetido();
-	}
 
 	if (adicionaVetor(desportosInscrito,d))
 	{
@@ -42,7 +34,12 @@ bool Atleta::adicionaDesporto(Desporto *d)
 
 		return true;
 	}
-	else return false;
+
+	else
+	{
+		throw DesportoRepetido();
+		return false;
+	}
 }
 
 /*// buggy nao sei pq, dou fix nisto dp
@@ -81,14 +78,14 @@ bool Atleta::adicionaDesporto(Desporto *d)
 	}
 	else return false;
 }
-*/
+ */
 
 bool Atleta::removeDesporto(Desporto *d)
 {
 	if( removeVetor(desportosInscrito,d))
-		{
-			return true;
-		}
+	{
+		return true;
+	}
 	else throw DesportoInexistente();
 }
 

@@ -38,7 +38,8 @@ public:
 	bool removeAtleta(string nome);
 	void atualizarID(); //falta dar um nome decente a isto
 	void writetoFile(); //TODO falta a parte das medalhas
-	string getNome();
+	string getNomeEquipa();
 	vector<Atleta> getAtletas(); // e mais para testes
+	bool operator == (const Equipa& eqi) const;
 };
 #endif

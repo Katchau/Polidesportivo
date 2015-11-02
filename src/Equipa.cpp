@@ -177,7 +177,7 @@ void Equipa::writetoFile()
 	save.close();
 }
 
-string Equipa::getNome()
+string Equipa::getNomeEquipa()
 {
 	return nome;
 }
@@ -186,3 +186,15 @@ vector<Atleta> Equipa::getAtletas()
 {
 	return atletasInscritos;
 }
+
+bool Equipa::operator == (const Equipa& eqi) const
+{
+	string nome1 = nome;
+	string nome2 = eqi.nome;
+	if(nome1 == nome2)
+	{
+		return true;
+	}
+	else return false;
+}
+

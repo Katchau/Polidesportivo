@@ -2,6 +2,7 @@
 #define EQUIPA_H
 
 #include <string>
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -37,6 +38,8 @@ public:
 	bool removeAtleta(string nome);
 	void atualizarID(); //falta dar um nome decente a isto
 	void writetoFile(); //TODO falta a parte das medalhas
+	string getNomeEquipa();
 	vector<Atleta> getAtletas(); // e mais para testes
+	bool operator == (const Equipa& eqi) const;
 };
 #endif

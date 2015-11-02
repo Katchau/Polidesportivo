@@ -14,8 +14,12 @@ int sequentialSearch(const vector<T> &v, T x)
 template <class T>
 bool adicionaVetor(vector<T> &v, T elem)
 {
-	v.push_back(elem);
-	return true;
+	if (sequentialSearch(v, elem) != -1)
+	{
+		v.push_back(elem);
+		return true;
+	}
+	else return false;
 }
 
 template <class T>

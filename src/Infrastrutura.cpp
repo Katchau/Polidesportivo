@@ -16,7 +16,7 @@ void Infraestrutura::adicionaEvento(evento* A ){
 		cout << "O Evento já exite! \n";
 	}
 	catch(EventoSobreposto &e){
-		cout << "Evento Sobreposto"
+		cout << "Evento Sobreposto \n";
 	}
 
 

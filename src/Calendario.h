@@ -7,9 +7,6 @@
 using namespace std;
 
 
-bool ValidaData(Data Marcacao, bool atual);
-bool bissexto(int ano);
-unsigned int diasMes(int ano, int mes);
 
 struct Data {
 	unsigned int dia;
@@ -119,6 +116,9 @@ public:
 
 
 
+bool ValidaData(Data Marcacao, bool atual);
+bool bissexto(int ano);
+unsigned int diasMes(int ano, int mes);
 
 
 

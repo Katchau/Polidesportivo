@@ -11,7 +11,7 @@ class Campeonato {
 private:
 	string nome;
 	vector<Infraestrutura *> Infraestruturas;
-	vector<Equipa *> Equipas;
+	vector<Equipa> Equipas;
 	vector<Desporto*> Modalidades;
 public:
 	// Criar
@@ -55,7 +55,7 @@ public:
 	/**
 	 * @return vetor de equipas
 	 */
-	vector<Equipa *> getEquipas();
+	vector<Equipa> getEquipas();
 
 	/**
 	 * @return vetor de modalidades

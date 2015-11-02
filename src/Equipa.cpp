@@ -64,7 +64,7 @@ Equipa::Equipa()
 Equipa::Equipa(string filename) //buggs de ler no ficheiro: se tiver nomes com espaco nos desportos ou nas modalidades lixa isto td
 {/*
     ifstream read;
-    funcaoPorCoiso(); //edit later
+    atualizarID(); //edit later
     read.open(nameFile.c_str());
     if(read.fail()) // falta esta merda, n me apetece agr
     {

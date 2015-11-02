@@ -23,6 +23,12 @@ public:
     Atleta(string nome);
     bool adicionaDesporto(Desporto *d);
     bool removeDesporto(Desporto * d);
+
+    class DesportoInexistente
+    {};
+
+    class DesportoRepetido{};
+
     vector<Desporto *> getDesportosInsc();
     void showDesportos();
     string getNome();

@@ -25,13 +25,31 @@ Campeonato::Campeonato()
 				valido = true;
 
 	} while (cin.eof() || !valido);
+
+	ifstream read;
+	string nomeEq, filenome = nome + ".txt";
+	read.open(filenome.c_str());
+	while(read.fail())
+	{
+		cout << "Please introduce a valid name" << endl;
+		getline(cin, nome);
+	}
+	read.ignore(100, '\n');
+	while (true) {
+		getline(read, nomeEq);
+		if (nomeEq == "Provas: ")
+			break;
+		nomeEq = nomeEq + ".txt";
+		Equipa eq(nomeEq);
+		Equipas.push_back(eq);
+	}
 }
 
 void Campeonato::criaEquipa()
 {
 	Equipa novaEquipa;
 
-	adicionaVetor(Equipas, &novaEquipa);
+	adicionaVetor(Equipas, novaEquipa);
 }
 
 string Campeonato::getNome() const
@@ -44,7 +62,7 @@ vector<Infraestrutura *> Campeonato::getInfraestruturas()
 	return Infraestruturas;
 }
 
-vector<Equipa *> Campeonato::getEquipas()
+vector<Equipa> Campeonato::getEquipas()
 {
 	return Equipas;
 }

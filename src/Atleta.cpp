@@ -28,17 +28,68 @@ Atleta::Atleta(string nome)
 bool Atleta::adicionaDesporto(Desporto *d)
 {
 	//fazer excepcoes???
-	if (adicionaVetor(desportosInscrito, d))
+
+	int x = sequentialSearch(desportosInscrito, d);
+
+	if(x != -1)
+	{
+		throw DesportoRepetido();
+	}
+
+	if (adicionaVetor(desportosInscrito,d))
 	{
 		classificacoes.push_back(0);
+
 		return true;
 	}
 	else return false;
 }
 
+/*// buggy nao sei pq, dou fix nisto dp
+bool Atleta::adicionaDesporto(Desporto *d)
+{
+	//fazer excepcoes???
+
+	vector<DesportoP> despPtr;
+	for(unsigned int i = 0;i< desportosInscrito.size(); i++)
+	{
+		DesportoP p;
+		p.poit = desportosInscrito[i];
+		despPtr.push_back(p);
+	}
+
+	DesportoP novoDesp;
+	novoDesp.poit = d;
+
+	int x = sequentialSearch(despPtr, novoDesp);
+
+	if(x != -1)
+	{
+		throw DesportoRepetido();
+	}
+
+	if (adicionaVetor(despPtr, novoDesp))
+	{
+		classificacoes.push_back(0);
+
+		desportosInscrito.clear();
+		for(unsigned int i = 0;i< despPtr.size(); i++)
+		{
+			desportosInscrito.push_back(despPtr[i].poit);
+		}
+		return true;
+	}
+	else return false;
+}
+*/
+
 bool Atleta::removeDesporto(Desporto *d)
 {
-	return removeVetor(desportosInscrito,d);
+	if( removeVetor(desportosInscrito,d))
+		{
+			return true;
+		}
+	else throw DesportoInexistente();
 }
 
 vector<Desporto *> Atleta::getDesportosInsc()

@@ -31,3 +31,13 @@ bool Modalidade::operator == (Desporto * des) const
 	if(n2 == n1) return true;
 	else return false;
 }
+
+/*
+ bool Modalidade::operator == (Modalidade des) const
+{
+	string n1 = des.getNome();
+	string n2 = nomeT;
+	if(n2 == n1) return true;
+	else return false;
+}
+ */

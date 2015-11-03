@@ -61,10 +61,12 @@ Equipa::Equipa()
 
 }
 
-Equipa::Equipa(string filename) //buggs de ler no ficheiro: se tiver nomes com espaco nos desportos ou nas modalidades lixa isto td
+Equipa::Equipa(string nome) //buggs de ler no ficheiro: se tiver nomes com espaco nos desportos ou nas modalidades lixa isto td
 {
     ifstream read;
+    this->nome = nome;
     atualizarID(); //edit later
+    nameFile = nome + ".txt";
     read.open(nameFile.c_str());
     if(read.fail()) // falta esta merda, n me apetece agr
     {
@@ -72,21 +74,12 @@ Equipa::Equipa(string filename) //buggs de ler no ficheiro: se tiver nomes com e
         throw Equipa::EquipaNaoExistente(nameFile);
 
     }
-    importTeamFile(read);
     read.close();
     addAtlhetesFromFile();
 
 }
 
-void Equipa::importTeamFile(ifstream &read) //falta comentar isto
-{
-    string lixo, name;
-    read >> lixo;
-    read.ignore(1);
-    getline(read, name);
-    nome = name;
 
-}
 
 void Equipa::addAtlhetesFromFile()
 {
@@ -94,8 +87,6 @@ void Equipa::addAtlhetesFromFile()
     ifstream read;
     string nome, desporto, modalidade,linha_1;
     read.open(nameFile.c_str());
-    read.ignore(1000,'\n');
-    read.ignore(1000,'\n');
     read >> linha_1;
     while(linha_1 != ";")
     {
@@ -125,7 +116,7 @@ void Equipa::addAtlhetesFromFile()
             read >> desporto;
             read.ignore(3);
             read >> modalidade;
-            Desporto * p = new Modalidade(desporto,modalidade);
+            Desporto * p = new Modalidade (desporto, modalidade);
             atl.adicionaDesporto(p);
             read >> linha_1;
         }
@@ -197,4 +188,5 @@ bool Equipa::operator == (const Equipa& eqi) const
 	}
 	else return false;
 }
+
 

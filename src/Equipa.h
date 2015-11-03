@@ -33,7 +33,6 @@ public:
 		string nomeficheiro;
 		EquipaNaoExistente(string nomeficheiro);
 	};
-	void importTeamFile(ifstream &read);
 	void addAtlhetesFromFile();
 	bool addAtleta(string nome);
 	bool removeAtleta(string nome);

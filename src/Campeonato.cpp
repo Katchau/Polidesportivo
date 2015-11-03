@@ -66,7 +66,7 @@ Campeonato::Campeonato(const string &filename)
 	while (true) {
 		getline(ReadConfig, nomeEq);
 		cout << nomeEq << endl;
-		if (nomeEq == "") //ou '\n'?
+		if (nomeEq == "") //ou '\n'? boa pergunta
 			break;
 		nomeEq = nomeEq + ".txt";
 		try{
@@ -268,7 +268,7 @@ void Campeonato::menuInfraestruturas(){
 						listaInfraestruturas();
 						break;
 					case '2':
-						adicionarInfraestrutura();
+						//adicionarInfraestrutura(); isto da erro?!?!?
 						break;
 					case '3':
 						//removerInfraestrutura();
@@ -303,29 +303,29 @@ void Campeonato::gravarCampeonato()
 {
 	ofstream save;
 	string nomeficheiro = nome + ".txt";
-	save << "Equipas:" << endl;
+	save << "Equipas:" << '\n';
 	for(unsigned int i = 0;i<Equipas.size();i++)
 	{
-		save << Equipas[i].getNomeEquipa() << endl;
+		save << Equipas[i].getNomeEquipa() << '\n';
 	}
-	save << endl << "Infraestruturas:" << endl;
+	save << '\n' << "Infraestruturas:" << '\n';
 
 	for(unsigned int i = 0;i<Infraestruturas.size();i++)
 	{
-		save << Infraestruturas[i]->getNome() << endl;
+		save << Infraestruturas[i]->getNome() << '\n';
 	}
 
-	save << endl << "Modalidades:" << endl;
+	save << '\n' << "Modalidades:" << '\n';
 
 	for(unsigned int i = 0;i < Modalidades.size();i++)
 	{
 		if(Modalidades.size()-i == 1)
 		{
-			save << Modalidades[i]->getNome() << " ." << endl;
+			save << Modalidades[i]->getNome() << " ." << '\n';
 		}
 		else
 		{
-			save << Modalidades[i]->getNome() << " ," << endl;
+			save << Modalidades[i]->getNome() << " ," << '\n';
 		}
 	}
 

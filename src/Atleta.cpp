@@ -27,18 +27,26 @@ Atleta::Atleta(string nome)
 }
 bool Atleta::adicionaDesporto(Desporto *d)
 {
-
-	if (adicionaVetor(desportosInscrito,d))
+	bool repetido = false;
+	for(unsigned int i = 0;i<desportosInscrito.size();i++)
 	{
-		classificacoes.push_back(0);
-
-		return true;
+		if(desportosInscrito[i]->getNome() == d->getNome())
+		{
+			repetido = true;
+			break;
+		}
 	}
 
-	else
+	if(repetido)
 	{
 		throw DesportoRepetido();
 		return false;
+	}
+	else
+	{
+		desportosInscrito.push_back(d);
+		classificacoes.push_back(0);
+		return true;
 	}
 }
 
@@ -82,11 +90,16 @@ bool Atleta::adicionaDesporto(Desporto *d)
 
 bool Atleta::removeDesporto(Desporto *d)
 {
-	if( removeVetor(desportosInscrito,d))
-	{
-		return true;
-	}
-	else throw DesportoInexistente();
+		for(unsigned int i = 0;i<desportosInscrito.size();i++)
+		{
+			if(desportosInscrito[i]->getNome() == d->getNome())
+			{
+				desportosInscrito.erase(desportosInscrito.begin()+i);
+				return true;
+			}
+		}
+	throw DesportoInexistente();
+	return false;
 }
 
 vector<Desporto *> Atleta::getDesportosInsc()

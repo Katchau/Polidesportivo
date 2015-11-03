@@ -1,7 +1,7 @@
 #ifndef CAMPEONATO_H
 #define CAMPEONATO_H
 #include <iostream>
-
+#include <algorithm>
 #include "Modalidade.h"
 #include "Equipa.h"
 #include "Infrastrutura.h"
@@ -80,6 +80,10 @@ public:
 	 */
 	 void adicionarInfraestrutura();
 	// Ler
+	 /**
+	  * faz o display das infrastruturas por ordem alfabetica;
+	  */
+	 void InfraestruturasOrdemAlfabetica();
 	/**
 	 * @return nome do campeonato
 	 */

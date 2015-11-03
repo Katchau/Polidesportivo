@@ -37,4 +37,12 @@ void  Infraestrutura::setCalendario(Calendario * Novo){
 string Infraestrutura::getNome()const{
 	return Nome;
 }
-
+bool Infraestrutura::operator== (const Infraestrutura & A){
+	if(Nome == A.getNome())
+		return true;
+	return false;
+}
+bool ordenaAlfaInfra(const Infraestrutura &A,const Infraestrutura &B){
+	if(A.getNome() <  B.getNome()) return true;
+	return false;
+}

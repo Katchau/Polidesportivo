@@ -70,8 +70,8 @@ Campeonato::Campeonato(const string &filename)
 			break;
 		nomeEq = nomeEq + ".txt";
 		try{
-		Equipa eq(nomeEq);
-		Equipas.push_back(eq);
+			Equipa eq(nomeEq);
+			Equipas.push_back(eq);
 		}
 		catch(Equipa::EquipaNaoExistente &e){
 			cout << "O ficheiro da  equipa" << nomeEq <<" nao existe!"<< endl;
@@ -81,13 +81,13 @@ Campeonato::Campeonato(const string &filename)
 	ReadConfig.ignore(100,'\n');
 	while (true) {
 		cout << "entrou " << endl;
-			getline(ReadConfig, nomeInf);
-			cout << nomeInf << endl;
-			if (nomeInf == "") //ou '\n'?
-				break;
-			Infraestrutura * infa = new Infraestrutura(nomeInf);
-			Infraestruturas.push_back(infa);
-		}
+		getline(ReadConfig, nomeInf);
+		cout << nomeInf << endl;
+		if (nomeInf == "") //ou '\n'?
+			break;
+		Infraestrutura * infa = new Infraestrutura(nomeInf);
+		Infraestruturas.push_back(infa);
+	}
 	/*NAO PERCEBO ISTO AQUI - Pedro
 	ReadConfig.ignore(100,'\n');
 	while (true) {
@@ -175,34 +175,34 @@ void Campeonato::menuCampeonato()
 		return;
 		break;
 	}
-	}while(!cin.eof());
+}while(!cin.eof());
 }
 
 void Campeonato::menuEquipas()
 {
 	cout << "    Equipas" << endl;
-		cout << "1 - Ver lista de equipas -- por fazer" << endl;
-		cout << "2 - Adicionar equipa -- por fazer" << endl;
-		cout << "3 - Remover equipa -- por fazer" << endl;
-		cout << "4 - Sair"<< endl;
-		cout << "\nIntroduza a opcao pretendida: ";
+	cout << "1 - Ver lista de equipas -- por fazer" << endl;
+	cout << "2 - Adicionar equipa -- por fazer" << endl;
+	cout << "3 - Remover equipa -- por fazer" << endl;
+	cout << "4 - Sair"<< endl;
+	cout << "\nIntroduza a opcao pretendida: ";
 
-		switch (selectMenu('1','4'))
-		{
-		case '1':
-			listaEquipas();
-			break;
-		case '2':
-			//adicionarEquipa();
-			break;
-		case '3':
-			//removerEquipa();
-			break;
-		case '4':
-			return;
-			break;
-		}
-		system("pause");
+	switch (selectMenu('1','4'))
+	{
+	case '1':
+		listaEquipas();
+		break;
+	case '2':
+		//adicionarEquipa();
+		break;
+	case '3':
+		//removerEquipa();
+		break;
+	case '4':
+		return;
+		break;
+	}
+	system("pause");
 }
 
 void Campeonato::listaEquipas(){
@@ -213,14 +213,14 @@ void Campeonato::listaEquipas(){
 	cout << "\nIntroduza a opcao pretendida: ";
 
 	switch (selectMenu('1','4'))
-			{
-			case '1':
-				//EquipasOrdemAlfabetica();
-				break;
-			case '2':
-				//EquipasOrdemPontuacao();
-				break;
-			}
+	{
+	case '1':
+		//EquipasOrdemAlfabetica();
+		break;
+	case '2':
+		//EquipasOrdemPontuacao();
+		break;
+	}
 }
 void Campeonato::listaInfraestruturas(){
 	cout << " Infraestruturas" << endl;
@@ -228,56 +228,75 @@ void Campeonato::listaInfraestruturas(){
 	cout << "2 - Onde  é a proxima prova? -- por fazer" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 	switch (selectMenu('1','4'))
-						{
-						case '1':
-							//InfraestruturasOrdemAlfabetica();
-							break;
-						case '2':
-							//OndeProximoProva();
-							break;
-						}
+	{
+	case '1':
+		InfraestruturasOrdemAlfabetica();
+		break;
+	case '2':
+		//OndeProximoProva();
+		break;
+	}
 }
-void adicionarInfraestrutura(){
+void Campeonato::InfraestruturasOrdemAlfabetica(){//FALTA prints
+	sort(Infraestruturas.begin(),Infraestruturas.end(),ordenaAlfaInfra);
+
+}
+void Campeonato::adicionarInfraestrutura(){
 	cout << " Infraestruturas" << endl;
 	string nome;
+	Infraestrutura *Novo;
 	bool valido = true;
-		do
+	do
+	{
+		cin.clear();
+			cout << "Introduza o nome da nova infraestrutura: ";
+		getline(cin, nome);
+		if(nome == "")
 		{
-			cin.clear();
-			if (!valido)
-				cout << "Introduza um nome nao vazio: ";
-			else
-				cout << "Introduza o nome da nova infraestrutura: ";
+			cout << "Nome vazio" << endl;
+			continue;
+		}
+		Novo =new Infraestrutura(nome);
+		valido =  true;
+		cout << Infraestruturas.size() << endl;
+		for(unsigned int i = 0; i < Infraestruturas.size();i++ )
+		{
+			if( Infraestruturas[i]->getNome() == Novo->getNome())
+			{
+				cout << "A infraestrutura ja existe! \n" ;
+				valido = false;
+				delete Novo;
+			}
+		}
+	} while (cin.eof() || !valido);
 
-			getline(cin, nome);
-
-			valido = false;
-		} while (cin.eof() || !valido);
+	Infraestruturas.push_back(Novo);
+	cout << "Infraestrutura adicionada! \n";
 
 }
 void Campeonato::menuInfraestruturas(){
 	cout << " Infraestruturas" << endl;
-			cout << "1 - Ver lista de infraestruturas" << endl;
-			cout << "2 - Adicionar infraestrutura -- por fazer" << endl;
-			cout << "3 - Remover infraestrutura -- por fazer" << endl;
-			cout << "4 - Sair -- depois altero isto para ser para voltar atras" << endl;
-			cout << "\nIntroduza a opcao pretendida: ";
-			switch (selectMenu('1','4'))
-					{
-					case '1':
-						listaInfraestruturas();
-						break;
-					case '2':
-						//adicionarInfraestrutura(); isto da erro?!?!?
-						break;
-					case '3':
-						//removerInfraestrutura();
-						break;
-					case '4':
-						exit(0);
-						break;
-					}
-					system("pause");
+	cout << "1 - Ver lista de infraestruturas" << endl;
+	cout << "2 - Adicionar infraestrutura -- por fazer" << endl;
+	cout << "3 - Remover infraestrutura -- por fazer" << endl;
+	cout << "4 - Sair -- depois altero isto para ser para voltar atras" << endl;
+	cout << "\nIntroduza a opcao pretendida: ";
+	switch (selectMenu('1','4'))
+	{
+	case '1':
+		listaInfraestruturas();
+		break;
+	case '2':
+		adicionarInfraestrutura();
+		break;
+	case '3':
+		//removerInfraestrutura();
+		break;
+	case '4':
+		exit(0);
+		break;
+	}
+	system("pause");
 }
 string Campeonato::getNome() const
 {

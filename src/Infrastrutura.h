@@ -54,6 +54,7 @@ public:
 	 */
 	string getNome()const;
 
+	bool operator== (const Infraestrutura & A);
 };
-
+bool ordenaAlfaInfra(const Infraestrutura &A,const Infraestrutura &b);
 #endif

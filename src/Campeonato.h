@@ -47,7 +47,7 @@ public:
 	 * Adiciona Equipa ao campeonato
 	 * @param Equipa * A
 	 */
-	void adicionaEquipa(Equipa * A);
+	void adicionaEquipa(Equipa  A);
 	/**
 	 *  Faz display de um menu que permite visualizar e alterar
 	 *  os atributos do campeonato
@@ -64,11 +64,21 @@ public:
 	 * Faz dysplay de todas as equipas presentes no campeonato
 	 */
 	void listaEquipas();
+
 	/**
 	 * Faz display de um menu que permite entre escolher entre visualizar ou alterar
 	 * as infraestruturas do campeonato
 	 */
 	void menuInfraestruturas();
+	/**
+	 * Faz display das infraestruturas
+	 */
+	void listaInfraestruturas();
+	/**
+	 * Adiciona uma infraestrutura ao vector de infraestruturas
+	 *
+	 */
+	 void adicionarInfraestrutura();
 	// Ler
 	/**
 	 * @return nome do campeonato

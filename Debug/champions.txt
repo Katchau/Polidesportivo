@@ -1,0 +1,13 @@
+Equipas:
+Equipa1
+
+InfraEstruturas:
+San Siro
+Emirates
+Cu de Judas
+
+Modalidades:
+Atirador_Nato , Bombardeador , 
+Luta , Taekwando .
+
+

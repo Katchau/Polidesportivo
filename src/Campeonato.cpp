@@ -57,13 +57,15 @@ int selectMenu(char menor, char maior)
 ////////////////////////////////////////////////////////////////////////////////////////
 
 Campeonato::Campeonato(const string &filename)
-{
-	// podia fazer isto em varias funcoes a parte. Mb a good ideia
+{ //LER EQUIPAS
 	ifstream ReadConfig(filename.c_str());
+
 	string nomeEq, nomeInf, desporto, modalidade;
+
 	ReadConfig.ignore(100, '\n');
 	while (true) {
 		getline(ReadConfig, nomeEq);
+		cout << nomeEq << endl;
 		if (nomeEq == "") //ou '\n'?
 			break;
 		nomeEq = nomeEq + ".txt";
@@ -72,19 +74,21 @@ Campeonato::Campeonato(const string &filename)
 		Equipas.push_back(eq);
 		}
 		catch(Equipa::EquipaNaoExistente &e){
-			cout << "A equipa nao existe" << endl;
+			cout << "O ficheiro da  equipa" << nomeEq <<" nao existe!"<< endl;
 		}
 
 	}
 	ReadConfig.ignore(100,'\n');
 	while (true) {
+		cout << "entrou " << endl;
 			getline(ReadConfig, nomeInf);
+			cout << nomeInf << endl;
 			if (nomeInf == "") //ou '\n'?
 				break;
 			Infraestrutura * infa = new Infraestrutura(nomeInf);
 			Infraestruturas.push_back(infa);
 		}
-	/*NAO PERCEBO ISTO AQUI
+	/*NAO PERCEBO ISTO AQUI - Pedro
 	ReadConfig.ignore(100,'\n');
 	while (true) {
 				getline(ReadConfig, nomeInf);
@@ -96,16 +100,19 @@ Campeonato::Campeonato(const string &filename)
 	ReadConfig.ignore(100,'\n');
 	while(desporto != ".")
 	{
+		cout << "entrou " << endl;
 		ReadConfig >> desporto;
+		cout << desporto << endl;
 		ReadConfig.ignore(3);
 		ReadConfig >> modalidade;
+		cout << modalidade << endl;
 		Desporto * p = new Modalidade(desporto, modalidade);
 		Modalidades.push_back(p);
 		ReadConfig >> desporto;
 	}
 	//falta a parte das provas e whatnot
 	// codigo do Jonas, esta no git na versao anterior.Updated, ainda nao testei
-
+	cout << "fim construtor campeonatoFILE" << endl;
 	system("pause");
 }
 
@@ -165,7 +172,7 @@ void Campeonato::menuCampeonato()
 		//menuCalendario();
 		break;
 	case '5':
-		exit(0);
+		return;
 		break;
 	}
 	}while(!cin.eof());
@@ -199,17 +206,58 @@ void Campeonato::menuEquipas()
 }
 
 void Campeonato::listaEquipas(){
-	cout << "    Equipas" << endl;
-	unsigned int i = 0;
-	for(i; i < Equipas.size();i++){
-		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
-	}
 
+	cout << "    Equipas" << endl;
+	cout << "1 - Por odem alfabetica-- por fazer" << endl;
+	cout << "2 - Por pontuacao -- por fazer" << endl;
+	cout << "\nIntroduza a opcao pretendida: ";
+
+	switch (selectMenu('1','4'))
+			{
+			case '1':
+				//EquipasOrdemAlfabetica();
+				break;
+			case '2':
+				//EquipasOrdemPontuacao();
+				break;
+			}
+}
+void Campeonato::listaInfraestruturas(){
+	cout << " Infraestruturas" << endl;
+	cout << "1 - Ordem alfabetica-- por fazer" << endl;
+	cout << "2 - Onde  é a proxima prova? -- por fazer" << endl;
+	cout << "\nIntroduza a opcao pretendida: ";
+	switch (selectMenu('1','4'))
+						{
+						case '1':
+							//InfraestruturasOrdemAlfabetica();
+							break;
+						case '2':
+							//OndeProximoProva();
+							break;
+						}
+}
+void adicionarInfraestrutura(){
+	cout << " Infraestruturas" << endl;
+	string nome;
+	bool valido = true;
+		do
+		{
+			cin.clear();
+			if (!valido)
+				cout << "Introduza um nome nao vazio: ";
+			else
+				cout << "Introduza o nome da nova infraestrutura: ";
+
+			getline(cin, nome);
+
+			valido = false;
+		} while (cin.eof() || !valido);
 
 }
 void Campeonato::menuInfraestruturas(){
 	cout << " Infraestruturas" << endl;
-			cout << "1 - Ver lista de infraestruturas -- por fazer" << endl;
+			cout << "1 - Ver lista de infraestruturas" << endl;
 			cout << "2 - Adicionar infraestrutura -- por fazer" << endl;
 			cout << "3 - Remover infraestrutura -- por fazer" << endl;
 			cout << "4 - Sair -- depois altero isto para ser para voltar atras" << endl;
@@ -217,10 +265,10 @@ void Campeonato::menuInfraestruturas(){
 			switch (selectMenu('1','4'))
 					{
 					case '1':
-						//listaInfraestruturas();
+						listaInfraestruturas();
 						break;
 					case '2':
-						//adicionarInfraestrutura();
+						adicionarInfraestrutura();
 						break;
 					case '3':
 						//removerInfraestrutura();
@@ -283,4 +331,5 @@ void Campeonato::gravarCampeonato()
 
 	//TO DO
 }
+
 

@@ -62,7 +62,7 @@ Equipa::Equipa()
 }
 
 Equipa::Equipa(string filename) //buggs de ler no ficheiro: se tiver nomes com espaco nos desportos ou nas modalidades lixa isto td
-{/*
+{
     ifstream read;
     atualizarID(); //edit later
     read.open(nameFile.c_str());
@@ -75,22 +75,22 @@ Equipa::Equipa(string filename) //buggs de ler no ficheiro: se tiver nomes com e
     importTeamFile(read);
     read.close();
     addAtlhetesFromFile();
- */
+
 }
 
 void Equipa::importTeamFile(ifstream &read) //falta comentar isto
-{/*
+{
     string lixo, name;
     read >> lixo;
     read.ignore(1);
     getline(read, name);
-    this->name = name;
- */
+    nome = name;
+
 }
 
 void Equipa::addAtlhetesFromFile()
 {
-	/*
+
     ifstream read;
     string nome, desporto, modalidade,linha_1;
     read.open(nameFile.c_str());
@@ -126,13 +126,13 @@ void Equipa::addAtlhetesFromFile()
             read.ignore(3);
             read >> modalidade;
             Desporto * p = new Modalidade(desporto,modalidade);
-            atl.addDesporto(p);
+            atl.adicionaDesporto(p);
             read >> linha_1;
         }
         atletasInscritos.push_back(atl);
         read >> linha_1;
     }
-	 */
+
 }
 
 void Equipa::writetoFile()

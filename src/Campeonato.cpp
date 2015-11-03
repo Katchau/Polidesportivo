@@ -58,10 +58,55 @@ int selectMenu(char menor, char maior)
 
 Campeonato::Campeonato(const string &filename)
 {
+	// podia fazer isto em varias funcoes a parte. Mb a good ideia
 	ifstream ReadConfig(filename.c_str());
+	string nomeEq, nomeInf, desporto, modalidade;
+	ReadConfig.ignore(100, '\n');
+	while (true) {
+		getline(ReadConfig, nomeEq);
+		if (nomeEq == "") //ou '\n'?
+			break;
+		nomeEq = nomeEq + ".txt";
+		try{
+		Equipa eq(nomeEq);
+		Equipas.push_back(eq);
+		}
+		catch(Equipa::EquipaNaoExistente &e){
+			cout << "A equipa nao existe" << endl;
+		}
 
-	// codigo do Jonas, esta no git na versao anterior.
+	}
+	ReadConfig.ignore(100,'\n');
+	while (true) {
+			getline(ReadConfig, nomeInf);
+			if (nomeInf == "") //ou '\n'?
+				break;
+			Infraestrutura * infa = new Infraestrutura(nomeInf);
+			Infraestruturas.push_back(infa);
+		}
+	/*NAO PERCEBO ISTO AQUI
+	ReadConfig.ignore(100,'\n');
+	while (true) {
+				getline(ReadConfig, nomeInf);
+				if (nomeInf == "") //ou '\n'?
+					break;
+				Infraestrutura * infa = new Infraestrutura(nomeInf);
+				Infraestruturas.push_back(infa);
+			}*/
+	ReadConfig.ignore(100,'\n');
+	while(desporto != ".")
+	{
+		ReadConfig >> desporto;
+		ReadConfig.ignore(3);
+		ReadConfig >> modalidade;
+		Desporto * p = new Modalidade(desporto, modalidade);
+		Modalidades.push_back(p);
+		ReadConfig >> desporto;
+	}
+	//falta a parte das provas e whatnot
+	// codigo do Jonas, esta no git na versao anterior.Updated, ainda nao testei
 
+	system("pause");
 }
 
 Campeonato::Campeonato()
@@ -96,10 +141,10 @@ void Campeonato::criaEquipa()
 
 
 void Campeonato::menuCampeonato()
-{
+{do{
 	cout << "    " << nome << endl;
 	cout << "1 - Equipas" << endl;
-	cout << "2 - Infraestruturas -- por fazer" << endl;
+	cout << "2 - Infraestruturas" << endl;
 	cout << "3 - Modalidades -- por fazer" << endl;
 	cout << "4 - Calendario -- por fazer" << endl;
 	cout << "5 - Sair " << endl;
@@ -111,7 +156,7 @@ void Campeonato::menuCampeonato()
 		menuEquipas();
 		break;
 	case '2':
-		//menuInfraestruturas();
+		menuInfraestruturas();
 		break;
 	case '3':
 		//menuModalidades();
@@ -123,7 +168,7 @@ void Campeonato::menuCampeonato()
 		exit(0);
 		break;
 	}
-	system("pause");
+	}while(!cin.eof());
 }
 
 void Campeonato::menuEquipas()
@@ -132,13 +177,13 @@ void Campeonato::menuEquipas()
 		cout << "1 - Ver lista de equipas -- por fazer" << endl;
 		cout << "2 - Adicionar equipa -- por fazer" << endl;
 		cout << "3 - Remover equipa -- por fazer" << endl;
-		cout << "4 - Sair -- depois altero isto para ser para voltar atras" << endl;
+		cout << "4 - Sair"<< endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
 		switch (selectMenu('1','4'))
 		{
 		case '1':
-			//listaEquipas();
+			listaEquipas();
 			break;
 		case '2':
 			//adicionarEquipa();
@@ -147,12 +192,45 @@ void Campeonato::menuEquipas()
 			//removerEquipa();
 			break;
 		case '4':
-			exit(0);
+			return;
 			break;
 		}
 		system("pause");
 }
 
+void Campeonato::listaEquipas(){
+	cout << "    Equipas" << endl;
+	unsigned int i = 0;
+	for(i; i < Equipas.size();i++){
+		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
+	}
+
+
+}
+void Campeonato::menuInfraestruturas(){
+	cout << " Infraestruturas" << endl;
+			cout << "1 - Ver lista de infraestruturas -- por fazer" << endl;
+			cout << "2 - Adicionar infraestrutura -- por fazer" << endl;
+			cout << "3 - Remover infraestrutura -- por fazer" << endl;
+			cout << "4 - Sair -- depois altero isto para ser para voltar atras" << endl;
+			cout << "\nIntroduza a opcao pretendida: ";
+			switch (selectMenu('1','4'))
+					{
+					case '1':
+						//listaInfraestruturas();
+						break;
+					case '2':
+						//adicionarInfraestrutura();
+						break;
+					case '3':
+						//removerInfraestrutura();
+						break;
+					case '4':
+						exit(0);
+						break;
+					}
+					system("pause");
+}
 string Campeonato::getNome() const
 {
 	return nome;
@@ -175,5 +253,34 @@ vector<Desporto*> Campeonato::getModalidades()
 
 void Campeonato::gravarCampeonato()
 {
+	ofstream save;
+	string nomeficheiro = nome + ".txt";
+	save << "Equipas:" << endl;
+	for(unsigned int i = 0;i<Equipas.size();i++)
+	{
+		save << Equipas[i].getNomeEquipa() << endl;
+	}
+	save << endl << "Infraestruturas:" << endl;
 
+	for(unsigned int i = 0;i<Infraestruturas.size();i++)
+	{
+		save << Infraestruturas[i]->getNome() << endl;
+	}
+
+	save << endl << "Modalidades:" << endl;
+
+	for(unsigned int i = 0;i < Modalidades.size();i++)
+	{
+		if(Modalidades.size()-i == 1)
+		{
+			save << Modalidades[i]->getNome() << " ." << endl;
+		}
+		else
+		{
+			save << Modalidades[i]->getNome() << " ," << endl;
+		}
+	}
+
+	//TO DO
 }
+

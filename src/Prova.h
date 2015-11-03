@@ -39,7 +39,7 @@ class Prova{
 public:
 	//Criar
 	Prova(string Nome);
-
+	virtual ~Prova(){};
 	//Gerir
 	void setNome(string nome);
 	virtual void ordena();
@@ -53,6 +53,7 @@ class Prova_Pontuacao : public Prova {
 private:
 	vector<Posicao_Pontos *> lugares;
 public:
+
 	void ordena();
 	void adicionaLugar(Posicao_Pontos *lugar);
 	void removeLugar(Posicao_Pontos *lugar);

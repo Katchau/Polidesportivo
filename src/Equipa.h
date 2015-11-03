@@ -9,6 +9,7 @@
 
 #include "Desporto.h"
 #include "Atleta.h"
+#include "Modalidade.h"
 
 // falta header files
 using namespace std;

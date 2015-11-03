@@ -1,5 +1,6 @@
 #ifndef CAMPEONATO_H
 #define CAMPEONATO_H
+#include <iostream>
 
 #include "Modalidade.h"
 #include "Equipa.h"
@@ -42,7 +43,11 @@ public:
 	void criaEquipa();
 
 	// Gerir
-
+	/**
+	 * Adiciona Equipa ao campeonato
+	 * @param Equipa * A
+	 */
+	void adicionaEquipa(Equipa * A);
 	/**
 	 *  Faz display de um menu que permite visualizar e alterar
 	 *  os atributos do campeonato
@@ -55,6 +60,15 @@ public:
 	 */
 	void menuEquipas();
 
+	/**
+	 * Faz dysplay de todas as equipas presentes no campeonato
+	 */
+	void listaEquipas();
+	/**
+	 * Faz display de um menu que permite entre escolher entre visualizar ou alterar
+	 * as infraestruturas do campeonato
+	 */
+	void menuInfraestruturas();
 	// Ler
 	/**
 	 * @return nome do campeonato

@@ -2,13 +2,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
-bool checkExistence(std::string filename)
-{
-	ifstream f;
-	f.open(filename.c_str());
-
-	return f.is_open();
-}
 
 string selectFile()
 {
@@ -68,13 +61,13 @@ Campeonato::Campeonato(const string &filename)
 		cout << nomeEq << endl;
 		if (nomeEq == "") //ou '\n'? boa pergunta
 			break;
-		nomeEq = nomeEq + ".txt";
 		try{
 			Equipa eq(nomeEq);
 			Equipas.push_back(eq);
+			cout << "EQUIPAS:SIZE() = "  << Equipas.size() << endl;
 		}
 		catch(Equipa::EquipaNaoExistente &e){
-			cout << "O ficheiro da  equipa" << nomeEq <<" nao existe!"<< endl;
+			cout << "O ficheiro  " << nomeEq <<" nao existe!"<< endl;
 		}
 
 	}
@@ -207,9 +200,10 @@ void Campeonato::menuEquipas()
 void Campeonato::EquipasOrdemAlfabetica(){ // falta testar
 	sort (Equipas.begin(),Equipas.end(),  ordenaAlfaEquipa);
 	cout << "    Equipas" << endl;
+	cout << " Equipas tamanho: " << Equipas.size()  << endl;
 	for(unsigned int i = 0; i < Equipas.size(); i++)
 	{
-		cout << i+1 << Equipas[i].getNomeEquipa() << endl;
+		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
 	}
 	system("pause");
 }
@@ -217,11 +211,12 @@ void Campeonato::EquipasOrdemAlfabetica(){ // falta testar
 void Campeonato::listaEquipas(){
 
 	cout << "    Equipas" << endl;
-	cout << "1 - Por odem alfabetica-- por fazer" << endl;
+	cout << "1 - Por odem alfabetica--  50/50" << endl;
 	cout << "2 - Por pontuacao -- por fazer" << endl;
+	cout << "3 - Sair" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 
-	switch (selectMenu('1','4'))
+	switch (selectMenu('1','3'))
 	{
 	case '1':
 		EquipasOrdemAlfabetica();
@@ -229,6 +224,9 @@ void Campeonato::listaEquipas(){
 	case '2':
 		//EquipasOrdemPontuacao();
 		break;
+	case '3':
+			return;
+			break;
 	}
 }
 void Campeonato::removerInfraestrutura(){//è preciso remover de todos os eventos  a infraestrutura; ou so remove se a infraestrutura nao tiver eventos?
@@ -259,7 +257,7 @@ void Campeonato::listaInfraestruturas(){
 	cout << "2 - Onde  é a proxima prova? -- por fazer" << endl;
 	cout << "3 - Sair " << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
-	switch (selectMenu('1','4'))
+	switch (selectMenu('1','3'))
 	{
 	case '1':
 		InfraestruturasOrdemAlfabetica();

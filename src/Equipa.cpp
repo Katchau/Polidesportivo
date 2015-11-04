@@ -60,6 +60,15 @@ Equipa::Equipa()
 	nameFile = nome + ".txt";
 
 }
+bool checkExistence(std::string filename)
+{
+	ifstream f;
+	f.open(filename.c_str());
+
+	return f.is_open();
+}
+
+
 
 Equipa::Equipa(string nome) //buggs de ler no ficheiro: se tiver nomes com espaco nos desportos ou nas modalidades lixa isto td
 {
@@ -68,14 +77,15 @@ Equipa::Equipa(string nome) //buggs de ler no ficheiro: se tiver nomes com espac
     atualizarID(); //edit later
     nameFile = nome + ".txt";
     read.open(nameFile.c_str());
-    if(read.fail()) // falta esta merda, n me apetece agr
+
+    if(checkExistence(nameFile)) // falta esta merda, n me apetece agr
     {
-        read.close();
-        throw Equipa::EquipaNaoExistente(nameFile);
+    	//addAtlhetesFromFile();
 
     }
+    else throw Equipa::EquipaNaoExistente(nameFile);
     read.close();
-    addAtlhetesFromFile();
+
 
 }
 

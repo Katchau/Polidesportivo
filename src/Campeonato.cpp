@@ -186,7 +186,7 @@ void Campeonato::menuEquipas()
 		listaEquipas();
 		break;
 	case '2':
-		//adicionarEquipa();
+		adicionarEquipa();
 		break;
 	case '3':
 		//removerEquipa();
@@ -205,9 +205,40 @@ void Campeonato::EquipasOrdemAlfabetica(){ // falta testar
 	{
 		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
 	}
-	system("pause");
-}
 
+}
+void Campeonato::adicionarEquipa(){
+	cout << " Equipas" << endl;
+		string nome;
+		Equipa Novo;
+		bool valido = true;
+		do
+		{
+
+			Novo = Equipa(); // este equipa tem um erro;
+			cout << Equipas.size() << endl;
+			for(unsigned int i = 0; i < Equipas.size();i++ )
+			{
+				if( Equipas[i].getNomeEquipa() == Novo.getNomeEquipa())
+				{
+					cout << "A equipa ja existe! \n" ;
+					valido = false;
+				}
+			}
+		} while (cin.eof() || !valido);
+
+		Equipas.push_back(Novo);
+		cout << "Equipa adicionada! \n";
+}
+void Campeonato::removerEquipa(){
+	cout << " Equipas" << endl;
+	string nome;
+	do{
+		cout << "Introduza o nome da Equipa a remover: " ;
+		cin >> nome;
+
+	}while(true);
+}
 void Campeonato::listaEquipas(){
 
 	cout << "    Equipas" << endl;
@@ -230,7 +261,7 @@ void Campeonato::listaEquipas(){
 	}
 }
 void Campeonato::removerInfraestrutura(){//è preciso remover de todos os eventos  a infraestrutura; ou so remove se a infraestrutura nao tiver eventos?
-
+// problema com string de espaços
 	do{
 		InfraestruturasOrdemAlfabetica();
 		cout << "Introduza o nome da infraestrutura a apagar: ";
@@ -244,7 +275,17 @@ void Campeonato::removerInfraestrutura(){//è preciso remover de todos os eventos
 		{
 			if(a == Infraestruturas[i]->getNome()){
 				Calendario * Remob =  Infraestruturas[i]->getCalendario();
-				//AQUI
+				vector<evento *> temp = Remob->getEventos();
+				if(temp.size()!= 0)
+				{
+					cout << "Nao pede remover uma infraestrutura com eventos!" << endl;
+				}
+				else
+				{
+					Infraestrutura * remover = Infraestruturas[i];
+					Infraestruturas.erase(Infraestruturas.begin()+i);
+					delete remover;
+				}
 				return;
 			}
 		}
@@ -281,7 +322,7 @@ void Campeonato::InfraestruturasOrdemAlfabetica(){
 	}
 	system("pause");
 }
-void Campeonato::adicionarInfraestrutura(){
+void Campeonato::adicionarInfraestrutura(){ // falta eliminar string so com espaços
 	cout << " Infraestruturas" << endl;
 	string nome;
 	Infraestrutura *Novo;

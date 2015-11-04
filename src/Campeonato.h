@@ -65,6 +65,14 @@ public:
 	 */
 	void listaEquipas();
 	/**
+	 * Permite adicionar uma equipa
+	 */
+	void adicionarEquipa();
+	/**
+	 * Permite remover uma equipa
+	 */
+	void removerEquipa();
+	/**
 	 * Faz display de todas as queipas presentes no campeonato por ordem alfabetica
 	 */
 	void EquipasOrdemAlfabetica();
@@ -81,16 +89,16 @@ public:
 	 * Adiciona uma infraestrutura ao vector de infraestruturas
 	 *
 	 */
-	 void adicionarInfraestrutura();
-	 /**
-	  * Faz dysplay da lista de infraestruturas e permite apagar uma infraestrutura pertencente á lista
-	  */
-	 void removerInfraestrutura();
+	void adicionarInfraestrutura();
+	/**
+	 * Permite apagar uma infraestrutura pertencente á lista
+	 */
+	void removerInfraestrutura();
 	// Ler
-	 /**
-	  * faz o display das infrastruturas por ordem alfabetica;
-	  */
-	 void InfraestruturasOrdemAlfabetica();
+	/**
+	 * faz o display das infrastruturas por ordem alfabetica;
+	 */
+	void InfraestruturasOrdemAlfabetica();
 	/**
 	 * @return nome do campeonato
 	 */

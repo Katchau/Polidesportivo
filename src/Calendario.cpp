@@ -154,13 +154,13 @@ bool operator< (const Data &inicio,const Data &fim){
 
 }
 bool operator <= (const Data &inicio,const Data &fim){
-	if(inicio.ano <=  fim.ano )
+	if(inicio.ano <  fim.ano)
 			return true;
-		if(inicio.mes <= fim.mes && inicio.ano == fim.ano )
+		if(inicio.mes < fim.mes && inicio.ano == fim.ano )
 			return true;
-		if(inicio.dia <= fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
+		if(inicio.dia < fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
 			return true;
-		if(inicio.minutos <= fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+		if(inicio.minutos < fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
 			return true;
 		if(inicio.segundos <= fim.segundos && inicio.minutos == fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
 		return true;
@@ -223,24 +223,13 @@ evento::evento(string nome,Data inicial,Data final,string tipo){
 	this->tipo = tipo;
 
 }
+
 bool eventos_sobrepostos(const evento *alpha,const  evento *beta){
 
-	if(alpha->getInicial()< beta-> getFinal() && beta-> getFinal() < alpha -> getFinal())
+	if (alpha->getFinal() <= beta->getInicial())
 		return true;
-	if(alpha->getInicial()< beta-> getInicial() && beta-> getInicial() < alpha -> getFinal())
+	if (beta->getFinal() <= alpha->getInicial())
 		return true;
-	if(beta->getInicial()  < alpha-> getInicial()&& alpha-> getInicial() < beta->getFinal())
-		return true;
-	if(beta->getInicial()  < alpha-> getFinal()&& alpha-> getFinal() < beta->getFinal())
-		return true;
-	if(alpha->getInicial() == beta-> getFinal()) return true;
-	if(alpha->getInicial() == beta->getInicial()) return true;
-	if(alpha->getInicial()== beta-> getFinal()) return true;
-
-
-
-
-
 	return false;
 }
 

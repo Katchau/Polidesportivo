@@ -18,4 +18,5 @@ bool Desporto::operator ==(const Desporto& des) const
 	else return false;
 }
 
-
+bool Desporto::adicionaProva (evento * Prova){return false;};
+bool Desporto::removeProva (evento * Prova){return false;};

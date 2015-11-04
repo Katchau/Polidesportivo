@@ -13,6 +13,7 @@ public:
 	Posicao(Atleta * atleta);
 	Atleta *getAtleta() const;
 };
+
 class Posicao_tempo : public Posicao{
 private:
 	Data tempo;
@@ -33,27 +34,13 @@ public:
 	bool operator < (const Posicao_Pontos &A) const;
 };
 
-class Prova{
-	string Nome;
-
-public:
-	//Criar
-	Prova(string Nome);
-	virtual ~Prova(){};
-	//Gerir
-	void setNome(string nome);
-	virtual void ordena();
-
-	//Ler
-	string getNome()const;
-};
 
 
-class Prova_Pontuacao : public Prova {
+class Prova_Pontuacao : public evento {
 private:
 	vector<Posicao_Pontos *> lugares;
 public:
-
+	Prova_Pontuacao(string nome,Data inicial,Data final,string tipo);
 	void ordena();
 	void adicionaLugar(Posicao_Pontos *lugar);
 	void removeLugar(Posicao_Pontos *lugar);
@@ -62,10 +49,11 @@ public:
 };
 
 
-class Prova_Tempo: public Prova{
+class Prova_Tempo: public evento{
 private:
 	vector<Posicao_tempo *> lugares;
 public:
+	Prova_Tempo(string nome,Data inicial,Data final,string tipo);
 	void ordena();
 	void adicionaLugar(Posicao_tempo *lugar);
 	void removeLugar(Posicao_tempo *lugar);

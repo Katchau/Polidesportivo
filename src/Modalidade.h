@@ -11,13 +11,14 @@ class Modalidade : public Desporto {
 private:
 	string tipo;
 	string nomeT;
-	vector<Prova *> Provas;
+	vector<evento *> Provas;
 public:
 	Modalidade (string nome, string tipo);
-	bool adicionaProva (Prova * evento);
-	bool removeProva (Prova * evento);
+	bool adicionaProva (evento * Prova);
+	bool removeProva (evento * Prova);
 	string getNome();
 	bool operator == (Desporto * des) const;
+	string getDesporto() const;
 };
 
 

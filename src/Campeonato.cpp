@@ -46,7 +46,35 @@ int selectMenu(char menor, char maior)
 	return linha[0];
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
+Data transParaData(string dataI,string horaI)
+{
+	stringstream  DATAI;
+		DATAI << dataI;
+		int dia,mes,ano;
+		DATAI>>dia;
+		char lixo;
+		DATAI >> lixo;
+		DATAI >> mes;
+		DATAI >> lixo;
+		DATAI >> ano;
+	stringstream HORAI;
+		int horas,min;
+		HORAI << horaI;
+		HORAI >> horas;
+		HORAI >> lixo;
+		HORAI >> min;
+		return Data(dia,mes,ano,horas,min,0);
+}
+
+evento* transParaEvento(string dataI,string horaI,string dataF,string horaF,string nome,string tipo)
+{
+	Data inicial = transParaData(dataI,horaI);
+	Data final = transParaData(dataF,horaF);
+	evento *novo = new evento(nome,inicial,final,tipo);
+	return novo;
+
+}
+///////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
 Campeonato::Campeonato(const string &filename)
@@ -81,15 +109,7 @@ Campeonato::Campeonato(const string &filename)
 		Infraestrutura * infa = new Infraestrutura(nomeInf);
 		Infraestruturas.push_back(infa);
 	}
-	/*NAO PERCEBO ISTO AQUI - Pedro
-	ReadConfig.ignore(100,'\n');
-	while (true) {
-				getline(ReadConfig, nomeInf);
-				if (nomeInf == "") //ou '\n'?
-					break;
-				Infraestrutura * infa = new Infraestrutura(nomeInf);
-				Infraestruturas.push_back(infa);
-			}*/
+
 	ReadConfig.ignore(100,'\n');
 	while(desporto != ".")
 	{
@@ -103,8 +123,42 @@ Campeonato::Campeonato(const string &filename)
 		Modalidades.push_back(p);
 		ReadConfig >> desporto;
 	}
+
 	//falta a parte das provas e whatnot
 	// codigo do Jonas, esta no git na versao anterior.Updated, ainda nao testei
+	string prova = "Prova.txt";
+	ifstream Provas(prova.c_str());
+
+	while(!Provas.eof())
+	{
+		string tipo,desporto,modalidade,dataI,horaI,dataF,horaF,infra;
+		getline(Provas,tipo);
+		getline(Provas,desporto);
+		getline(Provas,modalidade);
+		string nomeTotal =desporto+" , " + modalidade;
+		getline(Provas,dataI);
+		getline(Provas,horaI);
+		getline(Provas,dataF);
+		getline(Provas,horaF);
+		getline(Provas,infra);
+		evento *novo =  transParaEvento(dataI,horaI,dataF,horaF,modalidade,tipo);
+
+		for(unsigned int i = 0;i < Modalidades.size();i++)
+		{
+			if(Modalidades[i]->getNome() == nomeTotal)
+			{
+				Modalidades[i]->adicionaProva(novo);
+			}
+		}
+		for(unsigned int i = 0;i < Infraestruturas.size();i++)
+		{
+			if(Infraestruturas[i]->getNome() == infra)
+			{
+				Infraestruturas[i]->adicionaEvento(novo);
+			}
+		}
+	}
+
 	cout << "fim construtor campeonatoFILE" << endl;
 	system("pause");
 }

@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "templates.h"
-
+#include "calendario.h"
 using namespace std;
 
 class Desporto{
@@ -15,6 +15,8 @@ public:
 	Desporto(string nome);
 	virtual ~Desporto(){}
 	virtual string getNome();
+	virtual bool adicionaProva (evento * Prova);
+	virtual	bool removeProva (evento * Prova);
 	bool operator == (const Desporto& des) const;
 };
 

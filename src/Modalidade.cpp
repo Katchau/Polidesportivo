@@ -5,12 +5,12 @@ Modalidade::Modalidade (string nome, string tipo) : Desporto(nome)
 	this->tipo = tipo;
 }
 
-bool Modalidade::adicionaProva(Prova * evento)
+bool Modalidade::adicionaProva(evento * evento)
 {
 	return adicionaVetor(Provas, evento);
 }
 
-bool Modalidade::removeProva(Prova * evento)
+bool Modalidade::removeProva(evento * evento)
 {
 	return removeVetor(Provas, evento);
 

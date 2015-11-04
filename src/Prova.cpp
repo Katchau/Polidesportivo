@@ -40,26 +40,7 @@ void Posicao_Pontos::setpontuacao(int pontuacao){
 bool Posicao_Pontos::operator < (const Posicao_Pontos &A) const{
 	return pontuacao < A.getPontuacao();
 }
-//Prova
 
-//Criar
-Prova::Prova(string Nome){
-	this->Nome = Nome;
-}
-
-
-void Prova::setNome(string nome){
-	Nome = nome;
-}
-
-
-void Prova::ordena(){};
-//Ler
-
-
-string Prova::getNome() const{
-	return Nome;
-}
 
 //Prova_Pontuacao
 void Prova_Pontuacao::ordena(){
@@ -72,6 +53,7 @@ void Prova_Pontuacao::ordena(){
 		lugares[j] = tmp;
 	}
 }
+Prova_Pontuacao::Prova_Pontuacao(string nome,Data inicial,Data final,string tipo):evento(nome,inicial,final,tipo){}
 //Prova_Tempo
 void Prova_Tempo::ordena(){
 	for (unsigned int p = 1; p < lugares.size(); p++)
@@ -84,6 +66,10 @@ void Prova_Tempo::ordena(){
 		}
 
 }
+
+Prova_Tempo::Prova_Tempo(string nome,Data inicial,Data final,string tipo):evento(nome,inicial,final,tipo){}
+
+
 
 
 

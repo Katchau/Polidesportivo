@@ -14,8 +14,9 @@ struct Data {
 	unsigned int ano;
 	unsigned int horas;
 	unsigned int minutos;
+	unsigned int segundos;
 	Data(int dia,int mes,int ano);
-	Data(int dia,int mes,int ano,int horas,int minutos);
+	Data(unsigned int dia,unsigned int mes,unsigned int ano,unsigned int horas,unsigned int minutos,unsigned int segundos);
 	Data();
 	friend ostream& operator<<(ostream& os, const Data& dt);
 };
@@ -29,12 +30,17 @@ private:
 	string nome;
 	Data inicial;
 	Data final;
+	string tipo;
 public:
 	evento(Data inicial,Data final);
-	evento(string nome,Data inicial,Data final);
+	evento(string nome,Data inicial,Data final,string tipo);
 	string getNome() const;
 	Data getInicial() const;
 	Data getFinal() const;
+	virtual void ordena(){};
+	 void adicionaLugar(){}; //algumas duvidas
+	 void removelugar(){};
+
 };
 
 bool eventos_sobrepostos(const evento *alpha,const  evento *beta);

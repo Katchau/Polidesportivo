@@ -10,12 +10,14 @@ bool ValidaData(Data Marcacao, bool atual)
 		return false;
 	if (Marcacao.horas > 23)
 		return false;
-	if (Marcacao.minutos > 60)
+	if (Marcacao.minutos > 59)
 		return false;
+	if(Marcacao.segundos > 59)
 	if (atual) /* se a data é de um evento futuro*/
 	{
 		time_t Tempo_Atual = time(NULL);
 		struct tm *tempo_info= localtime(&Tempo_Atual);
+		unsigned int sec = tempo_info->tm_sec;
 		unsigned int min = tempo_info->tm_min;
 		unsigned int horas = tempo_info->tm_hour;
 		unsigned int dia = tempo_info->tm_mday;
@@ -23,11 +25,15 @@ bool ValidaData(Data Marcacao, bool atual)
 		unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
 		if( Marcacao.ano < ano )
 			return false;
-		if(!(Marcacao.ano < ano) && Marcacao.mes < mes )
+		if( Marcacao.ano == ano && Marcacao.mes < mes )
 			return false;
 		if (Marcacao.mes == mes && Marcacao.dia < dia)
 			return false;
-		if (Marcacao.horas < horas ||Marcacao.minutos < min )
+		if(Marcacao.dia == dia && Marcacao.horas < horas)
+			return false;
+		if(Marcacao.horas == horas && Marcacao.minutos < min)
+		return false;
+		if(Marcacao.minutos == min && Marcacao.segundos < sec)
 			return false;
 	}
 	return true;
@@ -135,21 +141,25 @@ bool operator< (const Data &inicio,const Data &fim){
 		return true;
 	if(inicio.dia < fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
 		return true;
-	if(inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
-		return false;
+	if(inicio.minutos < fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+		return true;
+	if(inicio.segundos < fim.segundos && inicio.minutos == fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+	return true;
 	return false;
 
 }
 bool operator <= (const Data &inicio,const Data &fim){
 	if(inicio.ano <=  fim.ano )
+			return true;
+		if(inicio.mes <= fim.mes && inicio.ano == fim.ano )
+			return true;
+		if(inicio.dia <= fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
+			return true;
+		if(inicio.minutos <= fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+			return true;
+		if(inicio.segundos <= fim.segundos && inicio.minutos == fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
 		return true;
-	if(inicio.mes <= fim.mes && inicio.ano == fim.ano )
-		return true;
-	if(inicio.dia <= fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
-		return true;
-	if(inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
-		return true;
-	return false;
+		return false;
 }
 bool operator == (const Data &esquerda, const Data &direita){
 	if(esquerda.ano != direita.ano) return  false;
@@ -157,6 +167,7 @@ bool operator == (const Data &esquerda, const Data &direita){
 	if(esquerda.mes != direita.mes) return false;
 	if(esquerda.horas != direita.horas) return false;
 	if(esquerda.minutos != direita.minutos) return false;
+	if(esquerda.segundos != direita.segundos) return false;
 	return true;
 }
 
@@ -174,6 +185,7 @@ Data::Data(){
 	ano = 0;
 	horas= 0;
 	minutos= 0;
+	segundos = 0;
 };
 
 Data::Data(int dia,int mes,int ano){
@@ -182,24 +194,29 @@ Data::Data(int dia,int mes,int ano){
 	this->ano= ano;
 	horas = 0;
 	minutos = 0;
+	segundos = 0;
 }
-Data::Data(int dia,int mes,int ano,int horas,int minutos){
+Data::Data(unsigned int dia,unsigned int mes,unsigned int ano,unsigned int horas,unsigned int minutos,unsigned int segundos){
 	this->dia = dia;
 	this->mes= mes;
 	this-> ano = ano;
 	this->horas = horas;
 	this->minutos = minutos;
+	this->segundos = segundos;
 }
 //evento
 evento::evento(Data inicial,Data final){
 	this->inicial = inicial;
 	this->final = final;
 	nome = "sem nome";
+	tipo = "";
 }
-evento::evento(string nome,Data inicial,Data final){
+evento::evento(string nome,Data inicial,Data final,string tipo){
 	this->inicial=inicial;
 	this->final = final;
 	this->nome = nome;
+	this->tipo = tipo;
+
 }
 bool eventos_sobrepostos(const evento *alpha,const  evento *beta){
 

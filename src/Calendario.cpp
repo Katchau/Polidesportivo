@@ -62,6 +62,11 @@ Calendario::Calendario(Data inicio,Data fim){
 	this->fim = fim;
 
 }
+Calendario::Calendario(){
+	inicio = Data();
+	fim = Data();
+
+}
 void Calendario::adiciona_evento(evento * alpha)
 {
 	if((inicio <= alpha-> getInicial() && alpha-> getInicial() <= fim)||

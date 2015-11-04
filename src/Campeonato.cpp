@@ -63,6 +63,7 @@ Data transParaData(string dataI,string horaI)
 		HORAI >> horas;
 		HORAI >> lixo;
 		HORAI >> min;
+		cout << " teste 4" << endl;
 		return Data(dia,mes,ano,horas,min,0);
 }
 
@@ -128,33 +129,37 @@ Campeonato::Campeonato(const string &filename)
 	// codigo do Jonas, esta no git na versao anterior.Updated, ainda nao testei
 	string prova = "Prova.txt";
 	ifstream Provas(prova.c_str());
-
+   cout << "PROVA" << endl;
 	while(!Provas.eof())
 	{
 		string tipo,desporto,modalidade,dataI,horaI,dataF,horaF,infra;
 		getline(Provas,tipo);
 		getline(Provas,desporto);
 		getline(Provas,modalidade);
+		cout << " teste 2" << endl;
 		string nomeTotal =desporto+" , " + modalidade;
 		getline(Provas,dataI);
 		getline(Provas,horaI);
 		getline(Provas,dataF);
 		getline(Provas,horaF);
 		getline(Provas,infra);
+		cout << " teste 3" << endl;
 		evento *novo =  transParaEvento(dataI,horaI,dataF,horaF,modalidade,tipo);
 
 		for(unsigned int i = 0;i < Modalidades.size();i++)
 		{
 			if(Modalidades[i]->getNome() == nomeTotal)
-			{
+			{cout << " teste 6" << endl;
 				Modalidades[i]->adicionaProva(novo);
 			}
 		}
+		cout << Infraestruturas.size() << endl;
 		for(unsigned int i = 0;i < Infraestruturas.size();i++)
-		{
+		{	cout << i << endl;
 			if(Infraestruturas[i]->getNome() == infra)
-			{
+			{cout << " teste 7" << endl;
 				Infraestruturas[i]->adicionaEvento(novo);
+
 			}
 		}
 	}
@@ -207,7 +212,7 @@ void Campeonato::menuCampeonato()
 			menuInfraestruturas();
 			break;
 		case '3':
-			//menuModalidades();
+			menuModalidades();
 			break;
 		case '4':
 			//menuCalendario();
@@ -341,7 +346,7 @@ void Campeonato::removerEquipa()
 	};
 }
 
-
+//INFRAESTRUTURA
 void Campeonato::menuInfraestruturas()
 {
 	while (1)
@@ -481,6 +486,36 @@ void Campeonato::removerInfraestrutura(){
 		}
 	}while(true);
 
+}
+
+//MODALIDADE
+void Campeonato::menuModalidades()
+{
+	while (1)
+		{
+			cout << "    Modalidades" << endl;
+			cout << "1 - Ver lista de Modalidades" << endl;
+			cout << "2 - Adicionar Modalidade" << endl;
+			cout << "3 - Remover Modalidade" << endl;
+			cout << "4 - Voltar atras"<< endl;
+			cout << "\nIntroduza a opcao pretendida: ";
+
+			switch (selectMenu('1','4'))
+			{
+			case '1':
+				//listaModalidades();
+				break;
+			case '2':
+				//criaModalidade();
+				break;
+			case '3':
+				//removerModalidade();
+				break;
+			case '4':
+				return;
+				break;
+			}
+		}
 }
 string Campeonato::getNome() const
 {

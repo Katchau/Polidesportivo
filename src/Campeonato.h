@@ -100,6 +100,10 @@ public:
 	 */
 	void InfraestruturasOrdemAlfabetica();
 	/**
+	 * Faz display do menu relacionado com Modalidades;
+	 */
+	void menuModalidades();
+	/**
 	 * @return nome do campeonato
 	 */
 	// Ler

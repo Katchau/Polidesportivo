@@ -58,6 +58,10 @@ public:
 	 * @param fim data final do horario
 	 */
 	Calendario(Data inicio,Data fim);
+	/**
+	 * Criar calendario
+	 */
+	Calendario();
 	//Gerir
 	/**
 	 * Adiciona um evento ao Calendario

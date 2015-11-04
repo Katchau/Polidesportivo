@@ -1,5 +1,5 @@
 TEMPO
-Atirador Nato
+Atirador_Nato
 Bombardeador
 12/10/2005
 15:30
@@ -7,7 +7,7 @@ Bombardeador
 16:30
 Emirates
 PONTO
-Atirador Nato
+Atirador_Nato
 Bombardeador
 12/10/2005
 17:15

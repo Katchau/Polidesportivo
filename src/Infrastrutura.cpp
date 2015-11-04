@@ -25,7 +25,8 @@ Infraestrutura::Infraestrutura()
 
 Infraestrutura::Infraestrutura(string Nome){
 	this-> Nome = Nome;
-	Horario = NULL;
+	Horario =  new Calendario();
+
 }
 Infraestrutura::Infraestrutura(string Nome, Calendario * Horario){
 	this-> Nome = Nome;

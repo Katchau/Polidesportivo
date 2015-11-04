@@ -16,6 +16,10 @@ private:
 public:
 	//Criar
 	/**
+	 * Controi uma Infraestrutura, pedindo ao utilizador que introduza o nome
+	 */
+	Infraestrutura();
+	/**
 	 * Constroi uma Infraestrutura sem horario
 	 * @param Nome Nome da infraestrutura
 	 */

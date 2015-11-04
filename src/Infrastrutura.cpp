@@ -2,6 +2,27 @@
 
 using namespace std;
 
+Infraestrutura::Infraestrutura()
+{
+	bool valido = true;
+	do
+	{
+		cin.clear();
+		if (!valido)
+			cout << "Introduza um nome nao vazio: ";
+		else
+			cout << "Introduza o nome da infraestrutura: ";
+
+		getline(cin, Nome);
+
+		valido = false;
+
+		for (size_t i = 0; i < Nome.size(); i++)
+			if (Nome[i] != ' ')
+				valido = true;
+	} while (cin.eof() || !valido);
+}
+
 Infraestrutura::Infraestrutura(string Nome){
 	this-> Nome = Nome;
 	Horario = NULL;
@@ -37,14 +58,17 @@ void  Infraestrutura::setCalendario(Calendario * Novo){
 string Infraestrutura::getNome()const{
 	return Nome;
 }
+
 bool Infraestrutura::operator== (const Infraestrutura & A){
 	if(Nome == A.getNome())
 		return true;
 	return false;
 }
+
 int Infraestrutura:: Neventos() const{
 	return Horario->Neventos();
 }
+
 bool ordenaAlfaInfra(const Infraestrutura *A,const Infraestrutura *B){
 
 	string a = A->getNome();

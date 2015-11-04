@@ -54,6 +54,10 @@ public:
 	 * Retorna o nome da infraestrutura
 	 */
 	string getNome()const;
+	/**
+	 * Retorna o numero de eventos no calendario
+	 */
+	int Neventos() const;
 
 	bool operator== (const Infraestrutura & A);
 };

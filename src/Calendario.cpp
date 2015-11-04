@@ -111,7 +111,9 @@ vector<evento *> Calendario::getEventos() const{
 }
 
 
-
+int Calendario::Neventos() const{
+	return eventos.size();
+}
 
 
 

@@ -4,7 +4,7 @@ using namespace std;
 
 Infraestrutura::Infraestrutura(string Nome){
 	this-> Nome = Nome;
-	Horario = 0;
+	Horario = NULL;
 }
 Infraestrutura::Infraestrutura(string Nome, Calendario * Horario){
 	this-> Nome = Nome;
@@ -41,6 +41,9 @@ bool Infraestrutura::operator== (const Infraestrutura & A){
 	if(Nome == A.getNome())
 		return true;
 	return false;
+}
+int Infraestrutura:: Neventos() const{
+	return Horario->Neventos();
 }
 bool ordenaAlfaInfra(const Infraestrutura *A,const Infraestrutura *B){
 

@@ -94,7 +94,7 @@ public:
 	 * Permite apagar uma infraestrutura pertencente á lista
 	 */
 	void removerInfraestrutura();
-	// Ler
+
 	/**
 	 * faz o display das infrastruturas por ordem alfabetica;
 	 */
@@ -102,6 +102,7 @@ public:
 	/**
 	 * @return nome do campeonato
 	 */
+	// Ler
 	string getNome() const;
 
 	/**

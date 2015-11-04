@@ -90,6 +90,10 @@ public:
 	 */
 	vector<evento *> getEventos() const;
 	/**
+	 * Retorna o numero de eventos
+	 */
+	int Neventos() const;
+	/**
 	 * imprime os detalhes da class
 	 */
 	void imprime() const;

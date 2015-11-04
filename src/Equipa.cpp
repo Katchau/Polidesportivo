@@ -52,7 +52,6 @@ Equipa::Equipa()
 		for (size_t i = 0; i < nome.size(); i++)
 			if (nome[i] != ' ')
 				valido = true;
-
 	} while (cin.eof() || !valido);
 
 	atualizarID();

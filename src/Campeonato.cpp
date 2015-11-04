@@ -189,7 +189,7 @@ void Campeonato::menuEquipas()
 		adicionarEquipa();
 		break;
 	case '3':
-		//removerEquipa();
+		removerEquipa();
 		break;
 	case '4':
 		return;
@@ -209,33 +209,34 @@ void Campeonato::EquipasOrdemAlfabetica(){ // falta testar
 }
 void Campeonato::adicionarEquipa(){
 	cout << " Equipas" << endl;
-		string nome;
-		Equipa Novo;
-		bool valido = true;
-		do
+	string nome;
+	Equipa Novo;
+	bool valido = true;
+	do
+	{
+
+		Novo = Equipa(); // este equipa tem um erro;
+		cout << Equipas.size() << endl;
+		for(unsigned int i = 0; i < Equipas.size();i++ )
 		{
-
-			Novo = Equipa(); // este equipa tem um erro;
-			cout << Equipas.size() << endl;
-			for(unsigned int i = 0; i < Equipas.size();i++ )
+			if( Equipas[i].getNomeEquipa() == Novo.getNomeEquipa())
 			{
-				if( Equipas[i].getNomeEquipa() == Novo.getNomeEquipa())
-				{
-					cout << "A equipa ja existe! \n" ;
-					valido = false;
-				}
+				cout << "A equipa ja existe! \n" ;
+				valido = false;
 			}
-		} while (cin.eof() || !valido);
+		}
+	} while (!valido);
 
-		Equipas.push_back(Novo);
-		cout << "Equipa adicionada! \n";
+	Equipas.push_back(Novo);
+	cout << "Equipa adicionada! \n";
 }
-void Campeonato::removerEquipa(){
+void Campeonato::removerEquipa(){//
 	cout << " Equipas" << endl;
 	string nome;
 	do{
 		cout << "Introduza o nome da Equipa a remover: " ;
 		cin >> nome;
+
 
 	}while(true);
 }
@@ -256,38 +257,49 @@ void Campeonato::listaEquipas(){
 		//EquipasOrdemPontuacao();
 		break;
 	case '3':
-			return;
-			break;
+		return;
+		break;
 	}
 }
-void Campeonato::removerInfraestrutura(){//è preciso remover de todos os eventos  a infraestrutura; ou so remove se a infraestrutura nao tiver eventos?
-// problema com string de espaços
+void Campeonato::removerInfraestrutura(){
+	// problema com string de espaços
+	// FALTA testar quando á eventos
 	do{
-		InfraestruturasOrdemAlfabetica();
 		cout << "Introduza o nome da infraestrutura a apagar: ";
 		string a;
 		cin >> a;
-		if(a == ""){
+		if(a == "")
+		{
 			cout << "Introduza um nome não vazio! " << endl;
 			continue;
 		}
+
 		for(unsigned int i = 0; i <  Infraestruturas.size();i++)
+		{cout << "FOR" << endl;
+		if(a == Infraestruturas[i]->getNome())
 		{
-			if(a == Infraestruturas[i]->getNome()){
-				Calendario * Remob =  Infraestruturas[i]->getCalendario();
-				vector<evento *> temp = Remob->getEventos();
-				if(temp.size()!= 0)
+			cout << "entrou" << endl;
+
+			if(Infraestruturas[i]->getCalendario() != 0)
+			{
+				if(Infraestruturas[i]->Neventos() != 0)
 				{
 					cout << "Nao pede remover uma infraestrutura com eventos!" << endl;
+					break;
 				}
-				else
-				{
-					Infraestrutura * remover = Infraestruturas[i];
-					Infraestruturas.erase(Infraestruturas.begin()+i);
-					delete remover;
-				}
-				return;
 			}
+			else
+			{
+				cout << "delete" << endl;
+				delete Infraestruturas[i];
+				Infraestruturas.erase(Infraestruturas.begin()+i);
+
+			}
+
+
+
+			return;
+		}
 		}
 	}while(true);
 

@@ -134,41 +134,53 @@ Campeonato::Campeonato()
 
 void Campeonato::criaEquipa()
 {
-	Equipa novaEquipa;
+	bool invalido;
 
-	adicionaVetor(Equipas, novaEquipa);
+	do {
+		invalido = false;
+		Equipa novaEquipa;
+
+		if(!adicionaVetor(Equipas, novaEquipa))
+		{
+			invalido = true;
+			cout << "A equipa ja existe! \n";
+		}
+	} while (invalido == true);
+
+	cout << "Equipa adicionada! \n";
 }
 
 
 void Campeonato::menuCampeonato()
-{do{
-	cout << "    " << nome << endl;
-	cout << "1 - Equipas" << endl;
-	cout << "2 - Infraestruturas" << endl;
-	cout << "3 - Modalidades -- por fazer" << endl;
-	cout << "4 - Calendario -- por fazer" << endl;
-	cout << "5 - Sair " << endl;
-	cout << "\nIntroduza a opcao pretendida: ";
+{
+	do{
+		cout << "    " << nome << endl;
+		cout << "1 - Equipas" << endl;
+		cout << "2 - Infraestruturas" << endl;
+		cout << "3 - Modalidades -- por fazer" << endl;
+		cout << "4 - Calendario -- por fazer" << endl;
+		cout << "5 - Sair " << endl;
+		cout << "\nIntroduza a opcao pretendida: ";
 
-	switch (selectMenu('1','5'))
-	{
-	case '1':
-		menuEquipas();
-		break;
-	case '2':
-		menuInfraestruturas();
-		break;
-	case '3':
-		//menuModalidades();
-		break;
-	case '4':
-		//menuCalendario();
-		break;
-	case '5':
-		return;
-		break;
-	}
-}while(!cin.eof());
+		switch (selectMenu('1','5'))
+		{
+		case '1':
+			menuEquipas();
+			break;
+		case '2':
+			menuInfraestruturas();
+			break;
+		case '3':
+			//menuModalidades();
+			break;
+		case '4':
+			//menuCalendario();
+			break;
+		case '5':
+			return;
+			break;
+		}
+	}while(!cin.eof());
 }
 
 void Campeonato::menuEquipas()
@@ -186,7 +198,7 @@ void Campeonato::menuEquipas()
 		listaEquipas();
 		break;
 	case '2':
-		adicionarEquipa();
+		criaEquipa();
 		break;
 	case '3':
 		removerEquipa();
@@ -195,8 +207,8 @@ void Campeonato::menuEquipas()
 		return;
 		break;
 	}
-	system("pause");
 }
+
 void Campeonato::EquipasOrdemAlfabetica(){ // falta testar
 	sort (Equipas.begin(),Equipas.end(),  ordenaAlfaEquipa);
 	cout << "    Equipas" << endl;
@@ -207,29 +219,7 @@ void Campeonato::EquipasOrdemAlfabetica(){ // falta testar
 	}
 
 }
-void Campeonato::adicionarEquipa(){
-	cout << " Equipas" << endl;
-	string nome;
-	Equipa Novo;
-	bool valido = true;
-	do
-	{
 
-		Novo = Equipa(); // este equipa tem um erro;
-		cout << Equipas.size() << endl;
-		for(unsigned int i = 0; i < Equipas.size();i++ )
-		{
-			if( Equipas[i].getNomeEquipa() == Novo.getNomeEquipa())
-			{
-				cout << "A equipa ja existe! \n" ;
-				valido = false;
-			}
-		}
-	} while (!valido);
-
-	Equipas.push_back(Novo);
-	cout << "Equipa adicionada! \n";
-}
 void Campeonato::removerEquipa(){//
 	cout << " Equipas" << endl;
 	string nome;

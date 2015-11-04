@@ -15,7 +15,7 @@ public:
 	Desporto(string nome);
 	virtual ~Desporto(){}
 	virtual string getNome();
-	virtual bool operator == (const Desporto * des) const;
+	bool operator == (const Desporto& des) const;
 };
 
 class DesportoP{ // usar para comparaçao entre desportos, uma vez que sao todos do formato pointer

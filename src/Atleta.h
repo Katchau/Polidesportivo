@@ -33,6 +33,7 @@ public:
     void showDesportos();
     string getNome();
     void classificacaoFinal(Desporto * des); //not yeti ready
+    bool operator == (const Atleta& atl) const;
 };
 
 #endif

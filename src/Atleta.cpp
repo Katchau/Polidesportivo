@@ -21,85 +21,26 @@ Atleta::Atleta()
 
 	} while (cin.eof() || !valido);
 }
+
 Atleta::Atleta(string nome)
 {
 	this->nome = nome;
 }
+
 bool Atleta::adicionaDesporto(Desporto *d)
 {
-	bool repetido = false;
-	for(unsigned int i = 0;i<desportosInscrito.size();i++)
-	{
-		if(desportosInscrito[i]->getNome() == d->getNome())
-		{
-			repetido = true;
-			break;
-		}
-	}
-
-	if(repetido)
-	{
+	if (!adicionaVetor(desportosInscrito, d))
 		throw DesportoRepetido();
-		return false;
-	}
-	else
-	{
-		desportosInscrito.push_back(d);
-		classificacoes.push_back(0);
-		return true;
-	}
+
+	return true;
 }
-
-/*// buggy nao sei pq, dou fix nisto dp
-bool Atleta::adicionaDesporto(Desporto *d)
-{
-	//fazer excepcoes???
-
-	vector<DesportoP> despPtr;
-	for(unsigned int i = 0;i< desportosInscrito.size(); i++)
-	{
-		DesportoP p;
-		p.poit = desportosInscrito[i];
-		despPtr.push_back(p);
-	}
-
-	DesportoP novoDesp;
-	novoDesp.poit = d;
-
-	int x = sequentialSearch(despPtr, novoDesp);
-
-	if(x != -1)
-	{
-		throw DesportoRepetido();
-	}
-
-	if (adicionaVetor(despPtr, novoDesp))
-	{
-		classificacoes.push_back(0);
-
-		desportosInscrito.clear();
-		for(unsigned int i = 0;i< despPtr.size(); i++)
-		{
-			desportosInscrito.push_back(despPtr[i].poit);
-		}
-		return true;
-	}
-	else return false;
-}
- */
 
 bool Atleta::removeDesporto(Desporto *d)
 {
-		for(unsigned int i = 0;i<desportosInscrito.size();i++)
-		{
-			if(desportosInscrito[i]->getNome() == d->getNome())
-			{
-				desportosInscrito.erase(desportosInscrito.begin()+i);
-				return true;
-			}
-		}
-	throw DesportoInexistente();
-	return false;
+	if(!removeVetor(desportosInscrito, d))
+		throw DesportoInexistente();
+
+	return true;
 }
 
 vector<Desporto *> Atleta::getDesportosInsc()
@@ -131,3 +72,14 @@ void Atleta::classificacaoFinal(Desporto * des)
 		}
 	}
 }
+
+bool Atleta::operator == (const Atleta& atl) const
+		{
+	string nome1 = nome;
+	string nome2 = atl.nome;
+	if(nome1 == nome2)
+	{
+		return true;
+	}
+	else return false;
+		}

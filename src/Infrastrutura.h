@@ -4,6 +4,7 @@
 #include <string>
 #include "Calendario.h"
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 
@@ -56,5 +57,5 @@ public:
 
 	bool operator== (const Infraestrutura & A);
 };
-bool ordenaAlfaInfra(const Infraestrutura &A,const Infraestrutura &b);
+bool ordenaAlfaInfra(const Infraestrutura *A,const Infraestrutura *b);
 #endif

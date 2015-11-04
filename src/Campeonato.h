@@ -61,10 +61,13 @@ public:
 	void menuEquipas();
 
 	/**
-	 * Faz dysplay de todas as equipas presentes no campeonato
+	 * Faz display de todas as opçoes de ordenacao das equipas presentes no campeonato
 	 */
 	void listaEquipas();
-
+	/**
+	 * Faz display de todas as queipas presentes no campeonato por ordem alfabetica
+	 */
+	void EquipasOrdemAlfabetica();
 	/**
 	 * Faz display de um menu que permite entre escolher entre visualizar ou alterar
 	 * as infraestruturas do campeonato
@@ -79,6 +82,10 @@ public:
 	 *
 	 */
 	 void adicionarInfraestrutura();
+	 /**
+	  * Faz dysplay da lista de infraestruturas e permite apagar uma infraestrutura pertencente á lista
+	  */
+	 void removerInfraestrutura();
 	// Ler
 	 /**
 	  * faz o display das infrastruturas por ordem alfabetica;

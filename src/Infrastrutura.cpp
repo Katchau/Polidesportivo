@@ -42,7 +42,13 @@ bool Infraestrutura::operator== (const Infraestrutura & A){
 		return true;
 	return false;
 }
-bool ordenaAlfaInfra(const Infraestrutura &A,const Infraestrutura &B){
-	if(A.getNome() <  B.getNome()) return true;
+bool ordenaAlfaInfra(const Infraestrutura *A,const Infraestrutura *B){
+
+	string a = A->getNome();
+	string b = B->getNome();
+	transform(a.begin(), a.end(), a.begin(), ::tolower);
+	transform(b.begin(), b.end(), b.begin(), ::tolower);
+
+	if(a < b)	return true;
 	return false;
 }

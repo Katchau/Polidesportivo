@@ -204,6 +204,15 @@ void Campeonato::menuEquipas()
 	}
 	system("pause");
 }
+void Campeonato::EquipasOrdemAlfabetica(){ // falta testar
+	sort (Equipas.begin(),Equipas.end(),  ordenaAlfaEquipa);
+	cout << "    Equipas" << endl;
+	for(unsigned int i = 0; i < Equipas.size(); i++)
+	{
+		cout << i+1 << Equipas[i].getNomeEquipa() << endl;
+	}
+	system("pause");
+}
 
 void Campeonato::listaEquipas(){
 
@@ -215,17 +224,40 @@ void Campeonato::listaEquipas(){
 	switch (selectMenu('1','4'))
 	{
 	case '1':
-		//EquipasOrdemAlfabetica();
+		EquipasOrdemAlfabetica();
 		break;
 	case '2':
 		//EquipasOrdemPontuacao();
 		break;
 	}
 }
+void Campeonato::removerInfraestrutura(){//è preciso remover de todos os eventos  a infraestrutura; ou so remove se a infraestrutura nao tiver eventos?
+
+	do{
+		InfraestruturasOrdemAlfabetica();
+		cout << "Introduza o nome da infraestrutura a apagar: ";
+		string a;
+		cin >> a;
+		if(a == ""){
+			cout << "Introduza um nome não vazio! " << endl;
+			continue;
+		}
+		for(unsigned int i = 0; i <  Infraestruturas.size();i++)
+		{
+			if(a == Infraestruturas[i]->getNome()){
+				Calendario * Remob =  Infraestruturas[i]->getCalendario();
+				//AQUI
+				return;
+			}
+		}
+	}while(true);
+
+}
 void Campeonato::listaInfraestruturas(){
 	cout << " Infraestruturas" << endl;
 	cout << "1 - Ordem alfabetica-- por fazer" << endl;
 	cout << "2 - Onde  é a proxima prova? -- por fazer" << endl;
+	cout << "3 - Sair " << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 	switch (selectMenu('1','4'))
 	{
@@ -233,13 +265,23 @@ void Campeonato::listaInfraestruturas(){
 		InfraestruturasOrdemAlfabetica();
 		break;
 	case '2':
-		//OndeProximoProva();
+		//OndeProximaProva();
+		break;
+	case '3':
+		return;
 		break;
 	}
 }
-void Campeonato::InfraestruturasOrdemAlfabetica(){//FALTA prints
-	sort(Infraestruturas.begin(),Infraestruturas.end(),ordenaAlfaInfra);
 
+void Campeonato::InfraestruturasOrdemAlfabetica(){
+
+	sort(Infraestruturas.begin(),Infraestruturas.end(),ordenaAlfaInfra);
+	cout << " Infraestruturas" << endl;
+	for(unsigned int i = 0; i < Infraestruturas.size();i++)
+	{
+		cout << i+ 1 << " - " << Infraestruturas[i]->getNome() << endl;
+	}
+	system("pause");
 }
 void Campeonato::adicionarInfraestrutura(){
 	cout << " Infraestruturas" << endl;
@@ -249,7 +291,7 @@ void Campeonato::adicionarInfraestrutura(){
 	do
 	{
 		cin.clear();
-			cout << "Introduza o nome da nova infraestrutura: ";
+		cout << "Introduza o nome da nova infraestrutura: ";
 		getline(cin, nome);
 		if(nome == "")
 		{
@@ -277,9 +319,9 @@ void Campeonato::adicionarInfraestrutura(){
 void Campeonato::menuInfraestruturas(){
 	cout << " Infraestruturas" << endl;
 	cout << "1 - Ver lista de infraestruturas" << endl;
-	cout << "2 - Adicionar infraestrutura -- por fazer" << endl;
-	cout << "3 - Remover infraestrutura -- por fazer" << endl;
-	cout << "4 - Sair -- depois altero isto para ser para voltar atras" << endl;
+	cout << "2 - Adicionar infraestrutura" << endl;
+	cout << "3 - Remover infraestrutura -- 50/50" << endl;
+	cout << "4 - Sair " << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 	switch (selectMenu('1','4'))
 	{
@@ -290,14 +332,15 @@ void Campeonato::menuInfraestruturas(){
 		adicionarInfraestrutura();
 		break;
 	case '3':
-		//removerInfraestrutura();
+		removerInfraestrutura();
 		break;
 	case '4':
-		exit(0);
+		return;
 		break;
 	}
 	system("pause");
 }
+
 string Campeonato::getNome() const
 {
 	return nome;

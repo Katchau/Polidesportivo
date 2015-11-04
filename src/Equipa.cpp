@@ -168,7 +168,7 @@ void Equipa::writetoFile()
 	save.close();
 }
 
-string Equipa::getNomeEquipa()
+string Equipa::getNomeEquipa() const
 {
 	return nome;
 }
@@ -188,5 +188,14 @@ bool Equipa::operator == (const Equipa& eqi) const
 	}
 	else return false;
 }
+bool ordenaAlfaEquipa(const Equipa A, const Equipa B){
+	string a = A.getNomeEquipa();
+		string b = B.getNomeEquipa();
+		transform(a.begin(), a.end(), a.begin(), ::tolower);
+		transform(b.begin(), b.end(), b.begin(), ::tolower);
 
+		if(a < b)
+			return true;
+		return false;
+}
 

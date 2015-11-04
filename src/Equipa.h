@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 
 #include "Desporto.h"
 #include "Atleta.h"
@@ -38,8 +39,9 @@ public:
 	bool removeAtleta(string nome);
 	void atualizarID(); //falta dar um nome decente a isto
 	void writetoFile(); //TODO falta a parte das medalhas
-	string getNomeEquipa();
+	string getNomeEquipa() const;
 	vector<Atleta> getAtletas(); // e mais para testes
 	bool operator == (const Equipa& eqi) const;
 };
+	bool ordenaAlfaEquipa(const Equipa A, const Equipa B);
 #endif

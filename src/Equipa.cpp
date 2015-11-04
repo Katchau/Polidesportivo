@@ -75,15 +75,13 @@ Equipa::Equipa(string nome) //buggs de ler no ficheiro: se tiver nomes com espac
     this->nome = nome;
     atualizarID(); //edit later
     nameFile = nome + ".txt";
-    read.open(nameFile.c_str());
 
-    if(checkExistence(nameFile)) // falta esta merda, n me apetece agr
+    if(checkExistence(nameFile))
     {
-    	//addAtlhetesFromFile();
+    	addAtlhetesFromFile();
 
     }
     else throw Equipa::EquipaNaoExistente(nameFile);
-    read.close();
 
 
 }
@@ -92,7 +90,7 @@ Equipa::Equipa(string nome) //buggs de ler no ficheiro: se tiver nomes com espac
 
 void Equipa::addAtlhetesFromFile()
 {
-
+	cout << "bananas!";
     ifstream read;
     string nome, desporto, modalidade,linha_1;
     read.open(nameFile.c_str());
@@ -128,11 +126,13 @@ void Equipa::addAtlhetesFromFile()
             Desporto * p = new Modalidade (desporto, modalidade);
             atl.adicionaDesporto(p);
             read >> linha_1;
+            cout << "bananas2!";
         }
         atletasInscritos.push_back(atl);
         read >> linha_1;
+        cout << "bananas3!";
     }
-
+    read.close();
 }
 
 void Equipa::writetoFile()
@@ -140,7 +140,7 @@ void Equipa::writetoFile()
 	ofstream save;
 	string text_lixo;
 	save.open(nameFile.c_str()); //dafuq isto nao deu erro????
-	save << "nome: " << nome << endl << endl;
+	save << "nome: " << nome << '\n' << '\n';
 	save << "Desportos: ";
 	for(size_t i = 0;i<desportosInscritos.size();i++)
 	{
@@ -154,17 +154,17 @@ void Equipa::writetoFile()
 		}
 
 	}
-	save << endl << endl << "Atletas: " << endl;
+	save << '\n' << '\n' << "Atletas: " << '\n';
 	for(unsigned int i = 0;i<atletasInscritos.size();i++)
 	{
 
 		vector<Desporto *> d = atletasInscritos[i].getDesportosInsc(); //eu nao percebo o eclipse ta td fdd
-		save << "Nome: " << atletasInscritos[i].getNome() << endl << "Desportos: ";
+		save << "Nome: " << atletasInscritos[i].getNome() << '\n' << "Desportos: ";
 		for(size_t j = 0; j < d.size(); j++)
 		{
 			if(d.size()-j == 1)
 			{
-				save << d[j]->getNome() << " ;" << endl;
+				save << d[j]->getNome() << " ;" << '\n';
 			}
 			else
 			{
@@ -173,7 +173,7 @@ void Equipa::writetoFile()
 		}
 	}
 
-	save << endl << endl << "Medalhas: "; //fazer dp
+	save << '\n' << '\n' << "Medalhas: "; //fazer dp
 	save.close();
 }
 

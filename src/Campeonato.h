@@ -104,6 +104,10 @@ public:
 	 */
 	void menuModalidades();
 	/**
+	 * Faz o display das listas ordenadas possiveis para modalidades
+	 */
+	void listaModalidades();
+	/**
 	 * @return nome do campeonato
 	 */
 	// Ler

@@ -158,6 +158,11 @@ Campeonato::Campeonato(const string &filename)
 		{	cout << i << endl;
 			if(Infraestruturas[i]->getNome() == infra)
 			{cout << " teste 7" << endl;
+			if(Infraestruturas[i]->getCalendario()->getInicio() == Data()
+					&& Infraestruturas[i]->getCalendario()->getFim() == Data())
+			{
+				Infraestruturas[i]->getCalendario()->setFim(Data(31,12,9999));
+			}
 				Infraestruturas[i]->adicionaEvento(novo);
 
 			}
@@ -510,6 +515,34 @@ void Campeonato::menuModalidades()
 				break;
 			case '3':
 				//removerModalidade();
+				break;
+			case '4':
+				return;
+				break;
+			}
+		}
+}
+void Campeonato::listaModalidades()
+{
+	while (1)
+		{
+			cout << "    Modalidades" << endl;
+			cout << "1 - Ordem Alfabetica" << endl;
+			cout << "2 - Adicionar modalidade -- por fazer" << endl;
+			cout << "3 - Remover modalidade -- por fazer" << endl;
+			cout << "4 - Proxima modalidade -- por fazer" << endl;
+			cout << "5 - Sair " << endl;
+			cout << "\nIntroduza a opcao pretendida: ";
+			switch (selectMenu('1','5'))
+			{
+			case '1':
+				//OrdemAlfabeticaModalidades();
+				break;
+			case '2':
+				//AdicionarModalidade();
+				break;
+			case '3':
+				//RemoverModalidade();
 				break;
 			case '4':
 				return;

@@ -231,7 +231,79 @@ evento::evento(string nome,Data inicial,Data final,string tipo){
 	this->final = final;
 	this->nome = nome;
 	this->tipo = tipo;
+	if(tipo == "PONTO") // ao criar garante q tipo seja igual a uma das 2, por isso no need for other stuff
+ 	{
+		Prova_Pontuacao * pP = new Prova_Pontuacao(nome,inicial,final,tipo);
+		provaP = pP;
+		string coiso = "";
+		Prova_Tempo * pT = new Prova_Tempo(coiso,inicial,final,coiso);
+		provaT = pT;
+	}
+	if(tipo == "TEMPO")
+	{
+		Prova_Tempo * pT = new Prova_Tempo(nome,inicial,final,tipo);
+		provaT = pT;
+		Prova_Pontuacao * pP = new Prova_Pontuacao("",inicial,final,"");
+		provaP = pP;
+	}
 
+}
+
+
+vector<Posicao_tempo *> Prova_Tempo:: getLugares() const
+{
+	return lugares;
+}
+
+vector<Posicao_Pontos *> Prova_Pontuacao:: getLugares() const
+{
+	return lugares;
+}
+
+void Prova_Tempo::resultados()
+{
+	for(unsigned int i = 0; i<lugares.size();i++)
+		{
+			cout << i+1 << " " << nome << " " << lugares[i]->getTempo() << endl;
+		}
+}
+
+void Prova_Pontuacao::resultados()
+{
+	for(unsigned int i = 0; i<lugares.size();i++)
+		{
+			cout << i+1 << " " << nome << " " << lugares[i]->getPontuacao() << endl;
+		}
+}
+
+void evento::ProvaResultados()
+{
+	if(tipo == "TEMPO")
+	{
+		ordena();
+		provaT->resultados();
+	}
+	if(tipo == "PONTO")
+		{
+			ordena();
+			provaP->resultados();
+		}
+}
+
+void evento::retProva()
+{
+	if(tipo == "TEMPO") getProvaT();
+	if(tipo == "PONTO") getProvaP();
+}
+
+Prova_Tempo * evento::getProvaT()
+{
+	return provaT;
+}
+
+Prova_Pontuacao * evento::getProvaP()
+{
+	return provaP;
 }
 
 bool eventos_sobrepostos(const evento *alpha,const  evento *beta){
@@ -261,4 +333,185 @@ string EventoExiste::getNome()
 string EventoNaoExiste::getNome()
 {
 	return nome;
+}
+
+
+
+
+
+
+
+
+
+
+Posicao::Posicao(string atleta){
+	this->atleta = atleta;
+}
+
+
+string Posicao::getAtleta()const{
+	return atleta;
+}
+//posicao tempo
+Posicao_tempo::Posicao_tempo(string atleta , Data tempo):Posicao(atleta){
+
+	this->tempo = tempo;
+
+}
+Data Posicao_tempo::getTempo() const{
+	return tempo;
+}
+void Posicao_tempo::setTempo(Data tempo) {
+	this->tempo = tempo;
+}
+bool Posicao_tempo::operator < (const Posicao_tempo &A) const {
+	return tempo < A.getTempo();
+}
+
+//posicao_pontos
+Posicao_Pontos::Posicao_Pontos(string atleta, int pontuacao):Posicao(atleta){
+	this->pontuacao = pontuacao;
+}
+int Posicao_Pontos::getPontuacao() const{
+	return pontuacao;
+}
+void Posicao_Pontos::setpontuacao(int pontuacao){
+	this->pontuacao = pontuacao;
+}
+bool Posicao_Pontos::operator < (const Posicao_Pontos &A) const{
+	return pontuacao < A.getPontuacao();
+}
+
+void evento::ordena()
+{
+	if(tipo == "TEMPO") provaT->ordena();
+	if(tipo == "PONTO") provaP->ordena();
+}
+
+
+//Prova_Pontuacao
+void Prova_Pontuacao::ordena(){
+	for (unsigned int p = 1; p < lugares.size(); p++)
+	{
+		Posicao_Pontos *tmp = lugares[p];
+		int j;
+		for (j = p; j > 0 && *tmp < *lugares[j-1]; j--)
+			lugares[j] = lugares[j-1];
+		lugares[j] = tmp;
+	}
+}
+Prova_Pontuacao::Prova_Pontuacao(string nome,Data inicial,Data final,string tipo){
+	this->inicial=inicial;
+	this->final = final;
+	this->nome = nome;
+	this->tipo = tipo;
+}
+
+void evento::adicionaLugar(string nomeAtleta,int d, int m , int a, int h, int mi, int s, int score)
+{
+	if(tipo == "TEMPO")
+	{
+		Data da(d,m,a,h,mi,s);
+		Posicao_tempo * lugar = new Posicao_tempo(nomeAtleta, da);
+		provaT->adicionaLugar(lugar);
+	}
+	if(tipo == "PONTO")
+	{
+		Posicao_Pontos * lugar = new Posicao_Pontos(nomeAtleta, score);
+		provaP->adicionaLugar(lugar);
+	}
+}
+
+void evento::removeLugar(string nomeAtleta)
+{
+	if(tipo == "TEMPO")
+	{
+		provaT->removeLugar(nomeAtleta);
+	}
+	if(tipo == "PONTO")
+	{
+		provaP->removeLugar(nomeAtleta);
+	}
+}
+
+void Prova_Pontuacao::adicionaLugar(Posicao_Pontos * lugar)
+{
+	bool naoexiste = true;
+	for(unsigned int i = 0;i<lugares.size();i++)
+	{
+		if(lugares[i]->getAtleta() == lugar->getAtleta())
+		{
+			naoexiste = false;
+		}
+	}
+	if(naoexiste) lugares.push_back(lugar);
+
+}
+
+void Prova_Tempo::adicionaLugar(Posicao_tempo * lugar)
+{
+	bool naoexiste = true;
+	for(unsigned int i = 0;i<lugares.size();i++)
+	{
+		if(lugares[i]->getAtleta() == lugar->getAtleta())
+		{
+			naoexiste = false;
+		}
+	}
+	if(naoexiste) lugares.push_back(lugar);
+
+}
+
+void Prova_Tempo::removeLugar(string nome)
+{
+	bool existe = false;
+	unsigned int indice;
+	for(unsigned int i = 0;i<lugares.size();i++)
+	{
+		if(lugares[i]->getAtleta() == nome)
+		{
+			existe = true;
+			indice = i;
+			break;
+		}
+	}
+	if(existe) lugares.erase(lugares.begin()+indice);
+
+}
+
+void Prova_Pontuacao::removeLugar(string nome)
+{
+	bool existe = false;
+	unsigned int indice;
+	for(unsigned int i = 0;i<lugares.size();i++)
+	{
+		if(lugares[i]->getAtleta() == nome)
+		{
+			existe = true;
+			indice = i;
+			break;
+		}
+	}
+	if(existe) lugares.erase(lugares.begin()+indice);
+
+}
+
+
+// Prova Tempo crg!!
+void Prova_Tempo::ordena(){
+	for (unsigned int p = 1; p < lugares.size(); p++)
+		{
+			Posicao_tempo *tmp = lugares[p];
+			int j;
+			for (j = p; j > 0 && *tmp < *lugares[j-1]; j--)
+				lugares[j] = lugares[j-1];
+			lugares[j] = tmp;
+		}
+}
+
+Prova_Tempo::Prova_Tempo(string nome,Data inicial,Data final,string tipo){
+	this->inicial=inicial;
+	this->final = final;
+	this->nome = nome;
+	this->tipo = tipo;
 }

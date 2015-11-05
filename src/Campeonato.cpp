@@ -220,7 +220,7 @@ void Campeonato::menuCampeonato()
 			menuModalidades();
 			break;
 		case '4':
-			//menuCalendario();
+			menuCalendario();
 			break;
 		case '5':
 			return;
@@ -569,6 +569,203 @@ vector<Desporto*> Campeonato::getModalidades()
 {
 	return Modalidades;
 }
+
+
+int Campeonato::menuEscolhaInfra()
+{
+	unsigned int x,indice, s = Infraestruturas.size();
+	for(unsigned int i=0;i<Infraestruturas.size();i++) // ou entao dar replace por InfraestruturasOrdemAlfabetica();
+	{
+		x = i+1;
+		cout << x << ": " << Infraestruturas[i]->getNome() << endl;
+	}
+	do
+	{
+		cout << "Introduza um valor entre 1 e " << Infraestruturas.size() << endl;
+		cin >> indice;
+		while(cin.fail())
+		{
+			cin.clear();
+			cin.ignore(1000,'\n');
+			cout << "Porfavor introduza um valor valido" << endl;
+			cin >> indice;
+		}
+		if(indice < 1 || indice > s)
+		{
+			cout << "Porfavor introduza um valor valido "<< endl;
+			cin.clear();
+			cin.ignore(1000,'\n');
+		}
+		else break;
+	}while(true);
+
+	indice--;
+	return indice;
+}
+
+
+void Campeonato::totalCalendario()
+{
+	for(unsigned int i =0;i<Infraestruturas.size();i++)
+	{
+		cout << Infraestruturas[i]->getNome() << endl;
+		Infraestruturas[i]->imprimeCalendario(); //choo choo comboio powaa
+		cout << endl;
+	}
+	system("pause");
+}
+
+void Campeonato::calendarioInfra()
+{
+	string resposta;
+	do
+	{
+		int indice = menuEscolhaInfra();
+		Infraestruturas[indice]->imprimeCalendario();
+		cout << endl << "Pretende visualizar outra vez?";
+		cin >> resposta;
+	}while(resposta != "nao");
+	system("pause");
+}
+
+void Campeonato::listaCalendarios(){
+	cout << " Calendarios: Identifique qual calendario a ver" << endl;
+	cout << "1 - Todos os calendarios" << endl;
+	cout << "2 - Calendario de Apenas 1 InfraEstrutra" << endl;
+	cout << "3 - Sair " << endl;
+	cout << "\nIntroduza a opcao pretendida: ";
+	switch (selectMenu('1','3'))
+	{
+	case '1':
+		totalCalendario();
+		break;
+	case '2':
+		calendarioInfra();
+		break;
+	case '3':
+		return;
+		break;
+	}
+}
+
+void Campeonato::adicionarEventos()
+{
+	string resposta;
+	do
+	{
+		cout << "Qual das Infraestruturas pretende adicionar evento?" << endl;
+		int indice = menuEscolhaInfra();
+
+		cout << "Por favor introduza o nome do evento" << endl;
+		string nomeEvento, tipo;
+		cin >> nomeEvento;
+		bool valid = false;
+		while(!valid)
+				{
+					cout << "Porvavor introduza tempo ou pontos no Tipo" << endl;
+					cin.clear();
+					cin.ignore(100, '\n');
+					cin >> tipo;
+					if(tipo == "tempo" || tipo == "pontos")
+							{
+								valid = true;
+							}
+				}
+
+
+		cout << "Data inicial" << endl;
+		cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
+		int d, m, a, h, mi, s=0;
+		cin >> d >> m >> a >> h >> mi;
+		Data di(d, m, a, h, mi, s);
+
+		cout << "Data Final" << endl;
+		cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
+		cin >> d >> m >> a >> h >> mi;
+		Data df(d, m, a, h, mi, s);
+		// falta try catches e whatnot
+		evento * ev = new evento(nomeEvento, di, df, tipo);
+		if(Infraestruturas[indice]->getCalendario()->getFim() == Data())
+			Infraestruturas[indice]->getCalendario()->setFim(df);
+		Infraestruturas[indice]->adicionaEvento(ev);
+		cout << Infraestruturas[indice]->Neventos();
+		cout << "Adicionar outro evento ou sair?" << endl;
+		cin >> resposta;
+		transform(resposta.begin(),resposta.end(), resposta.begin(), ::towlower);
+	}while(resposta != "sair");
+}
+
+void Campeonato::removerEventos()
+{
+	string resposta;
+	do {
+		cout << "Qual das Infraestruturas pretende remover evento?" << endl;
+		int indice = menuEscolhaInfra();
+
+		cout << "Por favor introduza o nome do evento" << endl;
+		string nomeEvento, tipo;
+		cin >> nomeEvento;
+		bool valid = false;
+		while (!valid) {
+			cout << "Porvavor introduza tempo ou pontos no Tipo" << endl;
+			cin.clear();
+			cin.ignore(100, '\n');
+			cin >> tipo;
+			if (tipo == "tempo" || tipo == "pontos") {
+				valid = true;
+			}
+		}
+
+		cout << "Data inicial" << endl;
+		cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
+		int d, m, a, h, mi, s = 0;
+		cin >> d >> m >> a >> h >> mi;
+		Data di(d, m, a, h, mi, s);
+
+		cout << "Data Final" << endl;
+		cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
+		cin >> d >> m >> a >> h >> mi;
+		Data df(d, m, a, h, mi, s);
+		// falta try catches e whatnot
+		evento * ev = new evento(nomeEvento, di, df, tipo);
+		if(Infraestruturas[indice]->getCalendario()->getFim() == Data())
+				Infraestruturas[indice]->getCalendario()->setFim(df);
+
+		Infraestruturas[indice]->removeEvento(ev);
+
+		cout << "Remover outro evento ou sair?" << endl;
+		cin >> resposta;
+		transform(resposta.begin(), resposta.end(), resposta.begin(),
+				::towlower);
+	} while (resposta != "sair");
+}
+
+
+void Campeonato::menuCalendario(){
+	cout << " Calendario" << endl;
+	cout << "1 - Ver Calendarios do Campeonato " << getNome() << endl;
+	cout << "2 - Adicionar Evento ao Calendario" << endl;
+	cout << "3 - Remover Evento do Calendario" << endl;
+	cout << "4 - Sair " << endl;
+	cout << "\nIntroduza a opcao pretendida: ";
+	switch (selectMenu('1','4'))
+	{
+	case '1':
+		listaCalendarios();
+		break;
+	case '2':
+		adicionarEventos();
+		break;
+	case '3':
+		removerEventos();
+		break;
+	case '4':
+		return;
+		break;
+	}
+	system("pause");
+}
+
 
 void Campeonato::gravarCampeonato()
 {

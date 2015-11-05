@@ -64,6 +64,8 @@ public:
 	int Neventos() const;
 
 	bool operator== (const Infraestrutura & A);
+
+	void imprimeCalendario();
 };
 bool ordenaAlfaInfra(const Infraestrutura *A,const Infraestrutura *b);
 #endif

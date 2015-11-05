@@ -67,6 +67,16 @@ Calendario::Calendario(){
 	fim = Data();
 
 }
+
+bool evento::operator == (const evento * ev) const
+{
+	if (nome == ev->getNome() && inicial == ev->getInicial() && final == ev->getFinal() && tipo == ev->tipo)
+	{
+		return true;
+	}
+	else return false;
+}
+
 void Calendario::adiciona_evento(evento * alpha)
 {
 	if((inicio <= alpha-> getInicial() && alpha-> getInicial() <= fim)||
@@ -102,7 +112,7 @@ void Calendario::remove_evento(evento *alpha)
 void Calendario::imprime() const
 {
 	for(unsigned int i = 0;i < eventos.size();i++){
-		cout << eventos[i]->getNome() << " " <<eventos[i]->getInicial() << " "<<eventos[i]->getFinal()<< endl;
+		cout << eventos[i]->getNome() << "Data inicial: "<<  eventos[i]->getInicial() << " data final: " << eventos[i]->getFinal() << endl;
 	}
 }
 void Calendario::setInicio(Data inicio){
@@ -241,4 +251,14 @@ Data evento::getInicial() const{
 }
 Data evento::getFinal() const{
 	return final;
+}
+
+string EventoExiste::getNome()
+{
+	return nome;
+}
+
+string EventoNaoExiste::getNome()
+{
+	return nome;
 }

@@ -107,6 +107,26 @@ public:
 	 * Faz o display das listas ordenadas possiveis para modalidades
 	 */
 	void listaModalidades();
+
+
+	int menuEscolhaInfra();
+	/**
+	 * Faz display de um menu que permite entre escolher entre visualizar ou alterar
+	 * o calendario do campeonato
+	 */
+	void menuCalendario();
+
+	void totalCalendario();
+
+	void calendarioInfra();
+
+	void listaCalendarios();
+
+	void adicionarEventos();
+
+	void removerEventos();
+
+
 	/**
 	 * @return nome do campeonato
 	 */

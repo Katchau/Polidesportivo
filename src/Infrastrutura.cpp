@@ -80,3 +80,8 @@ bool ordenaAlfaInfra(const Infraestrutura *A,const Infraestrutura *B){
 	if(a < b)	return true;
 	return false;
 }
+
+void Infraestrutura::imprimeCalendario()
+{
+	Horario->imprime();
+}

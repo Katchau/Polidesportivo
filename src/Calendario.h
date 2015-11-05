@@ -40,6 +40,7 @@ public:
 	virtual void ordena(){};
 	 void adicionaLugar(){}; //algumas duvidas
 	 void removelugar(){};
+	 bool operator == (const evento * ev) const;
 
 };
 
@@ -115,12 +116,14 @@ private:
 	string nome;
 public:
 	EventoExiste(string nome);
+	string getNome();
 };
 class EventoNaoExiste{
 private:
 	string nome;
 public:
 	EventoNaoExiste(string nome);
+	string getNome();
 };
 class EventoSobreposto{
 public:

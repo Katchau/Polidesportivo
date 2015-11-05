@@ -29,10 +29,29 @@ Atleta::Atleta(string nome)
 
 bool Atleta::adicionaDesporto(Desporto *d)
 {
-	if (!adicionaVetor(desportosInscrito, d))
+	bool existe = false;
+
+	for (size_t i = 0; i < desportosInscrito.size(); i++)
+	{
+		cout << desportosInscrito[i]->getNome();
+		if (d->getNome() == desportosInscrito[i]->getNome())
+		{
+			cout << d->getNome() << " " << desportosInscrito[i]->getNome() << i;
+			existe = true;
+		}
+	}
+
+	if (existe)
 		throw DesportoRepetido();
 
+	desportosInscrito.push_back(d);
+
 	return true;
+
+	//if(!adicionaVetor(desportosInscrito, d))
+	//throw DesportoRepetido();
+	//
+	//return true;
 }
 
 bool Atleta::removeDesporto(Desporto *d)

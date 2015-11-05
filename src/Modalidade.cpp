@@ -3,6 +3,7 @@
 Modalidade::Modalidade (string nome, string tipo) : Desporto(nome)
 {
 	this->tipo = tipo;
+	nomeT = nome + " , " + tipo;
 }
 
 bool Modalidade::adicionaProva(evento * evento)
@@ -18,10 +19,7 @@ bool Modalidade::removeProva(evento * evento)
 
 string Modalidade::getNome()
 {
-	string nome;
-	nome = Desporto::getNome() + " , " + tipo;
-	nomeT = nome;
-	return nome;
+	return nomeT;
 }
 
 bool Modalidade::operator == (Desporto * des) const

@@ -67,72 +67,80 @@ bool checkExistence(std::string filename)
 	return f.is_open();
 }
 
-
-
-Equipa::Equipa(string nome) //buggs de ler no ficheiro: se tiver nomes com espaco nos desportos ou nas modalidades lixa isto td
+Equipa::Equipa(string nome)
 {
-    ifstream read;
-    this->nome = nome;
-    atualizarID(); //edit later
-    nameFile = nome + ".txt";
 
-    if(checkExistence(nameFile))
-    {
-    	addAtlhetesFromFile();
+	this->nome = nome;
+	atualizarID();
+	nameFile = nome + ".txt";
 
-    }
-    else throw Equipa::EquipaNaoExistente(nameFile);
-
-
+	if(checkExistence(nameFile))
+	{
+		addAthletesFromFile();
+	}
+	else throw Equipa::EquipaNaoExistente(nameFile);
 }
 
 
 
-void Equipa::addAtlhetesFromFile()
+void Equipa::addAthletesFromFile()
 {
-	cout << "bananas!";
-    ifstream read;
-    string nome, desporto, modalidade,linha_1;
-    read.open(nameFile.c_str());
-    read >> linha_1;
-    while(linha_1 != ";")
-    {
-        read.ignore(1);
-        read >> desporto;
-        read.ignore(1);
-        read >> linha_1;
-        Desporto * t = new Desporto(desporto);
-        desportosInscritos.push_back(t);
-    }
+	ifstream Read(nameFile.c_str());
 
-    read.ignore(1000,'\n');
-    read.ignore(1000,'\n');
-    read.ignore(1000,'\n');
+	string lixo;
+	int n_atletas;
 
-    read >> linha_1;
-    while(linha_1 != "Medalhas:")
-    {
-        read.ignore(1);
-        read >> nome;
-        read.ignore(100,'\n');
-        read >> linha_1;
-        read.ignore(1);
-        Atleta atl(nome);
-        while(linha_1 != ";")
-        {
-            read >> desporto;
-            read.ignore(3);
-            read >> modalidade;
-            Desporto * p = new Modalidade (desporto, modalidade);
-            atl.adicionaDesporto(p);
-            read >> linha_1;
-            cout << "bananas2!";
-        }
-        atletasInscritos.push_back(atl);
-        read >> linha_1;
-        cout << "bananas3!";
-    }
-    read.close();
+	Read >> lixo >> n_atletas;
+
+	for (int i = 0; i < n_atletas; i++)
+	{
+		string nome;
+		int n_modal;
+
+		Read >> lixo >> nome >> lixo >> n_modal;
+
+		Atleta tmpatl(nome);
+
+		for (int i = 0; i < n_modal; i++)
+		{
+			string desporto = "";
+			string modalidade = "";
+			string especialidade = "";
+			string tmp = "";
+
+			do
+			{
+				Read >> tmp;
+				if (tmp != ",")
+					desporto += tmp;
+			} while (tmp != ",");
+
+			do
+			{
+				Read >> tmp;
+				if (tmp != "," && tmp != "|")
+					modalidade += tmp;
+			} while (tmp != "," && tmp != "|");
+
+			if (tmp == ",")
+			{
+				tmp = "";
+				do
+				{
+					especialidade += tmp;
+					Read >> tmp;
+				} while (tmp != "|");
+			}
+
+			Modalidade mod(desporto, modalidade);
+			Desporto* pmod = &mod;
+
+			// tmpatl.adicionaDesporto(pmod); nao funciona, considera que ja existe um desporto
+
+			adicionaVetor(desportosInscritos, pmod);
+		}
+		adicionaVetor(atletasInscritos, tmpatl);
+	}
 }
 
 void Equipa::writetoFile()
@@ -188,7 +196,7 @@ vector<Atleta> Equipa::getAtletas()
 }
 
 bool Equipa::operator == (const Equipa& eqi) const
-{
+				{
 	string nome1 = nome;
 	string nome2 = eqi.nome;
 	if(nome1 == nome2)
@@ -196,15 +204,15 @@ bool Equipa::operator == (const Equipa& eqi) const
 		return true;
 	}
 	else return false;
-}
+				}
 bool ordenaAlfaEquipa(const Equipa A, const Equipa B){
 	string a = A.getNomeEquipa();
-		string b = B.getNomeEquipa();
-		transform(a.begin(), a.end(), a.begin(), ::tolower);
-		transform(b.begin(), b.end(), b.begin(), ::tolower);
+	string b = B.getNomeEquipa();
+	transform(a.begin(), a.end(), a.begin(), ::tolower);
+	transform(b.begin(), b.end(), b.begin(), ::tolower);
 
-		if(a < b)
-			return true;
-		return false;
+	if(a < b)
+		return true;
+	return false;
 }
 

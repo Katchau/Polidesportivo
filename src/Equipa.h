@@ -34,7 +34,7 @@ public:
 		string nomeficheiro;
 		EquipaNaoExistente(string nomeficheiro);
 	};
-	void addAtlhetesFromFile();
+	void addAthletesFromFile();
 	bool addAtleta(string nome);
 	bool removeAtleta(string nome);
 	void atualizarID(); //falta dar um nome decente a isto

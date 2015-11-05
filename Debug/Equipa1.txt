@@ -1,10 +1,7 @@
-Desportos: Football | Atletismo ;
-
-Atletas:
-
-nome: Jaquim 
-desportos: Football , Avançado | Atletismo , Sprint ;
-nome: Manel
-desportos: Atletismo , Sprint ;
-
-Medalhas: Nenhuma
+Atletas: 2
+Nome: Jaquim 
+Modalidades: 2
+Futebol , Futebol de 11 , Avancado | Natacao , Costas |
+Nome: Manel
+Modalidades: 2
+Natacao , Costas |

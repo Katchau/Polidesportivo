@@ -1,24 +1,23 @@
 #ifndef PROVA_H
 #define PROVA_H
-
+/*
 #include <string>
 
-#include "atleta.h"
 #include "Calendario.h"
 
 class Posicao{
 private:
-	Atleta * atleta;
+	string atleta;
 public:
-	Posicao(Atleta * atleta);
-	Atleta *getAtleta() const;
+	Posicao(string atleta);
+	string getAtleta() const;
 };
 
 class Posicao_tempo : public Posicao{
 private:
 	Data tempo;
 public:
-	Posicao_tempo(Atleta * atleta , Data tempo);
+	Posicao_tempo(string atleta , Data tempo);
 	Data getTempo() const;
 	void setTempo(Data tempo);
 	 bool operator < (const Posicao_tempo &A) const;
@@ -28,7 +27,7 @@ class Posicao_Pontos : public Posicao{
 private:
 	int pontuacao;
 public:
-	Posicao_Pontos(Atleta * atleta, int pontuacao);
+	Posicao_Pontos(string atleta, int pontuacao);
 	int getPontuacao() const;
 	void setpontuacao(int pontuacao);
 	bool operator < (const Posicao_Pontos &A) const;
@@ -36,7 +35,7 @@ public:
 
 
 
-class Prova_Pontuacao : public evento {
+class Prova_Pontuacao{
 private:
 	vector<Posicao_Pontos *> lugares;
 public:
@@ -49,7 +48,7 @@ public:
 };
 
 
-class Prova_Tempo: public evento{
+class Prova_Tempo{
 private:
 	vector<Posicao_tempo *> lugares;
 public:
@@ -69,6 +68,8 @@ class lugarNaoExiste{
 public:
 	lugarNaoExiste(){};
 };
+
+*/
 #endif
 
 

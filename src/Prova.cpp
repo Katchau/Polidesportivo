@@ -1,18 +1,18 @@
 #include "Prova.h"
 
 //Posicao
-
-Posicao::Posicao(Atleta * atleta){
+/*
+Posicao::Posicao(string atleta){
 	this->atleta = atleta;
 
 }
 
 
-Atleta *Posicao::getAtleta()const{
+string Posicao::getAtleta()const{
 	return atleta;
 }
 //posicao tempo
-Posicao_tempo::Posicao_tempo(Atleta *atleta , Data tempo):Posicao(atleta){
+Posicao_tempo::Posicao_tempo(string atleta , Data tempo):Posicao(atleta){
 
 	this->tempo = tempo;
 
@@ -28,7 +28,7 @@ bool Posicao_tempo::operator < (const Posicao_tempo &A) const {
 }
 
 //posicao_pontos
-Posicao_Pontos::Posicao_Pontos(Atleta * atleta, int pontuacao):Posicao(atleta){
+Posicao_Pontos::Posicao_Pontos(string atleta, int pontuacao):Posicao(atleta){
 	this->pontuacao = pontuacao;
 }
 int Posicao_Pontos::getPontuacao() const{
@@ -70,7 +70,7 @@ void Prova_Tempo::ordena(){
 Prova_Tempo::Prova_Tempo(string nome,Data inicial,Data final,string tipo):evento(nome,inicial,final,tipo){}
 
 
-
+*/
 
 
 

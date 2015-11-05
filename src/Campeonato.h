@@ -143,11 +143,20 @@ public:
 
 	void adicionaAtleta();
 
+	void removeAtleta();
+
+	void listaAtletas();
+
+	void AtletasPorEquipa();
+
+	void AtletasPorModalidade();
+
 	bool ExisteEquipa(string nome) const;
 	bool ExisteAtleta(string nome) const;
 	bool AdicionaAtletaEquipa(string Atleta,string Equipa);
 	bool RemoveAtletaEquipa(string equipa,string Atleta);
 	void RemoveAtletaProva(string Atleta);
+
 	/**
 	 * @return nome do campeonato
 	 */

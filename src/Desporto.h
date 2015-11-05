@@ -17,9 +17,10 @@ public:
 	virtual string getNome();
 	virtual bool adicionaProva (evento * Prova);
 	virtual	bool removeProva (evento * Prova);
-	bool operator == (const Desporto& des) const;
+	virtual bool operator == (const Desporto& des) const;
 	virtual string getTipo()const;
-	string getDesporto() const;
+	virtual string getDesporto() const;
+	virtual vector<evento *> getProvas() const;
 };
 
 class DesportoP{ // usar para comparaçao entre desportos, uma vez que sao todos do formato pointer
@@ -30,5 +31,5 @@ public:
 };
 
 bool ordenaAlfaDesporto(const Desporto *A,const Desporto *b);
-
+bool ordenaAlfaModalidade(const Desporto *A,const Desporto *B);
 #endif

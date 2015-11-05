@@ -33,6 +33,11 @@ string Modalidade::getTipo() const {
  return tipo;
 }
 
+vector<evento *> Modalidade::getProvas() const
+{
+	return Provas;
+}
+
 
 /*
  bool Modalidade::operator == (Modalidade des) const

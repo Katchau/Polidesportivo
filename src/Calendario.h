@@ -135,6 +135,7 @@ public:
 	Prova_Tempo * getProvaT();
 	Prova_Pontuacao * getProvaP();
 	void ProvaResultados();
+	vector<string> getNomeAtletas() const; //TODO acabar
 
 };
 

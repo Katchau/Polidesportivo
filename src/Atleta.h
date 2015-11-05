@@ -31,9 +31,9 @@ public:
 
     vector<Desporto *> getDesportosInsc();
     void showDesportos();
-    string getNome();
+    string getNome() const;
     void classificacaoFinal(Desporto * des); //not yeti ready
     bool operator == (const Atleta& atl) const;
 };
-
+bool ordenaAlfaAtletas(const Atleta A, const Atleta B);
 #endif

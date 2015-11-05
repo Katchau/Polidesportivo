@@ -37,3 +37,18 @@ bool ordenaAlfaDesporto(const Desporto *A,const Desporto *B)
 		if(a < b)	return true;
 		return false;
 }
+
+vector<evento *> Desporto::getProvas() const
+		{vector<evento *> a;
+			return a;
+		}
+
+bool ordenaAlfaModalidade(const Desporto *A,const Desporto *B)
+{	    string a = A->getTipo();
+		string b = B->getTipo();
+		transform(a.begin(), a.end(), a.begin(), ::tolower);
+		transform(b.begin(), b.end(), b.begin(), ::tolower);
+		if(a < b)
+			return true;
+		return false;
+}

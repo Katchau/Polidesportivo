@@ -40,7 +40,7 @@ public:
 	void atualizarID(); //falta dar um nome decente a isto
 	void writetoFile(); //TODO falta a parte das medalhas
 	string getNomeEquipa() const;
-	vector<Atleta> getAtletas(); // e mais para testes
+	vector<Atleta> getAtletas() const; // e mais para testes
 	bool operator == (const Equipa& eqi) const;
 };
 	bool ordenaAlfaEquipa(const Equipa A, const Equipa B);

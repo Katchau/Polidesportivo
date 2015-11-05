@@ -19,9 +19,8 @@ public:
 	string getNome();
 	bool operator == (Desporto * des) const;
 	string getDesporto() const;
-
-		string getTipo() const;
-
+    string getTipo() const;
+    vector<evento *> getProvas() const;
 };
 
 

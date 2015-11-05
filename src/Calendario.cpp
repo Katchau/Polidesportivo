@@ -225,6 +225,8 @@ evento::evento(Data inicial,Data final){
 	this->final = final;
 	nome = "sem nome";
 	tipo = "";
+	provaP = NULL;
+	provaT = NULL;
 }
 evento::evento(string nome,Data inicial,Data final,string tipo){
 	this->inicial=inicial;

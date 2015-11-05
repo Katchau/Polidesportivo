@@ -130,7 +130,7 @@ void Equipa::addAthletesFromFile()
 					Read >> tmp;
 				} while (tmp != "|");
 			}
-			/*
+
 			Modalidade mod(desporto, modalidade);
 			Desporto* pmod = &mod;
 			*/
@@ -190,7 +190,7 @@ string Equipa::getNomeEquipa() const
 	return nome;
 }
 
-vector<Atleta> Equipa::getAtletas()
+vector<Atleta> Equipa::getAtletas() const
 {
 	return atletasInscritos;
 }

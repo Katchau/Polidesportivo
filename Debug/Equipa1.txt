@@ -1,7 +1,7 @@
 Atletas: 2
 Nome: Jaquim 
 Modalidades: 2
-Futebol , Futebol de 11 , Avancado | Natacao , Costas |
+Futebol , Futebol de 11 | Natacao , Costas |
 Nome: Manel
-Modalidades: 2
+Modalidades: 1
 Natacao , Costas |

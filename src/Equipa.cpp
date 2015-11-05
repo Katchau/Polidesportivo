@@ -114,14 +114,13 @@ void Equipa::addAthletesFromFile()
 				if (tmp != ",")
 					desporto += tmp;
 			} while (tmp != ",");
-
 			do
 			{
 				Read >> tmp;
 				if (tmp != "," && tmp != "|")
 					modalidade += tmp;
 			} while (tmp != "," && tmp != "|");
-
+			/*
 			if (tmp == ",")
 			{
 				tmp = "";
@@ -131,11 +130,12 @@ void Equipa::addAthletesFromFile()
 					Read >> tmp;
 				} while (tmp != "|");
 			}
-
+			/*
 			Modalidade mod(desporto, modalidade);
 			Desporto* pmod = &mod;
-
-			// tmpatl.adicionaDesporto(pmod); nao funciona, considera que ja existe um desporto
+			*/
+			Desporto * pmod = new Modalidade(desporto, modalidade);
+			tmpatl.adicionaDesporto(pmod);
 
 			adicionaVetor(desportosInscritos, pmod);
 		}

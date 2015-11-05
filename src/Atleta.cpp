@@ -33,10 +33,8 @@ bool Atleta::adicionaDesporto(Desporto *d)
 
 	for (size_t i = 0; i < desportosInscrito.size(); i++)
 	{
-		cout << desportosInscrito[i]->getNome();
 		if (d->getNome() == desportosInscrito[i]->getNome())
 		{
-			cout << d->getNome() << " " << desportosInscrito[i]->getNome() << i;
 			existe = true;
 		}
 	}
@@ -44,10 +42,11 @@ bool Atleta::adicionaDesporto(Desporto *d)
 	if (existe)
 		throw DesportoRepetido();
 
+	cout << d->getNome() << endl;
 	desportosInscrito.push_back(d);
 
 	return true;
-
+	//this shall not work!
 	//if(!adicionaVetor(desportosInscrito, d))
 	//throw DesportoRepetido();
 	//
@@ -56,10 +55,14 @@ bool Atleta::adicionaDesporto(Desporto *d)
 
 bool Atleta::removeDesporto(Desporto *d)
 {
-	if(!removeVetor(desportosInscrito, d))
-		throw DesportoInexistente();
-
-	return true;
+	for (unsigned int i = 0; i < desportosInscrito.size(); i++) {
+		if (desportosInscrito[i]->getNome() == d->getNome()) {
+			desportosInscrito.erase(desportosInscrito.begin() + i);
+			return true;
+		}
+	}
+	throw DesportoInexistente();
+	return false;
 }
 
 vector<Desporto *> Atleta::getDesportosInsc()

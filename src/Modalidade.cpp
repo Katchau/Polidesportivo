@@ -29,6 +29,10 @@ bool Modalidade::operator == (Desporto * des) const
 	if(n2 == n1) return true;
 	else return false;
 }
+string Modalidade::getTipo() const {
+ return tipo;
+}
+
 
 /*
  bool Modalidade::operator == (Modalidade des) const

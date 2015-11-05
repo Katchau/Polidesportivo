@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-
+#include <algorithm>
 #include "templates.h"
 #include "calendario.h"
 using namespace std;
@@ -18,6 +18,8 @@ public:
 	virtual bool adicionaProva (evento * Prova);
 	virtual	bool removeProva (evento * Prova);
 	bool operator == (const Desporto& des) const;
+	virtual string getTipo()const;
+	string getDesporto() const;
 };
 
 class DesportoP{ // usar para comparaçao entre desportos, uma vez que sao todos do formato pointer
@@ -26,5 +28,7 @@ public:
 	Desporto * poit;
 	virtual bool operator == (const DesportoP * des) const;
 };
+
+bool ordenaAlfaDesporto(const Desporto *A,const Desporto *b);
 
 #endif

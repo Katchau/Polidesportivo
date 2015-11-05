@@ -99,16 +99,29 @@ public:
 	 * faz o display das infrastruturas por ordem alfabetica;
 	 */
 	void InfraestruturasOrdemAlfabetica();
-	/**
-	 * Faz display do menu relacionado com Modalidades;
-	 */
 	void menuModalidades();
+	/**
+	 * Faz display da lista de modalidades alfabeticamente
+	 */
+	void OrdemAlfabeticaModalidades();
 	/**
 	 * Faz o display das listas ordenadas possiveis para modalidades
 	 */
 	void listaModalidades();
-
-
+	/**
+	 * Permite adicionar modalidade á lista de modalidades
+	 */
+	void AdicionarModalidade();
+	/**
+	 * @return nome do campeonato
+	 */
+	/**
+	 * Permite remover uma modalidade á lista de modalidades
+	 */
+	void RemoverModalidade();
+	/**
+	 * Faz o display do menu das provas
+	 */
 	int menuEscolhaInfra();
 	/**
 	 * Faz display de um menu que permite entre escolher entre visualizar ou alterar

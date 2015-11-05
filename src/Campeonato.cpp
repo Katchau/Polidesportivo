@@ -228,7 +228,7 @@ void Campeonato::menuCampeonato()
 		}
 	};
 }
-
+//MENU EQUIPAS
 void Campeonato::menuEquipas()
 {
 	while (1)
@@ -493,63 +493,152 @@ void Campeonato::removerInfraestrutura(){
 
 }
 
+
 //MODALIDADE
 void Campeonato::menuModalidades()
 {
 	while (1)
-		{
-			cout << "    Modalidades" << endl;
-			cout << "1 - Ver lista de Modalidades" << endl;
-			cout << "2 - Adicionar Modalidade" << endl;
-			cout << "3 - Remover Modalidade" << endl;
-			cout << "4 - Voltar atras"<< endl;
-			cout << "\nIntroduza a opcao pretendida: ";
+	{
+		cout << "    Modalidades" << endl;
+		cout << "1 - Ver lista de Modalidades -- testar" << endl;
+		cout << "2 - Adicionar Modalidade -- testar" << endl;
+		cout << "3 - Remover Modalidad -- testar" << endl;
+		cout << "4 - Voltar atras"<< endl;
+		cout << "\nIntroduza a opcao pretendida: ";
 
-			switch (selectMenu('1','4'))
-			{
-			case '1':
-				//listaModalidades();
-				break;
-			case '2':
-				//criaModalidade();
-				break;
-			case '3':
-				//removerModalidade();
-				break;
-			case '4':
-				return;
-				break;
-			}
+		switch (selectMenu('1','4'))
+		{
+		case '1':
+			listaModalidades();
+			break;
+		case '2':
+			AdicionarModalidade();
+			break;
+		case '3':
+			RemoverModalidade();
+			break;
+		case '4':
+			return;
+			break;
 		}
+	}
 }
 void Campeonato::listaModalidades()
 {
 	while (1)
+	{
+		cout << "    Modalidades" << endl;
+		cout << "1 - Ordem Alfabetica" << endl;
+		cout << "2 - Proxima modalidade -- por fazer" << endl;
+		cout << "3 - Sair " << endl;
+		cout << "\nIntroduza a opcao pretendida: ";
+		switch (selectMenu('1','3'))
 		{
-			cout << "    Modalidades" << endl;
-			cout << "1 - Ordem Alfabetica" << endl;
-			cout << "2 - Adicionar modalidade -- por fazer" << endl;
-			cout << "3 - Remover modalidade -- por fazer" << endl;
-			cout << "4 - Proxima modalidade -- por fazer" << endl;
-			cout << "5 - Sair " << endl;
-			cout << "\nIntroduza a opcao pretendida: ";
-			switch (selectMenu('1','5'))
+		case '1':
+			OrdemAlfabeticaModalidades();
+			break;
+		case '2':
+			//ProximaModalidade();
+			break;
+		case '3':
+			return;
+			break;
+		}
+	}
+}
+void Campeonato::OrdemAlfabeticaModalidades()
+{	 cout << "MODALIDADES:SIZE(): " << Modalidades.size() << endl;
+sort(Modalidades.begin(),Modalidades.end(),ordenaAlfaDesporto);
+cout << "  Modalidades" << endl;
+for(unsigned int i = 0; i < Modalidades.size();i++)
+{
+	cout << i+1 << " - " << Modalidades[i]->getTipo() << endl;
+}
+system("pause");
+}
+void Campeonato::AdicionarModalidade()
+{
+	string nome,tipo;
+	Modalidade *Novo;
+	bool valido = true;
+	do
+	{
+		cin.clear();
+		cout << "Introduza o nome o nome do Desporto: ";
+		getline(cin, nome);
+		cout << "Introduza o nome da nova Modalidade: ";
+		getline(cin,tipo);
+		if(nome == "")
+		{
+			cout << "Desporto vazio" << endl;
+			continue;
+		}
+		if(tipo == "")
+		{
+			cout << "Modalidade vazio" << endl;
+			continue;
+		}
+		Novo =new Modalidade (nome,tipo);
+		valido =  true;
+		cout << Modalidades.size() << endl;
+		for(unsigned int i = 0; i < Modalidades.size();i++ )
+		{	if(Modalidades[i]->getDesporto() == nome)
+			if( Modalidades[i]->getTipo() == Novo->getTipo())
 			{
-			case '1':
-				//OrdemAlfabeticaModalidades();
-				break;
-			case '2':
-				//AdicionarModalidade();
-				break;
-			case '3':
-				//RemoverModalidade();
-				break;
-			case '4':
-				return;
-				break;
+				cout << "A modalidade ja existe! \n" ;
+				valido = false;
+				delete Novo;
 			}
 		}
+	} while (cin.eof() || !valido);
+
+	Modalidades.push_back(Novo);
+	cout << "Modalidade adicionada! \n";
+
 }
+void Campeonato::RemoverModalidade()
+{
+	do{
+		cout << "Introduza o nome do desporto : ";
+		string desp;
+		cin >> desp;
+		if(desp == "")
+		{
+			cout << "Introduza um nome não vazio! " << endl;
+			continue;
+		}
+		cout << "Introduza o nome da modalidade a apagar: ";
+		string mod;
+		cin >> mod;
+		if(mod == "")
+		{
+			cout << "Introduza um nome não vazio! " << endl;
+			continue;
+		}
+
+		for(unsigned int i = 0; i <  Modalidades.size();i++)
+		{cout << "FOR" << endl;
+		if(mod == Modalidades[i]->getTipo())
+		{
+			cout << "entrou" << endl;
+
+			if(desp == Modalidades[i]->getDesporto())
+			{
+				cout << "delete" << endl;
+				delete Modalidades[i];
+				Modalidades.erase(Modalidades.begin()+i);
+				return;
+			}
+		}
+
+
+		}
+		cout << "A modalidade não existe!" << endl;
+	}while(true);
+
+}
+
+
 string Campeonato::getNome() const
 {
 	return nome;

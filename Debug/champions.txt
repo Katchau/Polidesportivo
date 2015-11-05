@@ -7,7 +7,5 @@ Emirates
 Cu de Judas
 
 Modalidades:
-Atirador_Nato , Bombardeador , 
-Luta , Taekwando .
-
-
+Futebol , Futebol_de_11 ,
+Natacao , Costas .

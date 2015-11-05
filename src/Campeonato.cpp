@@ -237,10 +237,11 @@ void Campeonato::menuEquipas()
 		cout << "1 - Ver lista de equipas" << endl;
 		cout << "2 - Adicionar equipa" << endl;
 		cout << "3 - Remover equipa" << endl;
-		cout << "4 - Voltar atras"<< endl;
+		cout << "4 - Atletas -- por fazer" << endl;
+		cout << "5 - Voltar atras"<< endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
-		switch (selectMenu('1','4'))
+		switch (selectMenu('1','5'))
 		{
 		case '1':
 			listaEquipas();
@@ -252,12 +253,76 @@ void Campeonato::menuEquipas()
 			removerEquipa();
 			break;
 		case '4':
-			return;
-			break;
+					menuAtletas();
+					break;
+		case '5':
+							return;
+							break;
 		}
 	}
 }
+void Campeonato::adicionaAtleta()
+{	while(1)
+{
+	cout<< "Introduza o nome do atleta: ";
+	string nome;
+	getline(cin,nome);
+	cout << "Introduza o nome da equipa: ";
+	string equipa;
+	getline(cin,equipa);
+    if(ExisteEquipa(equipa))
+    {
+    	cout << " Equipa ja existe !" << endl;
+    	continue;
+    }
+    if(ExisteAtleta(nome))
+    {
+    	cout << " O atleta ja existe!" << endl;
+    	continue;
+    }
 
+    if(AdicionaAtletaEquipa(nome,equipa))
+    {
+    	cout << "Atleta adicionado " << endl;
+    	return;
+    }
+    else
+    {
+    	cout << "Nao foi possivel adicionar o atleta " << endl;
+    	continue;
+    }
+	//TODO testar isto
+}
+
+
+}
+void Campeonato::menuAtletas()
+{ while(1){
+	    cout << "    Atletas	 " << endl;
+		cout << "1 - Adicionar Atleta -- por fazer" << endl;
+		cout << "2 - Remover Atleta -- porfazer" << endl;
+		cout << "3 - Listar Atletas -- por fazer" << endl;
+		cout << "4 - Sair" << endl;
+		cout << "\nIntroduza a opcao pretendida: ";
+
+		switch (selectMenu('1','3'))
+		{
+		case '1':
+			//TODO AdicionarAtleta();
+			break;
+		case '2':
+			//TODO RemoverAtleta();
+			break;
+		case '3':
+			//TODO ListarAtletas();
+			break;
+		case '4':
+			return;
+			break;
+
+		}
+}
+}
 void Campeonato::listaEquipas(){
 
 	cout << "    Lista de Equipas" << endl;
@@ -289,6 +354,8 @@ void Campeonato::EquipasOrdemAlfabetica()
 	{
 		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
 	}
+	system("pause");
+	cout << "\n";
 
 }
 
@@ -413,6 +480,7 @@ void Campeonato::InfraestruturasOrdemAlfabetica(){
 		cout << i+ 1 << " - " << Infraestruturas[i]->getNome() << endl;
 	}
 	system("pause");
+	cout << "\n";
 }
 
 void Campeonato::adicionarInfraestrutura(){ // falta eliminar string so com espaços
@@ -450,12 +518,13 @@ void Campeonato::adicionarInfraestrutura(){ // falta eliminar string so com espa
 }
 
 void Campeonato::removerInfraestrutura(){
-	// problema com string de espaços
-	// FALTA testar quando á eventos
+
+	// TODO testar quando á eventos
 	do{
 		cout << "Introduza o nome da infraestrutura a apagar: ";
 		string a;
-		cin >> a;
+		getline(cin,a);
+		cout << "Input: " << a << endl;
 		if(a == "")
 		{
 			cout << "Introduza um nome não vazio! " << endl;
@@ -476,16 +545,9 @@ void Campeonato::removerInfraestrutura(){
 					break;
 				}
 			}
-			else
-			{
 				cout << "delete" << endl;
 				delete Infraestruturas[i];
 				Infraestruturas.erase(Infraestruturas.begin()+i);
-
-			}
-
-
-
 			return;
 		}
 		}
@@ -597,7 +659,7 @@ void Campeonato::AdicionarModalidade()
 
 }
 void Campeonato::RemoverModalidade()
-{
+{ //TODO remover atleras das provas
 	do{
 		cout << "Introduza o nome do desporto : ";
 		string desp;
@@ -624,7 +686,7 @@ void Campeonato::RemoverModalidade()
 
 			if(desp == Modalidades[i]->getDesporto())
 			{
-				cout << "delete" << endl;
+				cout << "Modalidade removida " << endl;
 				delete Modalidades[i];
 				Modalidades.erase(Modalidades.begin()+i);
 				return;
@@ -635,7 +697,7 @@ void Campeonato::RemoverModalidade()
 		}
 		cout << "A modalidade não existe!" << endl;
 	}while(true);
-
+	cout << "\n";
 }
 
 
@@ -761,18 +823,35 @@ void Campeonato::adicionarEventos()
 							}
 				}
 
-
-		cout << "Data inicial" << endl;
-		cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
 		int d, m, a, h, mi, s=0;
-		cin >> d >> m >> a >> h >> mi;
+		while(1){ cin.clear();
+				cin.ignore(100,'\n');
+			cout << "Data inicial" << endl;
+					cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
+					cin >> d >> m >> a >> h >> mi;
+					if(cin.fail())
+					{
+						cout << "Data invalida" << endl;
+						continue;
+					}
+					break;
+		}
 		Data di(d, m, a, h, mi, s);
-
-		cout << "Data Final" << endl;
-		cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
-		cin >> d >> m >> a >> h >> mi;
+		while(1){	cin.clear();
+					cin.ignore(100,'\n');
+			cout << "Data Final" << endl;
+					cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
+					cin >> d >> m >> a >> h >> mi;
+					Data df(d, m, a, h, mi, s);
+					if(cin.fail())
+							{
+								cout << "Data invalida" << endl;
+								continue;
+							}
+					break;
+		}
 		Data df(d, m, a, h, mi, s);
-		// falta try catches e whatnot
+		// TODO falta try catches e whatnot
 		evento * ev = new evento(nomeEvento, di, df, tipo);
 		if(Infraestruturas[indice]->getCalendario()->getFim() == Data())
 			Infraestruturas[indice]->getCalendario()->setFim(df);
@@ -886,7 +965,64 @@ void Campeonato::gravarCampeonato()
 		}
 	}
 
-	//TO DO
+	//TODO
 }
 
 
+//BOOLS
+bool Campeonato::ExisteEquipa(string nome) const
+{
+	for(unsigned int i = 0; i < Equipas.size();i++)
+	{
+		if(nome == Equipas[i].getNomeEquipa())
+			return true;
+	}
+	return false;
+}
+bool Campeonato::ExisteAtleta(string nome) const
+{
+	for(unsigned int i = 0; i < Equipas.size();i++)
+	{
+		for(unsigned int t = 0; t < Equipas[i].getAtletas().size();i++)
+		{
+			if(Equipas[i].getAtletas()[t].getNome() == nome)
+				return true;
+		}
+	}
+	return false;
+}
+bool Campeonato::AdicionaAtletaEquipa(string Atleta,string Equipa)
+{
+	for(unsigned int i = 0; i < Equipas.size();i++)
+		{
+			if(nome == Equipas[i].getNomeEquipa())
+			{
+				return Equipas[i].addAtleta(Atleta);
+			}
+		}
+	return false;
+}
+bool Campeonato::RemoveAtletaEquipa(string equipa,string Atleta){
+	for(unsigned int i = 0; i < Equipas.size();i++)
+			{
+				if(nome == Equipas[i].getNomeEquipa())
+				{
+					return Equipas[i].removeAtleta(Atleta);
+				}
+			}
+		return false;
+}
+void Campeonato::RemoveAtletaProva(string Atleta) // TODO CONFIRMAR SE APONTADORES EM INFRASTRUTURAS
+{												// È O MESMO DO QUE ESTA EM MODALIDADES
+	for(unsigned int i = 0;i < Infraestruturas.size();i++)
+	{
+		Calendario *temp = Infraestruturas[i]->getCalendario();
+		vector<evento *> Provas = temp->getEventos();
+		for(unsigned int t = 0; t < Provas.size(); t++)
+		{
+
+		}
+
+
+	}
+}

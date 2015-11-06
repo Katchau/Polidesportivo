@@ -151,12 +151,16 @@ public:
 
 	void AtletasPorModalidade();
 
+	void AtletasPorDesporto();
+
+
 	bool ExisteEquipa(string nome) const;
 	bool ExisteAtleta(string nome) const;
 	bool AdicionaAtletaEquipa(string Atleta,string Equipa);
 	bool RemoveAtletaEquipa(string equipa,string Atleta);
 	void RemoveAtletaProva(string Atleta);
-
+	vector<string>listaDesporto();
+	vector<string>AtletasDesporto(string Desporto);
 	/**
 	 * @return nome do campeonato
 	 */

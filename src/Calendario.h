@@ -77,7 +77,7 @@ public:
 	void removeLugar(string nome);
 	vector<Posicao_Pontos *> getLugares() const;
 	void resultados();
-
+	vector<string> getNomeAtletas() const;
 };
 
 
@@ -95,6 +95,7 @@ public:
 	void removeLugar(string nome);
 	vector<Posicao_tempo *> getLugares() const;
 	void resultados();
+	vector<string> getNomeAtletas() const;
 
 };
 
@@ -135,8 +136,7 @@ public:
 	Prova_Tempo * getProvaT();
 	Prova_Pontuacao * getProvaP();
 	void ProvaResultados();
-	vector<string> getNomeAtletas() const; //TODO acabar
-
+	vector<string> getNomeAtletas() const;
 };
 
 bool eventos_sobrepostos(const evento *alpha,const  evento *beta);

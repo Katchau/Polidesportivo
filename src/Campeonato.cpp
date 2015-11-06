@@ -321,65 +321,95 @@ void Campeonato::removeAtleta()
 }
 void Campeonato::AtletasPorEquipa()
 {	cout<< "Atletas por equipas " << endl;
-	for(unsigned int i = 0; i < Equipas.size();i++)
+for(unsigned int i = 0; i < Equipas.size();i++)
+{
+	vector<Atleta> Atle = Equipas[i].getAtletas();
+	sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
+	cout << Equipas[i].getNomeEquipa() << endl;
+	cout << "\n";
+	for(unsigned int t = 0; t < Atle.size();t++)
 	{
-		vector<Atleta> Atle = Equipas[i].getAtletas();
-		sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
-		cout << Equipas[i].getNomeEquipa() << endl;
-		cout << "\n";
-		for(unsigned int t = 0; t < Atle.size();t++)
-		{
-			cout << Atle[i].getNome() << endl;
-		}
+		cout << Atle[i].getNome() << endl;
 	}
-	//TODO TESTAR
+}
+//TODO TESTAR
+system("pause");
+}
+
+void Campeonato::AtletasPorDesporto(){
+	vector<string>Desportos = listaDesporto();
+	cout<< "Atletas por desporto " << endl;
+	for(unsigned int i = 0; i < Desportos.size();i++)
+	{
+		vector<string>Atletas = AtletasDesporto(Desportos[i]);
+
+		sort(Atletas.begin(),Atletas.end());
+		cout << Desportos[i] << endl;
+		for(unsigned int k = 0; k < Atletas.size();k++)
+		{
+			cout << Atletas[k] << endl;
+		}
+	}//TODO testar
 	system("pause");
 }
 
 void Campeonato::AtletasPorModalidade()
 {
-	  cout << "Atletas por modalidades" << endl;
-	  sort(Modalidades.begin(),Modalidades.end(),ordenaAlfaModalidade);
-	  for(unsigned int i = 0; i < Modalidades.size();i++)
-	  {
-		  vector<evento* > Provas = Modalidades[i]->getProvas();
-		  vector<Atleta > Atle;
-		  for(unsigned int  t = 0; t < Provas.size();t++)//Juntar todos os atletas
-		  {
-			 // for(unsigned int pra = 0; pra < Provas[t]->)
-		  }
+	cout << "Atletas por modalidades" << endl;
+	sort(Modalidades.begin(),Modalidades.end(),ordenaAlfaModalidade);
+	for(unsigned int i = 0; i < Modalidades.size();i++)
+	{
+		vector<evento* > Provas = Modalidades[i]->getProvas();
+		vector<string > Atletas;
 
-	  }
-	  //TODO SORT MODALIDADES   sort atletas e cout dentro do
+
+		for(unsigned int  t = 0; t < Provas.size();t++)//Juntar todos os atletas
+		{
+			vector <string> Atle = Provas[i]->getNomeAtletas();
+
+			for(unsigned int k = 0; k < Atle.size();k++)
+			{
+				adicionaVetor(Atletas,Atle[k]);
+			}
+			sort(Atletas.begin(),Atletas.end());
+			for(unsigned int k = 0; k < Atletas.size();k++)
+			{
+				cout << Atletas[k] << endl;
+			}
+
+		}
+
+	}
+	//TODO testar
 }
 void Campeonato::listaAtletas()
 {
 	while(1)
 
-		{
-			cout << "    Listar Atletas	 " << endl;
-			cout << "1 - Por equipa -- porfazer" << endl;
-			cout << "2 - Por modalidade -- porfazer" << endl;
-			cout << "3 - Por desporto -- por fazer" << endl;
-			cout << "4 - Sair" << endl;
-			cout << "\nIntroduza a opcao pretendida: ";
+	{
+		cout << "    Listar Atletas	 " << endl;
+		cout << "1 - Por equipa -- porfazer" << endl;
+		cout << "2 - Por modalidade -- porfazer" << endl;
+		cout << "3 - Por desporto -- por fazer" << endl;
+		cout << "4 - Sair" << endl;
+		cout << "\nIntroduza a opcao pretendida: ";
 
-			switch (selectMenu('1','4'))
-			{
-			case '1':
-				AtletasPorEquipa();
-				break;
-			case '2':
-				//TODO AtletasPorModalidade();
-				break;
-			case '3':
-				//TODO AtletasPorDesporto();
-				break;
-			case '4':
-				return;
-				break;
-			}
+		switch (selectMenu('1','4'))
+		{
+		case '1':
+			AtletasPorEquipa();
+			break;
+		case '2':
+			AtletasPorModalidade();
+			break;
+		case '3':
+			AtletasPorDesporto();
+			break;
+		case '4':
+			return;
+			break;
 		}
+	}
 }
 void Campeonato::menuAtletas()
 {
@@ -402,7 +432,7 @@ void Campeonato::menuAtletas()
 			removeAtleta();
 			break;
 		case '3':
-		     listaAtletas();
+			listaAtletas();
 			break;
 		case '4':
 			return;
@@ -424,7 +454,7 @@ void Campeonato::listaEquipas(){
 	case '1':
 		EquipasOrdemAlfabetica();
 		break;
-	case '2':
+	case '2'://TODO
 		//EquipasOrdemPontuacao();
 		break;
 	case '3':
@@ -549,7 +579,7 @@ void Campeonato::listaInfraestruturas()
 		case '1':
 			InfraestruturasOrdemAlfabetica();
 			break;
-		case '2':
+		case '2'://TODO
 			//OndeProximaProva();
 			break;
 		case '3':
@@ -687,7 +717,7 @@ void Campeonato::listaModalidades()
 		case '1':
 			OrdemAlfabeticaModalidades();
 			break;
-		case '2':
+		case '2'://TODO
 			//ProximaModalidade();
 			break;
 		case '3':
@@ -1113,4 +1143,35 @@ void Campeonato::RemoveAtletaProva(string Atleta) // TODO CONFIRMAR SE APONTADOR
 
 
 	}
+}
+vector<string> Campeonato::listaDesporto()
+{
+	vector<string> Desporto;
+	for(unsigned int i = 0; i < Modalidades.size();i++)
+	{
+		adicionaVetor(Desporto,Modalidades[i]->getDesporto());
+	}
+	return Desporto;
+}
+vector<string> Campeonato::AtletasDesporto(string Desporto)
+{
+	vector<string> Atletas;
+	for(unsigned int i = 0; i < Modalidades.size();i++)
+	{
+		if(Modalidades[i]->getDesporto() == Desporto)
+		{
+			vector<evento* > Provas = Modalidades[i]->getProvas();
+			for(unsigned int  t = 0; t < Provas.size();t++)//Juntar todos os atletas
+			{
+				vector <string> Atle = Provas[i]->getNomeAtletas();
+
+				for(unsigned int k = 0; k < Atle.size();k++)
+				{
+					adicionaVetor(Atletas,Atle[k]);
+				}
+
+			}
+		}
+	}
+	return Atletas;
 }

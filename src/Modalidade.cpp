@@ -38,7 +38,20 @@ vector<evento *> Modalidade::getProvas() const
 	return Provas;
 }
 
-
+vector<string> Modalidade::getNomeAtletas() const
+		{
+			vector<string>Atletas;
+			for(unsigned int i = 0; i < Provas.size();i++)
+			{
+				vector<string>AtletasProva = Provas[i]->getNomeAtletas();
+				for(unsigned int t = 0; t < AtletasProva.size();t++)
+				{
+					adicionaVetor(Atletas,AtletasProva[t]);
+				}
+			}
+			sort(Atletas.begin(),Atletas.end());
+			return Atletas;
+		}
 /*
  bool Modalidade::operator == (Modalidade des) const
 {

@@ -21,6 +21,7 @@ public:
 	string getDesporto() const;
     string getTipo() const;
     vector<evento *> getProvas() const;
+    vector<string> getNomeAtletas() const;//TODO
 };
 
 

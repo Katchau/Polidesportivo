@@ -13,29 +13,29 @@ bool ValidaData(Data Marcacao, bool atual)
 	if (Marcacao.minutos > 59)
 		return false;
 	if(Marcacao.segundos > 59)
-	if (atual) /* se a data é de um evento futuro*/
-	{
-		time_t Tempo_Atual = time(NULL);
-		struct tm *tempo_info= localtime(&Tempo_Atual);
-		unsigned int sec = tempo_info->tm_sec;
-		unsigned int min = tempo_info->tm_min;
-		unsigned int horas = tempo_info->tm_hour;
-		unsigned int dia = tempo_info->tm_mday;
-		unsigned int mes = tempo_info->tm_mon;/* varia de 0 a 11*/
-		unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
-		if( Marcacao.ano < ano )
-			return false;
-		if( Marcacao.ano == ano && Marcacao.mes < mes )
-			return false;
-		if (Marcacao.mes == mes && Marcacao.dia < dia)
-			return false;
-		if(Marcacao.dia == dia && Marcacao.horas < horas)
-			return false;
-		if(Marcacao.horas == horas && Marcacao.minutos < min)
-		return false;
-		if(Marcacao.minutos == min && Marcacao.segundos < sec)
-			return false;
-	}
+		if (atual) /* se a data é de um evento futuro*/
+		{
+			time_t Tempo_Atual = time(NULL);
+			struct tm *tempo_info= localtime(&Tempo_Atual);
+			unsigned int sec = tempo_info->tm_sec;
+			unsigned int min = tempo_info->tm_min;
+			unsigned int horas = tempo_info->tm_hour;
+			unsigned int dia = tempo_info->tm_mday;
+			unsigned int mes = tempo_info->tm_mon;/* varia de 0 a 11*/
+			unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
+			if( Marcacao.ano < ano )
+				return false;
+			if( Marcacao.ano == ano && Marcacao.mes < mes )
+				return false;
+			if (Marcacao.mes == mes && Marcacao.dia < dia)
+				return false;
+			if(Marcacao.dia == dia && Marcacao.horas < horas)
+				return false;
+			if(Marcacao.horas == horas && Marcacao.minutos < min)
+				return false;
+			if(Marcacao.minutos == min && Marcacao.segundos < sec)
+				return false;
+		}
 	return true;
 }
 bool bissexto(int ano)
@@ -69,13 +69,13 @@ Calendario::Calendario(){
 }
 
 bool evento::operator == (const evento * ev) const
-{
+		{
 	if (nome == ev->getNome() && inicial == ev->getInicial() && final == ev->getFinal() && tipo == ev->tipo)
 	{
 		return true;
 	}
 	else return false;
-}
+		}
 
 void Calendario::adiciona_evento(evento * alpha)
 {
@@ -140,7 +140,7 @@ int Calendario::Neventos() const{
 
 
 EventoNaoExiste::EventoNaoExiste(string nome){
- this->nome = nome;
+	this->nome = nome;
 }
 EventoExiste::EventoExiste(string nome){
 	this->nome = nome;
@@ -159,22 +159,22 @@ bool operator< (const Data &inicio,const Data &fim){
 	if(inicio.minutos < fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
 		return true;
 	if(inicio.segundos < fim.segundos && inicio.minutos == fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
-	return true;
+		return true;
 	return false;
 
 }
 bool operator <= (const Data &inicio,const Data &fim){
 	if(inicio.ano <  fim.ano)
-			return true;
-		if(inicio.mes < fim.mes && inicio.ano == fim.ano )
-			return true;
-		if(inicio.dia < fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
-			return true;
-		if(inicio.minutos < fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
-			return true;
-		if(inicio.segundos <= fim.segundos && inicio.minutos == fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
 		return true;
-		return false;
+	if(inicio.mes < fim.mes && inicio.ano == fim.ano )
+		return true;
+	if(inicio.dia < fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
+		return true;
+	if(inicio.minutos < fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+		return true;
+	if(inicio.segundos <= fim.segundos && inicio.minutos == fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+		return true;
+	return false;
 }
 bool operator == (const Data &esquerda, const Data &direita){
 	if(esquerda.ano != direita.ano) return  false;
@@ -188,9 +188,9 @@ bool operator == (const Data &esquerda, const Data &direita){
 
 ostream& operator<<(ostream& os, const Data& dt)
 {
-    os << dt.dia << '/' << dt.mes << '/' << dt.ano;
-    os << dt.horas << ':'<<dt.minutos;
-    return os;
+	os << dt.dia << '/' << dt.mes << '/' << dt.ano;
+	os << dt.horas << ':'<<dt.minutos;
+	return os;
 }
 
 
@@ -234,7 +234,7 @@ evento::evento(string nome,Data inicial,Data final,string tipo){
 	this->nome = nome;
 	this->tipo = tipo;
 	if(tipo == "PONTO") // ao criar garante q tipo seja igual a uma das 2, por isso no need for other stuff
- 	{
+	{
 		Prova_Pontuacao * pP = new Prova_Pontuacao(nome,inicial,final,tipo);
 		provaP = pP;
 		string coiso = "";
@@ -265,17 +265,17 @@ vector<Posicao_Pontos *> Prova_Pontuacao:: getLugares() const
 void Prova_Tempo::resultados()
 {
 	for(unsigned int i = 0; i<lugares.size();i++)
-		{
-			cout << i+1 << " " << nome << " " << lugares[i]->getTempo() << endl;
-		}
+	{
+		cout << i+1 << " " << nome << " " << lugares[i]->getTempo() << endl;
+	}
 }
 
 void Prova_Pontuacao::resultados()
 {
 	for(unsigned int i = 0; i<lugares.size();i++)
-		{
-			cout << i+1 << " " << nome << " " << lugares[i]->getPontuacao() << endl;
-		}
+	{
+		cout << i+1 << " " << nome << " " << lugares[i]->getPontuacao() << endl;
+	}
 }
 
 void evento::ProvaResultados()
@@ -286,10 +286,10 @@ void evento::ProvaResultados()
 		provaT->resultados();
 	}
 	if(tipo == "PONTO")
-		{
-			ordena();
-			provaP->resultados();
-		}
+	{
+		ordena();
+		provaP->resultados();
+	}
 }
 
 void evento::retProva()
@@ -435,7 +435,19 @@ void evento::removeLugar(string nomeAtleta)
 		provaP->removeLugar(nomeAtleta);
 	}
 }
+vector<string> evento::getNomeAtletas() const
+{
 
+	if(tipo =="TEMPO")
+	{
+		return provaT->getNomeAtletas();
+	}
+	if(tipo == "PONTO")
+		return provaP->getNomeAtletas();
+
+	vector<string> Atletas;
+	return Atletas;
+}
 void Prova_Pontuacao::adicionaLugar(Posicao_Pontos * lugar)
 {
 	bool naoexiste = true;
@@ -497,18 +509,26 @@ void Prova_Pontuacao::removeLugar(string nome)
 	if(existe) lugares.erase(lugares.begin()+indice);
 
 }
-
+vector<string> Prova_Pontuacao::getNomeAtletas() const
+{
+	vector<string> Atletas;
+	for(unsigned int i = 0; i < lugares.size();i++)
+	{
+		Atletas.push_back(lugares[i]->getAtleta());
+	}
+	return Atletas;
+}
 
 // Prova Tempo crg!!
 void Prova_Tempo::ordena(){
 	for (unsigned int p = 1; p < lugares.size(); p++)
-		{
-			Posicao_tempo *tmp = lugares[p];
-			int j;
-			for (j = p; j > 0 && *tmp < *lugares[j-1]; j--)
-				lugares[j] = lugares[j-1];
-			lugares[j] = tmp;
-		}
+	{
+		Posicao_tempo *tmp = lugares[p];
+		int j;
+		for (j = p; j > 0 && *tmp < *lugares[j-1]; j--)
+			lugares[j] = lugares[j-1];
+		lugares[j] = tmp;
+	}
 }
 
 Prova_Tempo::Prova_Tempo(string nome,Data inicial,Data final,string tipo){
@@ -516,4 +536,12 @@ Prova_Tempo::Prova_Tempo(string nome,Data inicial,Data final,string tipo){
 	this->final = final;
 	this->nome = nome;
 	this->tipo = tipo;
+}
+vector<string> Prova_Tempo::getNomeAtletas() const
+{	vector<string> Atletas;
+for(unsigned int i = 0; i < lugares.size();i++)
+{
+	Atletas.push_back(lugares[i]->getAtleta());
+}
+return Atletas;
 }

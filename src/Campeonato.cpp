@@ -15,13 +15,15 @@ Data transParaData(string dataI,string horaI)
 	DATAI >> lixo;
 	DATAI >> ano;
 	stringstream HORAI;
-	int horas,min;
+	int horas,min,sec;
 	HORAI << horaI;
 	HORAI >> horas;
 	HORAI >> lixo;
 	HORAI >> min;
+	HORAI >> lixo;
+	HORAI >> sec;
 	cout << " teste 4" << endl;
-	return Data(dia,mes,ano,horas,min,0);
+	return Data(dia,mes,ano,horas,min,sec);
 }
 
 evento* transParaEvento(string dataI,string horaI,string dataF,string horaF,string nome,string tipo)
@@ -47,17 +49,16 @@ Campeonato::Campeonato(const string &filename)
 		cout << nomeEq << endl;
 		if (nomeEq == "") //ou '\n'? boa pergunta
 			break;
-		try{
+		try {
 			Equipa eq(nomeEq);
 			Equipas.push_back(eq);
-			cout << "EQUIPAS:SIZE() = "  << Equipas.size() << endl;
-		}
-		catch(Equipa::EquipaNaoExistente &e){
-			cout << "O ficheiro  " << nomeEq <<" nao existe!"<< endl;
+			cout << "EQUIPAS:SIZE() = " << Equipas.size() << endl;
+		} catch (Equipa::EquipaNaoExistente &e) {
+			cout << "O ficheiro  " << nomeEq << " nao existe!" << endl;
 		}
 
 	}
-	ReadConfig.ignore(100,'\n');
+	ReadConfig.ignore(100, '\n');
 	while (true) {
 		cout << "entrou " << endl;
 		getline(ReadConfig, nomeInf);
@@ -68,14 +69,13 @@ Campeonato::Campeonato(const string &filename)
 		Infraestruturas.push_back(infa);
 	}
 
-	ReadConfig.ignore(100,'\n');
+	ReadConfig.ignore(100, '\n');
 	string tmp = "";
 	do {
 		cout << "entrou " << endl;
 		ReadConfig >> desporto;
 		ReadConfig >> tmp;
-		while (tmp != ",")
-		{
+		while (tmp != ",") {
 			desporto = desporto + " " + tmp;
 			ReadConfig >> tmp;
 		}
@@ -83,8 +83,7 @@ Campeonato::Campeonato(const string &filename)
 		tmp = "";
 		ReadConfig >> modalidade;
 		ReadConfig >> tmp;
-		while (tmp != "," && tmp != ".")
-		{
+		while (tmp != "," && tmp != ".") {
 			modalidade = modalidade + " " + tmp;
 			ReadConfig >> tmp;
 		}
@@ -96,45 +95,85 @@ Campeonato::Campeonato(const string &filename)
 
 	//falta a parte das provas e whatnot
 	// codigo do Jonas, esta no git na versao anterior.Updated, ainda nao testei
-	string prova = "Prova.txt";
+	string prova = "Prova_" + filename;
 	ifstream Provas(prova.c_str());
 	cout << "PROVA" << endl;
-	while(!Provas.eof())
-	{
-		string tipo,desporto,modalidade,dataI,horaI,dataF,horaF,infra;
-		getline(Provas,tipo);
-		getline(Provas,desporto);
-		getline(Provas,modalidade);
+	while (!Provas.eof()) {
+		string tipo, desporto, modalidade, dataI, horaI, dataF, horaF, infra,
+				nome_ev;
+		getline(Provas, nome_ev);
+		getline(Provas, tipo);
+		getline(Provas, desporto);
+		getline(Provas, modalidade);
 		cout << " teste 2" << endl;
-		string nomeTotal =desporto+" , " + modalidade;
-		getline(Provas,dataI);
-		getline(Provas,horaI);
-		getline(Provas,dataF);
-		getline(Provas,horaF);
-		getline(Provas,infra);
+		string nomeTotal = desporto + " , " + modalidade;
+		cout << "Desporto: " << desporto << "Modalidade" << modalidade << endl;
+		cout << nomeTotal;
+		getline(Provas, dataI);
+		getline(Provas, horaI);
+		getline(Provas, dataF);
+		getline(Provas, horaF);
+		getline(Provas, infra);
 		cout << " teste 3" << endl;
-		evento *novo =  transParaEvento(dataI,horaI,dataF,horaF,modalidade,tipo);
+		evento *novo = transParaEvento(dataI, horaI, dataF, horaF, nome_ev,
+				tipo);
+		int indice_mod, indice_evento;
 
-		for(unsigned int i = 0;i < Modalidades.size();i++)
-		{
-			if(Modalidades[i]->getNome() == nomeTotal)
-			{cout << " teste 6" << endl;
-			Modalidades[i]->adicionaProva(novo);
+		cout << Modalidades.size() << endl;
+		for (unsigned int i = 0; i < Modalidades.size(); i++) {
+			if (Modalidades[i]->getNome() == nomeTotal) {
+				cout << " teste 6" << endl;
+				Modalidades[i]->adicionaProva(novo);
+				indice_mod = i;
 			}
 		}
 		cout << Infraestruturas.size() << endl;
-		for(unsigned int i = 0;i < Infraestruturas.size();i++)
-		{	cout << i << endl;
-		if(Infraestruturas[i]->getNome() == infra)
-		{cout << " teste 7" << endl;
-		if(Infraestruturas[i]->getCalendario()->getInicio() == Data()
-				&& Infraestruturas[i]->getCalendario()->getFim() == Data())
-		{
-			Infraestruturas[i]->getCalendario()->setFim(Data(31,12,9999));
-		}
-		Infraestruturas[i]->adicionaEvento(novo);
+		for (unsigned int i = 0; i < Infraestruturas.size(); i++) {
+			cout << i << endl;
+			if (Infraestruturas[i]->getNome() == infra) {
+				cout << " teste 7" << endl;
+				if (Infraestruturas[i]->getCalendario()->getInicio() == Data()
+						&& Infraestruturas[i]->getCalendario()->getFim()
+								== Data()) {
+					Infraestruturas[i]->getCalendario()->setFim(
+							Data(31, 12, 9999));
+				}
+				Infraestruturas[i]->adicionaEvento(novo);
 
+			}
 		}
+
+		indice_evento = Modalidades[indice_mod]->getProvas().size() - 1;
+		string nomeAtleta = "Default", horaR, score;
+		int pontuacao;
+		getline(Provas, nomeAtleta);
+		cout << nomeAtleta;
+		cout << tipo;
+		while (nomeAtleta != "") {
+			if (tipo == "PONTO") {
+				getline(Provas, score);
+				stringstream convertoint;
+				convertoint << score;
+				convertoint >> pontuacao;
+				Modalidades[indice_mod]->adicionaResultado(indice_evento,
+						nomeAtleta, 0, 0, 0, pontuacao);
+			}
+			if (tipo == "TEMPO") {
+				getline(Provas, horaR);
+				stringstream horatoint;
+				int horas, minutos, segundos;
+				char lix;
+				horatoint << horaR;
+				horatoint >> horas;
+				horatoint >> lix;
+				horatoint >> minutos;
+				horatoint >> lix;
+				horatoint >> segundos;
+				Modalidades[indice_mod]->adicionaResultado(indice_evento,
+						nomeAtleta, horas, minutos, segundos, 0);
+			}
+			getline(Provas, nomeAtleta);
+			cout << nomeAtleta;
 		}
 	}
 
@@ -946,41 +985,53 @@ void Campeonato::adicionarEventos()
 
 void Campeonato::removerEventos()
 {
-	string resposta;
+	string resposta, modalidade;
 	do {
 		cout << "Qual das Infraestruturas pretende remover evento?" << endl;
 		int indice = menuEscolhaInfra();
 
 		cout << "Por favor introduza o nome do evento" << endl;
 		string nomeEvento, tipo;
-		cin >> nomeEvento;
+		cin.clear();
+		cin.ignore(100,'\n');
+		getline(cin, nomeEvento);
 		bool valid = false;
 		while (!valid) {
 			cout << "Porvavor introduza tempo ou pontos no Tipo" << endl;
+			cin >> tipo;
 			cin.clear();
 			cin.ignore(100, '\n');
-			cin >> tipo;
 			if (tipo == "TEMPO" || tipo == "PONTO") {
 				valid = true;
 			}
 		}
 
-		cout << "Data inicial" << endl;
-		cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
-		int d, m, a, h, mi, s = 0;
-		cin >> d >> m >> a >> h >> mi;
-		Data di(d, m, a, h, mi, s);
+		Data di(0, 0, 0, 0, 0, 0);
 
-		cout << "Data Final" << endl;
-		cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
-		cin >> d >> m >> a >> h >> mi;
-		Data df(d, m, a, h, mi, s);
-		// falta try catches e whatnot
+		Data df(2, 2, 2, 2, 2, 2);
+
 		evento * ev = new evento(nomeEvento, di, df, tipo);
-		if(Infraestruturas[indice]->getCalendario()->getFim() == Data())
+		int n = Infraestruturas[indice]->Neventos();
+		if (Infraestruturas[indice]->getCalendario()->getFim() == Data())
 			Infraestruturas[indice]->getCalendario()->setFim(df);
-
 		Infraestruturas[indice]->removeEvento(ev);
+		int n_next = Infraestruturas[indice]->Neventos();
+		if (n_next != n) {
+			bool existe_mod;
+			do {
+				existe_mod = false;
+				for (unsigned int j = 0; j < Modalidades.size(); j++) {
+					for(unsigned int k =0;k < Modalidades[j]->getProvas().size();k++) {
+						if(Modalidades[j]->getProvas()[k]->getNome() == nomeEvento){
+						Modalidades[j]->removeProva(ev);
+						existe_mod = true;
+						break;
+						}
+					}
+					break;
+				}
+			} while (!existe_mod);
+		}
 		//TODO falta isto!!
 		cout << "Remover outro evento ou sair?" << endl;
 		cin >> resposta;

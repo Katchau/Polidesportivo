@@ -102,7 +102,7 @@ void Calendario::remove_evento(evento *alpha)
 {
 	for(unsigned int i = 0; i < eventos.size(); i++)
 	{
-		if(eventos[i] == alpha){
+		if(eventos[i]->getNome() == alpha->getNome()){
 			eventos.erase(eventos.begin()+i);
 			return;
 		}
@@ -374,7 +374,7 @@ void Posicao_Pontos::setpontuacao(int pontuacao){
 	this->pontuacao = pontuacao;
 }
 bool Posicao_Pontos::operator < (const Posicao_Pontos &A) const{
-	return pontuacao < A.getPontuacao();
+	return pontuacao > A.getPontuacao(); // e por ordem crescente de pontos?
 }
 
 void evento::ordena()

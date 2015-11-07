@@ -34,3 +34,27 @@ bool removeVetor(vector<T> &v, T elem)
 	v.erase(v.begin() + indice);
 	return true;
 }
+
+string returnInput(string s1)
+{
+	string tmp;
+	bool valido = true;
+
+	do
+	{
+		cin.clear();
+
+		if (!valido)
+			cout << "Introduza um nome nao vazio: ";
+		else
+			cout << "Introduza o nome d" << s1 << ": ";
+		getline(cin, tmp);
+
+		valido = false;
+
+		for (size_t i = 0; i < tmp.size(); i++)
+			if (tmp[i] != ' ')
+				valido = true;
+	} while(cin.eof() || !valido);
+	return tmp;
+}

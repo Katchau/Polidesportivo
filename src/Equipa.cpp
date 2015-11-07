@@ -3,6 +3,14 @@
 
 int Equipa::idN = 0;
 
+bool checkExistence(std::string filename)
+{
+	ifstream f;
+	f.open(filename.c_str());
+
+	return f.is_open();
+}
+
 Equipa::EquipaNaoExistente::EquipaNaoExistente(string nomeficheiro)
 {
 	this->nomeficheiro = nomeficheiro;
@@ -36,34 +44,10 @@ bool Equipa::removeAtleta(string nome)
 Equipa::Equipa()
 {
 	bool valido = true;
-	do
-	{
-		cin.clear();
-		if (!valido)
-			cout << "Introduza um nome nao vazio: ";
-		else
-			cout << "Introduza o nome da equipa: ";
-
-		getline(cin, nome);
-
-		valido = false;
-
-		for (size_t i = 0; i < nome.size(); i++)
-			if (nome[i] != ' ')
-				valido = true;
-	} while (cin.eof() || !valido);
-
+	nome = returnInput("a equipa");
 	atualizarID();
-
 	nameFile = nome + ".txt";
 
-}
-bool checkExistence(std::string filename)
-{
-	ifstream f;
-	f.open(filename.c_str());
-
-	return f.is_open();
 }
 
 Equipa::Equipa(string nome)

@@ -935,7 +935,7 @@ void Campeonato::listaCalendarios(){
 
 void Campeonato::adicionarEventos()
 {
-	string resposta;
+	string resposta,modalidade;
 	do
 	{
 		cout << "Qual das Infraestruturas pretende adicionar evento?" << endl;
@@ -987,10 +987,21 @@ void Campeonato::adicionarEventos()
 		Data df(d, m, a, h, mi, s);
 		// TODO falta try catches e whatnot
 		evento * ev = new evento(nomeEvento, di, df, tipo);
-		if(Infraestruturas[indice]->getCalendario()->getFim() == Data())
+		int n = Infraestruturas[indice]->Neventos();
+		if (Infraestruturas[indice]->getCalendario()->getFim() == Data())
 			Infraestruturas[indice]->getCalendario()->setFim(df);
 		Infraestruturas[indice]->adicionaEvento(ev);
-		cout << Infraestruturas[indice]->Neventos();
+		int n_next = Infraestruturas[indice]->Neventos();
+		if (n_next != n) {
+			cout << "Para que modalidade? (do genero Atletismo , Sprint"
+					<< endl;
+			getline(cin, modalidade);
+			for (unsigned int j = 0; j < Modalidades.size(); j++) {
+				if (modalidade == Modalidades[j]->getNome()) {
+					Modalidades[j]->adicionaProva(ev);
+				}
+			}
+		}
 		cout << "Adicionar outro evento ou sair?" << endl;
 		cin >> resposta;
 		transform(resposta.begin(),resposta.end(), resposta.begin(), ::towlower);
@@ -1034,7 +1045,7 @@ void Campeonato::removerEventos()
 			Infraestruturas[indice]->getCalendario()->setFim(df);
 
 		Infraestruturas[indice]->removeEvento(ev);
-
+		//TODO falta isto!!
 		cout << "Remover outro evento ou sair?" << endl;
 		cin >> resposta;
 		transform(resposta.begin(), resposta.end(), resposta.begin(),
@@ -1078,14 +1089,225 @@ vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 	//TODO TESTAR
 }
 
+
+void Campeonato::verResultados()
+{
+	string resposta,modalidade;
+	bool existe = false;
+	int indice;
+	do
+	{
+		cout << "Para qual das Modalidades pretende visualizar?" << endl;
+		getline(cin, modalidade);
+		for (unsigned int j = 0; j < Modalidades.size(); j++) {
+			if (modalidade == Modalidades[j]->getNome()) {
+				indice = j;
+				existe = true;
+				break;
+			}
+		}
+		if(!existe) cout << "Modalidade nao foi encontrada!" << endl;
+		if(existe){
+			vector<evento *> ev = Modalidades[indice]->getProvas();
+			cout << "Eventos: " << endl;
+			for(unsigned int i =0;i<ev.size();i++)
+			{
+				cout << ev[i]->getNome() << "Data inicial: "<<  ev[i]->getInicial() << " data final: " << ev[i]->getFinal() << endl;
+				cout << "Provas: " << endl;
+				ev[i]->ProvaResultados();
+			}
+		}
+		cout << "Visualizar outra Prova ou sair?" << endl;
+		cin >> resposta;
+		transform(resposta.begin(), resposta.end(), resposta.begin(),
+						::towlower);
+	} while (resposta != "sair");
+}
+
+
+void Campeonato::adicionarProvas()
+{
+	string resposta,atleta, equipa,modalidade;
+	int indice, pontuacao, horas, minutos, segundos;
+	bool existeE = false, existeA = false;
+	do {
+		cout << "Em que equipa se encontra o Atleta?" << endl;
+		getline(cin, equipa);
+		for(unsigned int i =0;i<Equipas.size();i++)
+		{
+			if(Equipas[i].getNomeEquipa() == equipa)
+			{
+				indice = i;
+				existeE = true;
+				break;
+			}
+		}
+		if(existeE)
+		{
+			cout << "Qual atleta pretende adicionar a prova? E Modalidade?" << endl;
+			getline(cin, atleta);
+			getline(cin, modalidade);
+			for(unsigned int i =0;i<Equipas[indice].getAtletas().size();i++)
+			{
+				vector<Atleta> atletas = Equipas[indice].getAtletas();
+				if(atletas[i].getNome() == atleta)
+				{
+					for (unsigned int j = 0; j < Modalidades.size(); j++) {
+								if (modalidade == Modalidades[j]->getNome()) {
+									indice = j;
+									existeA = true;
+									break;
+								}
+							}
+					break;
+				}
+			}
+		}
+
+
+		if (existeA) {
+			vector<evento *> ev = Modalidades[indice]->getProvas();
+			cout << "Eventos: " << endl;
+			for (unsigned int i = 0; i < ev.size(); i++) {
+				cout << ev[i]->getNome() << "Data inicial: "
+						<< ev[i]->getInicial() << " data final: "
+						<< ev[i]->getFinal() << endl;
+				cout << "Pretende adicionar uma prova a este evento?" << endl;
+				cin >> resposta;
+				if (resposta == "sim" || resposta == "Sim") {
+					if (ev[i]->getTipo() == "PONTO") {
+						cout << "Introduza a pontuacao que o atleta fez"
+								<< endl;
+						cin >> pontuacao;
+						Modalidades[indice]->adicionaResultado(indice, atleta,
+								0, 0, 0, pontuacao);
+					}
+					if (ev[i]->getTipo() == "TEMPO") {
+						cout
+								<< "Introduza o tempo que o atleta fez em horas, minutos e segundos"
+								<< endl;
+						cin >> horas >> minutos >> segundos;
+						Modalidades[indice]->adicionaResultado(indice, atleta,
+								horas, minutos, segundos, 0);
+					}
+					break;
+				}
+
+			}
+		}
+		else
+		{
+			cout << "Nao foi encontrado o Atleta e/ou Modalidade pretendida!" << endl;
+		}
+		cout << "Adicionar outro Resultado?" << endl;
+		cin >> resposta;
+		transform(resposta.begin(), resposta.end(), resposta.begin(),
+				::towlower);
+	} while (resposta != "sair");
+}
+
+void Campeonato::removerProvas()
+{
+	string resposta,atleta, equipa,modalidade;
+	int indice, pontuacao, horas, minutos, segundos;
+	bool existeE = false, existeA = false;
+	do {
+		cout << "Em que equipa se encntra o Atleta?" << endl;
+		getline(cin, equipa);
+		for(unsigned int i =0;i<Equipas.size();i++)
+		{
+			if(Equipas[i].getNomeEquipa() == equipa)
+			{
+				indice = i;
+				existeE = true;
+				break;
+			}
+		}
+		if(existeE)
+		{
+			cout << "Qual atleta pretende remover a prova? E Modalidade?" << endl;
+			getline(cin, atleta);
+			getline(cin, modalidade);
+			for(unsigned int i =0;i<Equipas[indice].getAtletas().size();i++)
+			{
+				vector<Atleta> atletas = Equipas[indice].getAtletas();
+				if(atletas[i].getNome() == atleta)
+				{
+					for (unsigned int j = 0; j < Modalidades.size(); j++) {
+								if (modalidade == Modalidades[j]->getNome()) {
+									indice = j;
+									existeA = true;
+									break;
+								}
+							}
+					break;
+				}
+			}
+		}
+
+
+		if (existeA) {
+			vector<evento *> ev = Modalidades[indice]->getProvas();
+			cout << "Eventos: " << endl;
+			for (unsigned int i = 0; i < ev.size(); i++) {
+				cout << ev[i]->getNome() << "Data inicial: "
+						<< ev[i]->getInicial() << " data final: "
+						<< ev[i]->getFinal() << endl;
+				cout << "Pretende remover uma prova a este evento?" << endl;
+				cin >> resposta;
+				if (resposta == "sim" || resposta == "Sim") {
+					Modalidades[indice]->removeResultado(indice,atleta);
+					break;
+				}
+
+			}
+		}
+		else
+		{
+			cout << "Nao foi encontrado o Atleta e/ou Modalidade pretendida!" << endl;
+		}
+		cout << "Remover outro Resultado?" << endl;
+		cin >> resposta;
+		transform(resposta.begin(), resposta.end(), resposta.begin(),
+				::towlower);
+	} while (resposta != "sair");
+}
+
+void Campeonato::menuProvas() {
+	cout << "Provas" << endl;
+	cout << "1 - Ver todas os Resultados" << getNome() << endl;
+	cout << "2 - Adicionar Provas realizadas pelos Atletas" << endl;
+	cout << "3 - Remover Provas realizadas pelos Atleta" << endl;
+	cout << "4 - Sair " << endl;
+	cout << "\nIntroduza a opcao pretendida: ";
+	switch (selectMenu('1', '4')) {
+	case '1':
+		verResultados();
+		break;
+	case '2':
+		adicionarProvas();
+		break;
+	case '3':
+		removerProvas();
+		break;
+	case '4':
+		return;
+		break;
+	}
+	system("pause");
+}
+
+
+
 void Campeonato::menuCalendario(){
 	cout << " Calendario" << endl;
 	cout << "1 - Ver Calendarios do Campeonato " << getNome() << endl;
 	cout << "2 - Adicionar Evento ao Calendario" << endl;
 	cout << "3 - Remover Evento do Calendario" << endl;
-	cout << "4 - Sair " << endl;
+	cout << "4 - Menu Provas" << endl;
+	cout << "5 - Sair " << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
-	switch (selectMenu('1','4'))
+	switch (selectMenu('1','5'))
 	{
 	case '1':
 		listaCalendarios();
@@ -1097,11 +1319,15 @@ void Campeonato::menuCalendario(){
 		removerEventos();
 		break;
 	case '4':
+		menuProvas();
+		break;
+	case '5':
 		return;
 		break;
 	}
 	system("pause");
 }
+
 
 
 void Campeonato::gravarCampeonato()

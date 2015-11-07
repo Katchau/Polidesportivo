@@ -52,13 +52,11 @@ vector<string> Modalidade::getNomeAtletas() const
 			sort(Atletas.begin(),Atletas.end());
 			return Atletas;
 		}
-/*
- bool Modalidade::operator == (Modalidade des) const
+void Modalidade::adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score)
 {
-	string n1 = des.getNome();
-	string n2 = nomeT;
-	if(n2 == n1) return true;
-	else return false;
+	Provas[indice]->adicionaLugar(nomeAtleta,0,0,0,h,m,s,score);
 }
- */
-
+void Modalidade::removeResultado(int indice, string nomeAtleta)
+{
+	Provas[indice]->removeLugar(nomeAtleta);
+}

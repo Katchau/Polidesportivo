@@ -52,3 +52,5 @@ bool ordenaAlfaModalidade(const Desporto *A,const Desporto *B)
 			return true;
 		return false;
 }
+void Desporto::adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score){}
+void Desporto::removeResultado(int indice, string nomeAtleta){}

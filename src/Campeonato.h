@@ -140,6 +140,16 @@ public:
 
 	void removerEventos();
 
+	void menuProvas();
+
+	void verResultados();// já estao ordenados lel
+
+	void adicionarProvas();
+
+	void removerProvas();
+
+	void removerClassProva();
+
 	void menuAtletas();
 
 	void adicionaAtleta();

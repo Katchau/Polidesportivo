@@ -17,6 +17,8 @@ public:
 	virtual string getNome();
 	virtual bool adicionaProva (evento * Prova);
 	virtual	bool removeProva (evento * Prova);
+	virtual void adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score);
+	virtual void removeResultado(int indice, string nomeAtleta);
 	virtual bool operator == (const Desporto& des) const;
 	virtual string getTipo()const;
 	string getDesporto() const;

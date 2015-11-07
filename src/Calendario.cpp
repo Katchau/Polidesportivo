@@ -557,3 +557,6 @@ bool OrdenaEventosAlpha (const evento* A, const evento* B)
 		return true;
 	return false;
 }
+string evento::getTipo() const{
+	return tipo;
+}

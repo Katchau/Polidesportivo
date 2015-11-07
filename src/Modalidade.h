@@ -16,6 +16,8 @@ public:
 	Modalidade (string nome, string tipo);
 	bool adicionaProva (evento * Prova);
 	bool removeProva (evento * Prova);
+	void adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score);
+	void removeResultado(int indice, string nomeAtleta);
 	string getNome();
 	bool operator == (Desporto * des) const;
 

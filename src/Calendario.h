@@ -128,6 +128,7 @@ public:
 	evento(Data inicial,Data final);
 	evento(string nome,Data inicial,Data final,string tipo);
 	string getNome() const;
+	string getTipo() const;
 	Data getInicial() const;
 	Data getFinal() const;
 	void ordena();

@@ -7,5 +7,5 @@ Emirates
 Cu de Judas
 
 Modalidades:
-Futebol , Futebol_de_11 ,
+Futebol , Futebol de 11 ,
 Natacao , Costas .

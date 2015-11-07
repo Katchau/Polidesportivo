@@ -113,28 +113,29 @@ Campeonato::Campeonato(const string &filename)
 
 	ReadConfig.ignore(100,'\n');
 	string tmp = "";
-	cout << "entrou " << endl;
-	ReadConfig >> desporto;
-	ReadConfig >> tmp;
-	while (tmp != ",")
-	{
-		desporto += tmp;
+	do {
+		cout << "entrou " << endl;
+		ReadConfig >> desporto;
 		ReadConfig >> tmp;
-	}
-	cout << desporto << endl;
-	tmp = "";
-	ReadConfig >> modalidade;
-	ReadConfig >> tmp;
-	while (tmp != "," && tmp != ".")
-	{
-		modalidade += tmp;
+		while (tmp != ",")
+		{
+			desporto = desporto + " " + tmp;
+			ReadConfig >> tmp;
+		}
+		cout << desporto << endl;
+		tmp = "";
+		ReadConfig >> modalidade;
 		ReadConfig >> tmp;
-	}
-	cout << modalidade << endl;
-	Desporto * p = new Modalidade(desporto, modalidade);
-	Modalidades.push_back(p);
-	ReadConfig >> desporto;
+		while (tmp != "," && tmp != ".")
+		{
+			modalidade = modalidade + " " + tmp;
+			ReadConfig >> tmp;
+		}
+		cout << modalidade << endl;
 
+		Desporto * p = new Modalidade(desporto, modalidade);
+		Modalidades.push_back(p);
+	} while (tmp != ".");
 
 	//falta a parte das provas e whatnot
 	// codigo do Jonas, esta no git na versao anterior.Updated, ainda nao testei
@@ -336,20 +337,21 @@ void Campeonato::removeAtleta()
 	//TODO TESTAR
 }
 void Campeonato::AtletasPorEquipa()
-{	cout<< "Atletas por equipas " << endl;
-for(unsigned int i = 0; i < Equipas.size();i++)
 {
-	vector<Atleta> Atle = Equipas[i].getAtletas();
-	sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
-	cout << Equipas[i].getNomeEquipa() << endl;
-	cout << "\n";
-	for(unsigned int t = 0; t < Atle.size();t++)
+	cout<< "Atletas por equipas " << endl;
+	for(unsigned int i = 0; i < Equipas.size();i++)
 	{
-		cout << Atle[t].getNome() << endl;
+		vector<Atleta> Atle = Equipas[i].getAtletas();
+		sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
+		cout << Equipas[i].getNomeEquipa() << endl;
+		cout << "\n";
+		for(unsigned int t = 0; t < Atle.size();t++)
+		{
+			cout << Atle[t].getNome() << endl;
+		}
 	}
-}
-//TODO TESTAR
-system("pause");
+	//TODO TESTAR
+	system("pause");
 }
 
 void Campeonato::AtletasPorDesporto(){
@@ -489,8 +491,7 @@ void Campeonato::EquipasOrdemAlfabetica()
 	{
 		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
 	}
-	system("pause");
-	cout << "\n";
+	cout << "\n\n";
 
 }
 
@@ -739,15 +740,17 @@ void Campeonato::listaModalidades()
 	}
 }
 void Campeonato::OrdemAlfabeticaModalidades()
-{	 cout << "MODALIDADES:SIZE(): " << Modalidades.size() << endl;
-sort(Modalidades.begin(),Modalidades.end(),ordenaAlfaDesporto);
-cout << "  Modalidades" << endl;
-for(unsigned int i = 0; i < Modalidades.size();i++)
 {
-	cout << i+1 << " - " << Modalidades[i]->getTipo() << endl;
+	cout << "MODALIDADES:SIZE(): " << Modalidades.size() << endl;
+	sort(Modalidades.begin(),Modalidades.end(),ordenaAlfaDesporto);
+	cout << "  Modalidades" << endl;
+	for(unsigned int i = 0; i < Modalidades.size();i++)
+	{
+		cout << i+1 << " - " << Modalidades[i]->getTipo() << endl;
+	}
+	system("pause");
 }
-system("pause");
-}
+
 void Campeonato::AdicionarModalidade()
 {
 	string nome,tipo;

@@ -18,10 +18,10 @@ public:
 	bool removeProva (evento * Prova);
 	string getNome();
 	bool operator == (Desporto * des) const;
-	string getDesporto() const;
+
     string getTipo() const;
     vector<evento *> getProvas() const;
-    vector<string> getNomeAtletas() const;//TODO
+    vector<string> getNomeAtletas() const;
 };
 
 

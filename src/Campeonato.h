@@ -5,6 +5,7 @@
 #include "Modalidade.h"
 #include "Equipa.h"
 #include "Infrastrutura.h"
+
 #include <sstream>
 using namespace std;
 
@@ -153,6 +154,7 @@ public:
 
 	void AtletasPorDesporto();
 
+	vector <evento*> ProvasOrganiza(unsigned int seleciona); // 0 Provas Realizadas  else Provas Por Realizar
 
 	bool ExisteEquipa(string nome) const;
 	bool ExisteAtleta(string nome) const;

@@ -4,6 +4,8 @@
 #include <vector>
 #include <ctime>
 #include <iterator>
+#include <algorithm>
+
 using namespace std;
 
 struct Data {
@@ -232,6 +234,6 @@ bool ValidaData(Data Marcacao, bool atual);
 bool bissexto(int ano);
 unsigned int diasMes(int ano, int mes);
 
-
+bool OrdenaEventosAlpha (const evento* A, const evento* B);
 
 #endif

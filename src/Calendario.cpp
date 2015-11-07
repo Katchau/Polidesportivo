@@ -21,7 +21,7 @@ bool ValidaData(Data Marcacao, bool atual)
 			unsigned int min = tempo_info->tm_min;
 			unsigned int horas = tempo_info->tm_hour;
 			unsigned int dia = tempo_info->tm_mday;
-			unsigned int mes = tempo_info->tm_mon;/* varia de 0 a 11*/
+			unsigned int mes = tempo_info->tm_mon + 1;/* varia de 0 a 11*/
 			unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
 			if( Marcacao.ano < ano )
 				return false;
@@ -112,7 +112,7 @@ void Calendario::remove_evento(evento *alpha)
 void Calendario::imprime() const
 {
 	for(unsigned int i = 0;i < eventos.size();i++){
-		cout << eventos[i]->getNome() << "Data inicial: "<<  eventos[i]->getInicial() << " data final: " << eventos[i]->getFinal() << endl;
+		cout << eventos[i]->getNome() << " Data inicial: "<<  eventos[i]->getInicial() << " Data final: " << eventos[i]->getFinal() << endl;
 	}
 }
 void Calendario::setInicio(Data inicio){
@@ -189,7 +189,7 @@ bool operator == (const Data &esquerda, const Data &direita){
 ostream& operator<<(ostream& os, const Data& dt)
 {
 	os << dt.dia << '/' << dt.mes << '/' << dt.ano;
-	os << dt.horas << ':'<<dt.minutos;
+	os << " " << dt.horas << ':'<<dt.minutos;
 	return os;
 }
 
@@ -544,4 +544,16 @@ for(unsigned int i = 0; i < lugares.size();i++)
 	Atletas.push_back(lugares[i]->getAtleta());
 }
 return Atletas;
+}
+
+bool OrdenaEventosAlpha (const evento* A, const evento* B)
+{
+	string a = A->getNome();
+	string b = B->getNome();
+	transform(a.begin(), a.end(), a.begin(), ::tolower);
+	transform(b.begin(), b.end(), b.begin(), ::tolower);
+
+	if(a < b)
+		return true;
+	return false;
 }

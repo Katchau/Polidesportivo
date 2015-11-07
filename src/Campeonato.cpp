@@ -571,18 +571,14 @@ void Campeonato::listaInfraestruturas()
 	{
 		cout << "    Infraestruturas" << endl;
 		cout << "1 - Ordem alfabetica-- por fazer" << endl;
-		cout << "2 - Onde  é a proxima prova? -- por fazer" << endl;
-		cout << "3 - Sair " << endl;
+		cout << "2 - Sair " << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
-		switch (selectMenu('1','3'))
+		switch (selectMenu('1','2'))
 		{
 		case '1':
 			InfraestruturasOrdemAlfabetica();
 			break;
-		case '2'://TODO
-			//OndeProximaProva();
-			break;
-		case '3':
+		case '2':
 			return;
 			break;
 		}
@@ -682,7 +678,7 @@ void Campeonato::menuModalidades()
 		cout << "    Modalidades" << endl;
 		cout << "1 - Ver lista de Modalidades -- testar" << endl;
 		cout << "2 - Adicionar Modalidade -- testar" << endl;
-		cout << "3 - Remover Modalidad -- testar" << endl;
+		cout << "3 - Remover Modalidade -- testar" << endl;
 		cout << "4 - Voltar atras"<< endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
@@ -709,18 +705,17 @@ void Campeonato::listaModalidades()
 	{
 		cout << "    Modalidades" << endl;
 		cout << "1 - Ordem Alfabetica" << endl;
-		cout << "2 - Proxima modalidade -- por fazer" << endl;
-		cout << "3 - Sair " << endl;
+		cout << "2 - Sair " << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
-		switch (selectMenu('1','3'))
+		switch (selectMenu('1','2'))
 		{
 		case '1':
 			OrdemAlfabeticaModalidades();
 			break;
-		case '2'://TODO
+		/*case '2'://TODO
 			//ProximaModalidade();
-			break;
-		case '3':
+			break;*/
+		case '2':
 			return;
 			break;
 		}
@@ -777,7 +772,7 @@ void Campeonato::AdicionarModalidade()
 
 }
 void Campeonato::RemoverModalidade()
-{ //TODO remover atleras das provas
+{ //TODO remover atleras das provas ou desinscrever atletas
 	do{
 		cout << "Introduza o nome do desporto : ";
 		string desp;
@@ -803,7 +798,7 @@ void Campeonato::RemoverModalidade()
 			cout << "entrou" << endl;
 
 			if(desp == Modalidades[i]->getDesporto())
-			{
+			{	vector<evento *> Provas =Modalidades[i] ->getProvas();
 				cout << "Modalidade removida " << endl;
 				delete Modalidades[i];
 				Modalidades.erase(Modalidades.begin()+i);
@@ -1025,7 +1020,42 @@ void Campeonato::removerEventos()
 				::towlower);
 	} while (resposta != "sair");
 }
+//PROVAS
+vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
+	//DATA ATUAL
+				time_t Tempo_Atual = time(NULL);
+				struct tm *tempo_info= localtime(&Tempo_Atual);
+				unsigned int sec = tempo_info->tm_sec;
+				unsigned int min = tempo_info->tm_min;
+				unsigned int horas = tempo_info->tm_hour;
+				unsigned int dia = tempo_info->tm_mday;
+				unsigned int mes = tempo_info->tm_mon + 1;/* varia de 0 a 11*/
+				unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
+	Data Atual (dia,mes,ano,horas,min,sec);
+	vector<evento *> ProvasRealizadas;
+	vector<evento *> ProvasPorRealizar;
+	for(unsigned int i = 0; i < Infraestruturas.size(); i++)
+	{ vector <evento *> Provas = Infraestruturas[i]->getCalendario()->getEventos();
+		for(unsigned int t = 0; t < Provas.size(); t ++)
+		{
+			Data Final = Provas[i]->getFinal();
+			if(Final <= Atual)
+				ProvasRealizadas.push_back(Provas[i]);
+			else
+				ProvasPorRealizar.push_back(Provas[i]);
+		}
+	}
+	if(seleciona == 0){
+		sort(ProvasRealizadas.begin(),ProvasRealizadas.end(),  OrdenaEventosAlpha);
+		return ProvasRealizadas;
+	}
 
+	else
+	{	sort(ProvasPorRealizar.begin(),ProvasPorRealizar.end(), OrdenaEventosAlpha);
+		return ProvasPorRealizar;
+	}
+//TODO TESTAR
+}
 
 void Campeonato::menuCalendario(){
 	cout << " Calendario" << endl;
@@ -1175,3 +1205,5 @@ vector<string> Campeonato::AtletasDesporto(string Desporto)
 	}
 	return Atletas;
 }
+
+

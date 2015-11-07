@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "Desporto.h"
-#include "Prova.h"
 
 class Modalidade : public Desporto {
 private:

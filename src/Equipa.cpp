@@ -33,33 +33,10 @@ bool Equipa::removeAtleta(string nome)
 
 Equipa::Equipa()
 {
-	bool valido = true;
-	do
-	{
-		cin.clear();
-		if (!valido)
-			cout << "Introduza um nome nao vazio: ";
-		else
-			cout << "Introduza o nome da equipa: ";
-
-		getline(cin, nome);
-
-		valido = false;
-
-		for (size_t i = 0; i < nome.size(); i++)
-			if (nome[i] != ' ')
-				valido = true;
-	} while (cin.eof() || !valido);
+	nome = returnInput("a equipa");
 
 	nameFile = nome + ".txt";
 
-}
-bool checkExistence(std::string filename)
-{
-	ifstream f;
-	f.open(filename.c_str());
-
-	return f.is_open();
 }
 
 Equipa::Equipa(string nome)
@@ -123,44 +100,27 @@ void Equipa::addAthletesFromFile()
 
 void Equipa::writetoFile()
 {
-	ofstream save;
-	string text_lixo;
-	save.open(nameFile.c_str()); //dafuq isto nao deu erro????
-	save << "nome: " << nome << '\n' << '\n';
-	save << "Desportos: ";
-	for(size_t i = 0;i<desportosInscritos.size();i++)
-	{
-		if(desportosInscritos.size()-i == 1)
-		{
-			save << desportosInscritos[i]->getNome() << " ;";
-		}
-		else
-		{
-			save << desportosInscritos[i]->getNome() << " | ";
-		}
+	ofstream save(nameFile.c_str());
 
-	}
-	save << '\n' << '\n' << "Atletas: " << '\n';
-	for(unsigned int i = 0;i<atletasInscritos.size();i++)
-	{
+	save << "Atletas: " << atletasInscritos.size() << "\n";
 
-		vector<Desporto *> d = atletasInscritos[i].getDesportosInsc(); //eu nao percebo o eclipse ta td fdd
-		save << "Nome: " << atletasInscritos[i].getNome() << '\n' << "Desportos: ";
-		for(size_t j = 0; j < d.size(); j++)
+	for (size_t i = 0; i < atletasInscritos.size(); i++)
+	{
+		save << "Nome: " << atletasInscritos[i].getNome() << "\n";
+
+		vector<Desporto *> modalidades = atletasInscritos[i].getDesportosInsc();
+		save << "Modalidades: " << modalidades.size() << "\n";
+
+		for (size_t j = 0; j < modalidades.size(); j++)
 		{
-			if(d.size()-j == 1)
-			{
-				save << d[j]->getNome() << " ;" << '\n';
-			}
+			save << modalidades[j]->getDesporto() << " , " << modalidades[j]->getTipo();
+
+			if (j == (modalidades.size() -1))
+				cout << " |\n";
 			else
-			{
-				save << d[j]->getNome() << " | ";
-			}
+				cout << " | ";
 		}
 	}
-
-	save << '\n' << '\n' << "Medalhas: "; //fazer dp
-	save.close();
 }
 
 string Equipa::getNomeEquipa() const

@@ -5,7 +5,7 @@
 #include <ctime>
 #include <iterator>
 #include <algorithm>
-#include "templates.h"
+#include "FuncoesAdicionais.h"
 
 using namespace std;
 

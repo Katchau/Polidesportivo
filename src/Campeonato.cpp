@@ -3,49 +3,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-string selectFile()
-{
-	string a;
-
-	bool invalido = false;
-
-	do
-	{
-		if (invalido)
-		{
-			invalido = false;
-			cout << "O ficheiro pretendido nao existe. Introduza novamente:" << endl;
-			cin.clear();
-		}
-		cout << "Nome do ficheiro de campeonato (incluindo extensao): ";
-		getline(cin, a);
-		if (cin.eof())
-			exit(1);
-		if (!checkExistence(a))
-			invalido = true;
-	} while (cin.fail() || invalido); // realiza o ciclo enquanto o ficheiro introduzido nao for valido ou nao existir;
-	return a;
-}
-
-int selectMenu(char menor, char maior)
-{
-	string linha = "";
-
-	while (linha.length() != 1)
-	{
-		getline(cin, linha);
-		if (cin.eof())
-			cin.clear();
-
-		if (linha.length() != 1 || (linha.length() == 1 && (linha[0] < menor || linha[0] > maior)))
-		{
-			cout << "Opcao invalida. Introduza a opcao pretendida: ";
-			linha = "";
-		}
-	}
-	return linha[0];
-}
-
 Data transParaData(string dataI,string horaI)
 {
 	stringstream  DATAI;
@@ -187,30 +144,14 @@ Campeonato::Campeonato(const string &filename)
 
 Campeonato::Campeonato()
 {
-	bool valido = true;
-	do
-	{
-		cin.clear();
-		if (!valido)
-			cout << "Introduza um nome nao vazio: ";
-		else
-			cout << "Introduza o nome do campeonato: ";
-
-		getline(cin, nome);
-
-		valido = false;
-
-		for (size_t i = 0; i < nome.size(); i++)
-			if (nome[i] != ' ')
-				valido = true;
-
-	} while (cin.eof() || !valido);
-
+	nome = returnInput("o campeonato");
 }
 
 void Campeonato::menuCampeonato()
 {
-	while(1)
+	bool sair = false;
+
+	while (!sair)
 	{
 		cout << "    " << nome << endl;
 		cout << "1 - Equipas" << endl;
@@ -235,10 +176,13 @@ void Campeonato::menuCampeonato()
 			menuCalendario();
 			break;
 		case '5':
-			return;
+			sair = true;
 			break;
 		}
 	};
+
+	gravarCampeonato();
+	return;
 }
 //MENU EQUIPAS
 void Campeonato::menuEquipas()
@@ -318,39 +262,9 @@ void Campeonato::removeAtleta()
 	bool valido = true;
 	string nome, equipa;
 
-	do
-	{
-		cin.clear();
+	nome = returnInput("o atleta");
 
-		if (!valido)
-			cout << "Introduza um nome nao vazio: ";
-		else
-			cout << "Introduza o nome do atleta: ";
-		getline(cin, nome);
-
-		valido = false;
-
-		for (size_t i = 0; i < nome.size(); i++)
-			if (nome[i] != ' ')
-				valido = true;
-	} while(cin.eof() || !valido);
-
-	do
-	{
-		cin.clear();
-
-		if (!valido)
-			cout << "Introduza um nome nao vazio: ";
-		else
-			cout << "Introduza o nome da equipa: ";
-		getline(cin, equipa);
-
-		valido = false;
-
-		for (size_t i = 0; i < equipa.size(); i++)
-			if (equipa[i] != ' ')
-				valido = true;
-	} while(cin.eof() || !valido);
+	equipa = returnInput("a equipa");
 
 	if(ExisteEquipa(equipa))
 	{
@@ -502,7 +416,7 @@ void Campeonato::listaEquipas(){
 	cout << "    Lista de Equipas" << endl;
 	cout << "1 - Por odem alfabetica" << endl;
 	cout << "2 - Por pontuacao -- por fazer" << endl;
-	cout << "3 - Sair" << endl;
+	cout << "3 - Voltar atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 
 	switch (selectMenu('1','3'))
@@ -523,7 +437,7 @@ void Campeonato::EquipasOrdemAlfabetica()
 {
 	sort (Equipas.begin(), Equipas.end(), ordenaAlfaEquipa);
 	cout << "    Equipas" << endl;
-	cout << "Número de equipas: " << Equipas.size()  << endl;
+	cout << "Numero de equipas: " << Equipas.size()  << endl;
 	for(unsigned int i = 0; i < Equipas.size(); i++)
 	{
 		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
@@ -560,24 +474,7 @@ void Campeonato::removerEquipa()
 
 	while (removida == false)
 	{
-		bool valido = true;
-
-		do
-		{
-			cin.clear();
-			if (!valido)
-				cout << "Introduza um nome nao vazio: ";
-			else
-				cout << "Introduza o nome da Equipa a remover: ";
-
-			getline(cin, nome);
-
-			valido = false;
-
-			for (size_t i = 0; i < nome.size(); i++)
-				if (nome[i] != ' ')
-					valido = true;
-		} while (cin.eof() || !valido);
+		nome = returnInput("a equipa a remover");
 
 		for (size_t i = 0; i < Equipas.size(); i++)
 			if (Equipas[i].getNomeEquipa() == nome)
@@ -601,7 +498,7 @@ void Campeonato::menuInfraestruturas()
 		cout << "1 - Ver lista de infraestruturas" << endl;
 		cout << "2 - Adicionar infraestrutura" << endl;
 		cout << "3 - Remover infraestrutura -- 50/50" << endl;
-		cout << "4 - Sair " << endl;
+		cout << "4 - Voltar Atras " << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 		switch (selectMenu('1','4'))
 		{
@@ -627,7 +524,7 @@ void Campeonato::listaInfraestruturas()
 	{
 		cout << "    Infraestruturas" << endl;
 		cout << "1 - Ordem alfabetica-- por fazer" << endl;
-		cout << "2 - Sair " << endl;
+		cout << "2 - Voltar Atras " << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 		switch (selectMenu('1','2'))
 		{
@@ -761,7 +658,7 @@ void Campeonato::listaModalidades()
 	{
 		cout << "    Modalidades" << endl;
 		cout << "1 - Ordem Alfabetica" << endl;
-		cout << "2 - Sair " << endl;
+		cout << "2 - Voltar Atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 		switch (selectMenu('1','2'))
 		{
@@ -954,7 +851,7 @@ void Campeonato::listaCalendarios(){
 	cout << " Calendarios: Identifique qual calendario a ver" << endl;
 	cout << "1 - Todos os calendarios" << endl;
 	cout << "2 - Calendario de Apenas 1 InfraEstrutra" << endl;
-	cout << "3 - Sair " << endl;
+	cout << "3 - Voltar Atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 	switch (selectMenu('1','3'))
 	{
@@ -1326,7 +1223,7 @@ void Campeonato::menuProvas() {
 	cout << "1 - Ver todas os Resultados" << getNome() << endl;
 	cout << "2 - Adicionar Provas realizadas pelos Atletas" << endl;
 	cout << "3 - Remover Provas realizadas pelos Atleta" << endl;
-	cout << "4 - Sair " << endl;
+	cout << "4 - Voltar Atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 	switch (selectMenu('1', '4')) {
 	case '1':
@@ -1353,7 +1250,7 @@ void Campeonato::menuCalendario(){
 	cout << "2 - Adicionar Evento ao Calendario" << endl;
 	cout << "3 - Remover Evento do Calendario" << endl;
 	cout << "4 - Menu Provas" << endl;
-	cout << "5 - Sair " << endl;
+	cout << "5 - Voltar Atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 	switch (selectMenu('1','5'))
 	{
@@ -1380,32 +1277,9 @@ void Campeonato::menuCalendario(){
 
 void Campeonato::gravarCampeonato()
 {
-	ofstream save;
-	string nomeficheiro = nome + ".txt";
-	save << "Equipas:" << '\n';
-	for(unsigned int i = 0;i<Equipas.size();i++)
+	for (size_t i = 0; i < Equipas.size(); i++)
 	{
-		save << Equipas[i].getNomeEquipa() << '\n';
-	}
-	save << '\n' << "Infraestruturas:" << '\n';
-
-	for(unsigned int i = 0;i<Infraestruturas.size();i++)
-	{
-		save << Infraestruturas[i]->getNome() << '\n';
-	}
-
-	save << '\n' << "Modalidades:" << '\n';
-
-	for(unsigned int i = 0;i < Modalidades.size();i++)
-	{
-		if(Modalidades.size()-i == 1)
-		{
-			save << Modalidades[i]->getNome() << " ." << '\n';
-		}
-		else
-		{
-			save << Modalidades[i]->getNome() << " ," << '\n';
-		}
+		Equipas[i].writetoFile();
 	}
 
 	//TODO

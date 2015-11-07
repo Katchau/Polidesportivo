@@ -112,18 +112,29 @@ Campeonato::Campeonato(const string &filename)
 	}
 
 	ReadConfig.ignore(100,'\n');
-	while(desporto != ".")
+	string tmp = "";
+	cout << "entrou " << endl;
+	ReadConfig >> desporto;
+	ReadConfig >> tmp;
+	while (tmp != ",")
 	{
-		cout << "entrou " << endl;
-		ReadConfig >> desporto;
-		cout << desporto << endl;
-		ReadConfig.ignore(3);
-		ReadConfig >> modalidade;
-		cout << modalidade << endl;
-		Desporto * p = new Modalidade(desporto, modalidade);
-		Modalidades.push_back(p);
-		ReadConfig >> desporto;
+		desporto += tmp;
+		ReadConfig >> tmp;
 	}
+	cout << desporto << endl;
+	tmp = "";
+	ReadConfig >> modalidade;
+	ReadConfig >> tmp;
+	while (tmp != "," && tmp != ".")
+	{
+		modalidade += tmp;
+		ReadConfig >> tmp;
+	}
+	cout << modalidade << endl;
+	Desporto * p = new Modalidade(desporto, modalidade);
+	Modalidades.push_back(p);
+	ReadConfig >> desporto;
+
 
 	//falta a parte das provas e whatnot
 	// codigo do Jonas, esta no git na versao anterior.Updated, ainda nao testei
@@ -277,19 +288,19 @@ void Campeonato::adicionaAtleta()
 		continue;
 	}
 	if(ExisteEquipa(equipa))
+	{
+		cout << " Equipa ja existe !" << endl;
+		if(AdicionaAtletaEquipa(Atleta,equipa))
 		{
-			cout << " Equipa ja existe !" << endl;
-			if(AdicionaAtletaEquipa(Atleta,equipa))
-				{
-					cout << "Atleta adicionado " << endl;
-					return;
-				}
-				else
-				{
-					cout << "Nao foi possivel adicionar o atleta " << endl;
-					continue;
-				}
+			cout << "Atleta adicionado " << endl;
+			return;
 		}
+		else
+		{
+			cout << "Nao foi possivel adicionar o atleta " << endl;
+			continue;
+		}
+	}
 	else
 	{
 		cout << "A equipa nao existe!" << endl;
@@ -381,9 +392,9 @@ void Campeonato::AtletasPorModalidade()
 		sort(Atletas.begin(),Atletas.end());
 		cout << "Atletas size:" << Atletas.size() << endl;
 		for(unsigned int k = 0; k < Atletas.size();k++)
-			{
-				cout << Atletas[k] << endl;
-			}
+		{
+			cout << Atletas[k] << endl;
+		}
 
 	}
 	//TODO testar
@@ -718,7 +729,7 @@ void Campeonato::listaModalidades()
 		case '1':
 			OrdemAlfabeticaModalidades();
 			break;
-		/*case '2'://TODO
+			/*case '2'://TODO
 			//ProximaModalidade();
 			break;*/
 		case '2':
@@ -805,11 +816,11 @@ void Campeonato::RemoverModalidade()
 
 			if(desp == Modalidades[i]->getDesporto())
 			{	 RemoveModalidadeAtletas(desp,mod); //remove a modalidade das equipas e Atletas
-				 RemoveEventosInfra(mod);
-				cout << "Modalidade removida " << endl;
-				delete Modalidades[i];
-				Modalidades.erase(Modalidades.begin()+i);
-				return;
+			RemoveEventosInfra(mod);
+			cout << "Modalidade removida " << endl;
+			delete Modalidades[i];
+			Modalidades.erase(Modalidades.begin()+i);
+			return;
 			}
 		}
 
@@ -1030,27 +1041,27 @@ void Campeonato::removerEventos()
 //PROVAS
 vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 	//DATA ATUAL
-				time_t Tempo_Atual = time(NULL);
-				struct tm *tempo_info= localtime(&Tempo_Atual);
-				unsigned int sec = tempo_info->tm_sec;
-				unsigned int min = tempo_info->tm_min;
-				unsigned int horas = tempo_info->tm_hour;
-				unsigned int dia = tempo_info->tm_mday;
-				unsigned int mes = tempo_info->tm_mon + 1;/* varia de 0 a 11*/
-				unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
+	time_t Tempo_Atual = time(NULL);
+	struct tm *tempo_info= localtime(&Tempo_Atual);
+	unsigned int sec = tempo_info->tm_sec;
+	unsigned int min = tempo_info->tm_min;
+	unsigned int horas = tempo_info->tm_hour;
+	unsigned int dia = tempo_info->tm_mday;
+	unsigned int mes = tempo_info->tm_mon + 1;/* varia de 0 a 11*/
+	unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
 	Data Atual (dia,mes,ano,horas,min,sec);
 	vector<evento *> ProvasRealizadas;
 	vector<evento *> ProvasPorRealizar;
 	for(unsigned int i = 0; i < Infraestruturas.size(); i++)
 	{ vector <evento *> Provas = Infraestruturas[i]->getCalendario()->getEventos();
-		for(unsigned int t = 0; t < Provas.size(); t ++)
-		{
-			Data Final = Provas[i]->getFinal();
-			if(Final <= Atual)
-				ProvasRealizadas.push_back(Provas[i]);
-			else
-				ProvasPorRealizar.push_back(Provas[i]);
-		}
+	for(unsigned int t = 0; t < Provas.size(); t ++)
+	{
+		Data Final = Provas[i]->getFinal();
+		if(Final <= Atual)
+			ProvasRealizadas.push_back(Provas[i]);
+		else
+			ProvasPorRealizar.push_back(Provas[i]);
+	}
 	}
 	if(seleciona == 0){
 		sort(ProvasRealizadas.begin(),ProvasRealizadas.end(),  OrdenaEventosAlpha);
@@ -1059,9 +1070,9 @@ vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 
 	else
 	{	sort(ProvasPorRealizar.begin(),ProvasPorRealizar.end(), OrdenaEventosAlpha);
-		return ProvasPorRealizar;
+	return ProvasPorRealizar;
 	}
-//TODO TESTAR
+	//TODO TESTAR
 }
 
 void Campeonato::menuCalendario(){
@@ -1149,12 +1160,12 @@ bool Campeonato::ExisteAtleta(string nome) const
 bool Campeonato::AdicionaAtletaEquipa(string Atleta,string Equipa)
 {
 	cout << "Equipa : " << Equipa << endl;
-		cout << "Atleta : " << Atleta << endl;
+	cout << "Atleta : " << Atleta << endl;
 	for(unsigned int i = 0; i < Equipas.size();i++)
 	{
 		if(Equipa == Equipas[i].getNomeEquipa())
 		{	cout << " Entrou " << endl;
-			return Equipas[i].addAtleta(Atleta);
+		return Equipas[i].addAtleta(Atleta);
 		}
 	}
 	return false;
@@ -1230,10 +1241,10 @@ void Campeonato::RemoveEventosInfra(string modalidade)
 		vector<evento* > Provas = Infraestruturas[i]->getCalendario()->getEventos();
 		for(unsigned int k = 0; k < Provas.size(); k++)
 		{	cout << "Prova NOME : " << Provas[k]->getNome() << endl;
-			if(Provas[k]->getNome() == modalidade)
-			{
-				Infraestruturas[i]->getCalendario() ->remove_evento(Provas[k]);
-			}
+		if(Provas[k]->getNome() == modalidade)
+		{
+			Infraestruturas[i]->getCalendario() ->remove_evento(Provas[k]);
+		}
 		}
 	}
 }

@@ -23,7 +23,7 @@ public:
     Atleta(string nome);
     bool adicionaDesporto(Desporto *d);
     bool removeDesporto(Desporto * d);
-
+    bool removeModalidade(string desporto,string modalidade);
     class DesportoInexistente
     {};
 
@@ -34,6 +34,7 @@ public:
     string getNome() const;
     void classificacaoFinal(Desporto * des); //not yeti ready
     bool operator == (const Atleta& atl) const;
+
 };
 bool ordenaAlfaAtletas(const Atleta A, const Atleta B);
 #endif

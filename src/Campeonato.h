@@ -5,6 +5,7 @@
 #include "Modalidade.h"
 #include "Equipa.h"
 #include "Infrastrutura.h"
+#include "Atleta.h"
 
 #include <sstream>
 using namespace std;

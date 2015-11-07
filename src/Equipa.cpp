@@ -215,17 +215,23 @@ bool ordenaAlfaEquipa(const Equipa A, const Equipa B){
 	return false;
 }
 void Equipa::removeModalidade(string desporto,string modalidade){
-	Desporto * Desport;
-	for(unsigned int i = 0; i < desportosInscritos.size();i++)
+
+	unsigned int i ;
+	cout << "DESPORTOS INCRITOS SIZE :" <<desportosInscritos.size() << endl;
+	for( i = 0; i < desportosInscritos.size();i++)
 	{
+
 		if(desporto == desportosInscritos[i]->getDesporto() && modalidade == desportosInscritos[i]->getDesporto())
-		{	Desport = desportosInscritos[i];
+		{
+
+			cout << "Apagar modalidade da equipa" << endl;
 			desportosInscritos.erase(desportosInscritos.begin() + i);
 			break;
 		}
 	}
 	for(unsigned int i = 0; i < atletasInscritos.size(); i++)
-	{
-		atletasInscritos[i].removeDesporto(Desport);
+	{ cout << "Apagar desporto do Atleta" << endl;
+		atletasInscritos[i].removeModalidade(desporto, modalidade);
 	}
+
 }

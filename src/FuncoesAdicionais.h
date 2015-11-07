@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <cstdlib>
 
 std::string returnInput(std::string s1);
 bool checkExistence(std::string filename);

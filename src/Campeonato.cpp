@@ -931,7 +931,7 @@ void Campeonato::totalCalendario()
 	for(unsigned int i =0;i<Infraestruturas.size();i++)
 	{
 		cout << Infraestruturas[i]->getNome() << endl;
-		Infraestruturas[i]->imprimeCalendario(); //choo choo comboio powaa
+		Infraestruturas[i]->imprimeCalendario();
 		cout << endl;
 	}
 	system("pause");

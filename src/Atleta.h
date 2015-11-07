@@ -66,7 +66,7 @@ public:
 	 */
 	string getNome() const;
 
-	void classificacaoFinal(Desporto * des); // TODO not ready
+	void classificacaoFinal(Desporto * des); // TODO nao esta feito
 
 	/*
 	 * @param atleta a comparar

@@ -130,15 +130,25 @@ public:
 	 * o calendario do campeonato
 	 */
 	void menuCalendario();
-
+	/*
+	 * Faz display do calendario de todas as infraestruturas
+	 */
 	void totalCalendario();
-
+	/*
+	 * Faz display do calendario de apenas uma infraestrutura
+	 */
 	void calendarioInfra();
-
+	/*
+	 * Faz display de um menu que permite escolher qual o calendario que se pretende visualizar
+	 */
 	void listaCalendarios();
-
+	/*
+	 * Permite adicionar um evento, permitindo ao utilizador escolher a infraestrutura e as caracteristicas do evento
+	 */
 	void adicionarEventos();
-
+	/*
+	 * Permite adicionar um evento, permitindo ao utilizador escolher a infraestrutura e as caracteristicas do evento
+	 */
 	void removerEventos();
 
 	void menuProvas();

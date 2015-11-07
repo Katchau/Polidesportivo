@@ -188,7 +188,23 @@ Campeonato::Campeonato(const string &filename)
 Campeonato::Campeonato()
 {
 	bool valido = true;
-	nome = returnInput("o campeonato");
+	do
+	{
+		cin.clear();
+		if (!valido)
+			cout << "Introduza um nome nao vazio: ";
+		else
+			cout << "Introduza o nome do campeonato: ";
+
+		getline(cin, nome);
+
+		valido = false;
+
+		for (size_t i = 0; i < nome.size(); i++)
+			if (nome[i] != ' ')
+				valido = true;
+
+	} while (cin.eof() || !valido);
 
 }
 
@@ -302,8 +318,39 @@ void Campeonato::removeAtleta()
 	bool valido = true;
 	string nome, equipa;
 
-	nome = returnInput("o atleta");
-	equipa = returnInput("a equipa");
+	do
+	{
+		cin.clear();
+
+		if (!valido)
+			cout << "Introduza um nome nao vazio: ";
+		else
+			cout << "Introduza o nome do atleta: ";
+		getline(cin, nome);
+
+		valido = false;
+
+		for (size_t i = 0; i < nome.size(); i++)
+			if (nome[i] != ' ')
+				valido = true;
+	} while(cin.eof() || !valido);
+
+	do
+	{
+		cin.clear();
+
+		if (!valido)
+			cout << "Introduza um nome nao vazio: ";
+		else
+			cout << "Introduza o nome da equipa: ";
+		getline(cin, equipa);
+
+		valido = false;
+
+		for (size_t i = 0; i < equipa.size(); i++)
+			if (equipa[i] != ' ')
+				valido = true;
+	} while(cin.eof() || !valido);
 
 	if(ExisteEquipa(equipa))
 	{

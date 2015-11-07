@@ -5,7 +5,22 @@ using namespace std;
 Infraestrutura::Infraestrutura()
 {
 	bool valido = true;
-	Nome = returnInput("a infraestrutura");
+	do
+	{
+		cin.clear();
+		if (!valido)
+			cout << "Introduza um nome nao vazio: ";
+		else
+			cout << "Introduza o nome da infraestrutura: ";
+
+		getline(cin, Nome);
+
+		valido = false;
+
+		for (size_t i = 0; i < Nome.size(); i++)
+			if (Nome[i] != ' ')
+				valido = true;
+	} while (cin.eof() || !valido);
 }
 
 Infraestrutura::Infraestrutura(string Nome){

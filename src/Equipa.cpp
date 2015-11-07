@@ -1,35 +1,34 @@
 #include "Equipa.h"
 
-
-int Equipa::idN = 0;
-
 Equipa::EquipaNaoExistente::EquipaNaoExistente(string nomeficheiro)
 {
 	this->nomeficheiro = nomeficheiro;
 }
 
-void Equipa::atualizarID()
+bool Equipa::addAtleta(string nome)
 {
-	idN++;
-}
-
-bool Equipa::addAtleta(string nome) //falta a condicao para false
-{
-
- Atleta atleta(nome);
- cout << "Atletas Inscritos  "<< atletasInscritos.size() << endl;
- vector<Atleta> temp = atletasInscritos;
- adicionaVetor(temp,atleta);
- setAtletas(temp);
- cout << "Atletas Inscritos apos adicionar: "<< atletasInscritos.size() << endl;
- return true;
+	Atleta atleta(nome);
+	cout << "Atletas Inscritos  "<< atletasInscritos.size() << endl;
+	if (sequentialSearch(atletasInscritos, atleta) == -1)
+	{
+		vector<Atleta> temp = atletasInscritos;
+		adicionaVetor(temp,atleta);
+		setAtletas(temp);
+		cout << "Atletas Inscritos apos adicionar: "<< atletasInscritos.size() << endl;
+		return true;
+	}
+	return false;
 }
 
 bool Equipa::removeAtleta(string nome)
-{ vector<Atleta> temp = atletasInscritos;
- Atleta Sai(nome);
- removeVetor(temp,Sai);
- setAtletas(temp);
+{
+	Atleta Sai(nome);
+	if (sequentialSearch(atletasInscritos, Sai) == -1)
+		return false;
+	vector<Atleta> temp = atletasInscritos;
+	removeVetor(temp,Sai);
+	setAtletas(temp);
+	return true;
 }
 
 Equipa::Equipa()
@@ -52,8 +51,6 @@ Equipa::Equipa()
 				valido = true;
 	} while (cin.eof() || !valido);
 
-	atualizarID();
-
 	nameFile = nome + ".txt";
 
 }
@@ -67,9 +64,7 @@ bool checkExistence(std::string filename)
 
 Equipa::Equipa(string nome)
 {
-
 	this->nome = nome;
-	atualizarID();
 	nameFile = nome + ".txt";
 
 	if(checkExistence(nameFile))
@@ -78,8 +73,6 @@ Equipa::Equipa(string nome)
 	}
 	else throw Equipa::EquipaNaoExistente(nameFile);
 }
-
-
 
 void Equipa::addAthletesFromFile()
 {
@@ -118,22 +111,9 @@ void Equipa::addAthletesFromFile()
 				if (tmp != "," && tmp != "|")
 					modalidade += tmp;
 			} while (tmp != "," && tmp != "|");
-			/*
-			if (tmp == ",")
-			{
-				tmp = "";
-				do
-				{
-					especialidade += tmp;
-					Read >> tmp;
-				} while (tmp != "|");
-			}
 
-			Modalidade mod(desporto, modalidade);
-			Desporto* pmod = &mod;
-			*/
 			Desporto * pmod = new Modalidade(desporto, modalidade);
-			tmpatl.adicionaDesporto(pmod);
+			tmpatl.adicionaModalidade(pmod);
 
 			adicionaVetor(desportosInscritos, pmod);
 		}
@@ -195,11 +175,11 @@ vector<Atleta> Equipa::getAtletas() const
 
 void Equipa::setAtletas(vector<Atleta> Atletas)
 {
- atletasInscritos = Atletas;
+	atletasInscritos = Atletas;
 }
 
 bool Equipa::operator == (const Equipa& eqi) const
-				{
+										{
 	string nome1 = nome;
 	string nome2 = eqi.nome;
 	if(nome1 == nome2)
@@ -207,7 +187,7 @@ bool Equipa::operator == (const Equipa& eqi) const
 		return true;
 	}
 	else return false;
-				}
+										}
 bool ordenaAlfaEquipa(const Equipa A, const Equipa B){
 	string a = A.getNomeEquipa();
 	string b = B.getNomeEquipa();
@@ -235,7 +215,7 @@ void Equipa::removeModalidade(string desporto,string modalidade){
 	}
 	for(unsigned int i = 0; i < atletasInscritos.size(); i++)
 	{ cout << "Apagar desporto do Atleta" << endl;
-		atletasInscritos[i].removeModalidade(desporto, modalidade);
+	atletasInscritos[i].removeModalidade(desporto, modalidade);
 	}
 
 }

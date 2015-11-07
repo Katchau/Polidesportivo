@@ -2,10 +2,7 @@
 #include "Calendario.h"
 #include "Campeonato.h"
 
-bool checkExistence(std::string filename);
-string selectFile();
 void menu();
-int selectMenu(char menor, char maior);
 void criarCampeonato();
 void carregarCampeonato();
 void sobre();

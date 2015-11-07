@@ -27,7 +27,7 @@ Atleta::Atleta(string nome)
 	this->nome = nome;
 }
 
-bool Atleta::adicionaDesporto(Desporto *d)
+bool Atleta::adicionaModalidade(Desporto *d)
 {
 	bool existe = false;
 
@@ -46,30 +46,6 @@ bool Atleta::adicionaDesporto(Desporto *d)
 	desportosInscrito.push_back(d);
 
 	return true;
-	//this shall not work!
-	//if(!adicionaVetor(desportosInscrito, d))
-	//throw DesportoRepetido();
-	//
-	//return true;
-}
-
-bool Atleta::removeDesporto(Desporto *d)
-{	cout <<"Entrou remove Desporto" << endl;
-	cout << desportosInscrito.size() << endl;
-	showDesportos();
-
-
-	for (unsigned int i = 0; i < desportosInscrito.size(); i++) {
-		cout << desportosInscrito[i]->getDesporto();
-		cout << d->getDesporto() << endl;
-		if (desportosInscrito[i]->getNome() == d->getNome()) {
-			desportosInscrito.erase(desportosInscrito.begin() + i);
-			return true;
-		}
-	}
-	//throw DesportoInexistente();
-
-	return false;
 }
 
 bool Atleta::removeModalidade(string desporto,string modalidade)

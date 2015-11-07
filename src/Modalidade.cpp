@@ -13,7 +13,15 @@ bool Modalidade::adicionaProva(evento * evento)
 
 bool Modalidade::removeProva(evento * evento)
 {
-	return removeVetor(Provas, evento);
+	for(unsigned int i=0;i<Provas.size();i++)
+	{
+		if(Provas[i]->getNome() == evento->getNome())
+		{
+			Provas.erase(Provas.begin()+i);
+			return true;
+		}
+	}
+	return false;
 
 }
 

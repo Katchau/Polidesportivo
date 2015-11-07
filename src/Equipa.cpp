@@ -1,76 +1,47 @@
 #include "Equipa.h"
 
-
-int Equipa::idN = 0;
-
 Equipa::EquipaNaoExistente::EquipaNaoExistente(string nomeficheiro)
 {
 	this->nomeficheiro = nomeficheiro;
 }
 
-void Equipa::atualizarID()
+bool Equipa::addAtleta(string nome)
 {
-	idN++;
-}
-
-bool Equipa::addAtleta(string nome) //falta a condicao para false
-{
-	Atleta atl(nome);
-	return adicionaVetor(atletasInscritos, atl);
-}
-
-bool Equipa::removeAtleta(string nome)
-{
-	for(vector<Atleta>::iterator it = atletasInscritos.begin();it!=atletasInscritos.end();it++)
+	Atleta atleta(nome);
+	cout << "Atletas Inscritos  "<< atletasInscritos.size() << endl;
+	if (sequentialSearch(atletasInscritos, atleta) == -1)
 	{
-		if(it->getNome() == nome)
-		{
-			atletasInscritos.erase(it);
-			it--;
-			return true;
-		}
+		vector<Atleta> temp = atletasInscritos;
+		adicionaVetor(temp,atleta);
+		setAtletas(temp);
+		cout << "Atletas Inscritos apos adicionar: "<< atletasInscritos.size() << endl;
+		return true;
 	}
 	return false;
 }
 
+bool Equipa::removeAtleta(string nome)
+{
+	Atleta Sai(nome);
+	if (sequentialSearch(atletasInscritos, Sai) == -1)
+		return false;
+	vector<Atleta> temp = atletasInscritos;
+	removeVetor(temp,Sai);
+	setAtletas(temp);
+	return true;
+}
+
 Equipa::Equipa()
 {
-	bool valido = true;
-	do
-	{
-		cin.clear();
-		if (!valido)
-			cout << "Introduza um nome nao vazio: ";
-		else
-			cout << "Introduza o nome da equipa: ";
-
-		getline(cin, nome);
-
-		valido = false;
-
-		for (size_t i = 0; i < nome.size(); i++)
-			if (nome[i] != ' ')
-				valido = true;
-	} while (cin.eof() || !valido);
-
-	atualizarID();
+	nome = returnInput("a equipa");
 
 	nameFile = nome + ".txt";
 
 }
-bool checkExistence(std::string filename)
-{
-	ifstream f;
-	f.open(filename.c_str());
-
-	return f.is_open();
-}
 
 Equipa::Equipa(string nome)
 {
-
 	this->nome = nome;
-	atualizarID();
 	nameFile = nome + ".txt";
 
 	if(checkExistence(nameFile))
@@ -79,8 +50,6 @@ Equipa::Equipa(string nome)
 	}
 	else throw Equipa::EquipaNaoExistente(nameFile);
 }
-
-
 
 void Equipa::addAthletesFromFile()
 {
@@ -119,22 +88,9 @@ void Equipa::addAthletesFromFile()
 				if (tmp != "," && tmp != "|")
 					modalidade += tmp;
 			} while (tmp != "," && tmp != "|");
-			/*
-			if (tmp == ",")
-			{
-				tmp = "";
-				do
-				{
-					especialidade += tmp;
-					Read >> tmp;
-				} while (tmp != "|");
-			}
 
-			Modalidade mod(desporto, modalidade);
-			Desporto* pmod = &mod;
-			*/
 			Desporto * pmod = new Modalidade(desporto, modalidade);
-			tmpatl.adicionaDesporto(pmod);
+			tmpatl.adicionaModalidade(pmod);
 
 			adicionaVetor(desportosInscritos, pmod);
 		}
@@ -144,44 +100,27 @@ void Equipa::addAthletesFromFile()
 
 void Equipa::writetoFile()
 {
-	ofstream save;
-	string text_lixo;
-	save.open(nameFile.c_str()); //dafuq isto nao deu erro????
-	save << "nome: " << nome << '\n' << '\n';
-	save << "Desportos: ";
-	for(size_t i = 0;i<desportosInscritos.size();i++)
-	{
-		if(desportosInscritos.size()-i == 1)
-		{
-			save << desportosInscritos[i]->getNome() << " ;";
-		}
-		else
-		{
-			save << desportosInscritos[i]->getNome() << " | ";
-		}
+	ofstream save(nameFile.c_str());
 
-	}
-	save << '\n' << '\n' << "Atletas: " << '\n';
-	for(unsigned int i = 0;i<atletasInscritos.size();i++)
-	{
+	save << "Atletas: " << atletasInscritos.size() << "\n";
 
-		vector<Desporto *> d = atletasInscritos[i].getDesportosInsc(); //eu nao percebo o eclipse ta td fdd
-		save << "Nome: " << atletasInscritos[i].getNome() << '\n' << "Desportos: ";
-		for(size_t j = 0; j < d.size(); j++)
+	for (size_t i = 0; i < atletasInscritos.size(); i++)
+	{
+		save << "Nome: " << atletasInscritos[i].getNome() << "\n";
+
+		vector<Desporto *> modalidades = atletasInscritos[i].getDesportosInsc();
+		save << "Modalidades: " << modalidades.size() << "\n";
+
+		for (size_t j = 0; j < modalidades.size(); j++)
 		{
-			if(d.size()-j == 1)
-			{
-				save << d[j]->getNome() << " ;" << '\n';
-			}
+			save << modalidades[j]->getDesporto() << " , " << modalidades[j]->getTipo();
+
+			if (j == (modalidades.size() -1))
+				cout << " |\n";
 			else
-			{
-				save << d[j]->getNome() << " | ";
-			}
+				cout << " | ";
 		}
 	}
-
-	save << '\n' << '\n' << "Medalhas: "; //fazer dp
-	save.close();
 }
 
 string Equipa::getNomeEquipa() const
@@ -194,8 +133,13 @@ vector<Atleta> Equipa::getAtletas() const
 	return atletasInscritos;
 }
 
+void Equipa::setAtletas(vector<Atleta> Atletas)
+{
+	atletasInscritos = Atletas;
+}
+
 bool Equipa::operator == (const Equipa& eqi) const
-				{
+										{
 	string nome1 = nome;
 	string nome2 = eqi.nome;
 	if(nome1 == nome2)
@@ -203,7 +147,7 @@ bool Equipa::operator == (const Equipa& eqi) const
 		return true;
 	}
 	else return false;
-				}
+										}
 bool ordenaAlfaEquipa(const Equipa A, const Equipa B){
 	string a = A.getNomeEquipa();
 	string b = B.getNomeEquipa();
@@ -231,7 +175,7 @@ void Equipa::removeModalidade(string desporto,string modalidade){
 	}
 	for(unsigned int i = 0; i < atletasInscritos.size(); i++)
 	{ cout << "Apagar desporto do Atleta" << endl;
-		atletasInscritos[i].removeModalidade(desporto, modalidade);
+	atletasInscritos[i].removeModalidade(desporto, modalidade);
 	}
 
 }

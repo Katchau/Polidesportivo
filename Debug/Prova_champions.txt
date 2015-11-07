@@ -1,0 +1,41 @@
+Evento das patacas
+TEMPO
+Natacao
+Costas
+12/10/2005
+15:30:00
+12/10/2005
+16:30:00
+Emirates
+Jaquim
+00:12:12
+Manel
+00:12:13
+
+Bananas alala
+TEMPO
+Natacao
+Costas
+13/10/2005
+15:30:00
+13/10/2005
+16:30:00
+San Siro
+Jaquim
+00:12:12
+Manel
+00:12:13
+
+Liga europa
+PONTO
+Futebol
+Futebol de 11
+12/10/2005
+17:15:00
+15/10/2025
+19:30:00
+Cu de Judas
+Jaquim
+14
+Manel
+12

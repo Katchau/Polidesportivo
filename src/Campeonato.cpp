@@ -941,7 +941,7 @@ void Campeonato::adicionarEventos()
 			cin.clear();
 			cin.ignore(100, '\n');
 			cin >> tipo;
-			if(tipo == "tempo" || tipo == "pontos")
+			if(tipo == "TEMPO" || tipo == "PONTO")
 			{
 				valid = true;
 			}
@@ -983,8 +983,10 @@ void Campeonato::adicionarEventos()
 		Infraestruturas[indice]->adicionaEvento(ev);
 		int n_next = Infraestruturas[indice]->Neventos();
 		if (n_next != n) {
-			cout << "Para que modalidade? (do genero Atletismo , Sprint"
+			cout << "Para que modalidade? (do genero Atletismo , Sprint)"
 					<< endl;
+			cin.clear();
+			cin.ignore(100,'\n');
 			getline(cin, modalidade);
 			for (unsigned int j = 0; j < Modalidades.size(); j++) {
 				if (modalidade == Modalidades[j]->getNome()) {
@@ -1014,7 +1016,7 @@ void Campeonato::removerEventos()
 			cin.clear();
 			cin.ignore(100, '\n');
 			cin >> tipo;
-			if (tipo == "tempo" || tipo == "pontos") {
+			if (tipo == "TEMPO" || tipo == "PONTO") {
 				valid = true;
 			}
 		}
@@ -1045,27 +1047,27 @@ void Campeonato::removerEventos()
 //PROVAS
 vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 	//DATA ATUAL
-	time_t Tempo_Atual = time(NULL);
-	struct tm *tempo_info= localtime(&Tempo_Atual);
-	unsigned int sec = tempo_info->tm_sec;
-	unsigned int min = tempo_info->tm_min;
-	unsigned int horas = tempo_info->tm_hour;
-	unsigned int dia = tempo_info->tm_mday;
-	unsigned int mes = tempo_info->tm_mon + 1;/* varia de 0 a 11*/
-	unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
+				time_t Tempo_Atual = time(NULL);
+				struct tm *tempo_info= localtime(&Tempo_Atual);
+				unsigned int sec = tempo_info->tm_sec;
+				unsigned int min = tempo_info->tm_min;
+				unsigned int horas = tempo_info->tm_hour;
+				unsigned int dia = tempo_info->tm_mday;
+				unsigned int mes = tempo_info->tm_mon + 1;/* varia de 0 a 11*/
+				unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
 	Data Atual (dia,mes,ano,horas,min,sec);
 	vector<evento *> ProvasRealizadas;
 	vector<evento *> ProvasPorRealizar;
 	for(unsigned int i = 0; i < Infraestruturas.size(); i++)
 	{ vector <evento *> Provas = Infraestruturas[i]->getCalendario()->getEventos();
-	for(unsigned int t = 0; t < Provas.size(); t ++)
-	{
-		Data Final = Provas[i]->getFinal();
-		if(Final <= Atual)
-			ProvasRealizadas.push_back(Provas[i]);
-		else
-			ProvasPorRealizar.push_back(Provas[i]);
-	}
+		for(unsigned int t = 0; t < Provas.size(); t ++)
+		{
+			Data Final = Provas[i]->getFinal();
+			if(Final <= Atual)
+				ProvasRealizadas.push_back(Provas[i]);
+			else
+				ProvasPorRealizar.push_back(Provas[i]);
+		}
 	}
 	if(seleciona == 0){
 		sort(ProvasRealizadas.begin(),ProvasRealizadas.end(),  OrdenaEventosAlpha);
@@ -1074,19 +1076,20 @@ vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 
 	else
 	{	sort(ProvasPorRealizar.begin(),ProvasPorRealizar.end(), OrdenaEventosAlpha);
-	return ProvasPorRealizar;
+		return ProvasPorRealizar;
 	}
-	//TODO TESTAR
+//TODO TESTAR
 }
 
 
 void Campeonato::verResultados()
 {
 	string resposta,modalidade;
-	bool existe = false;
+
 	int indice;
 	do
 	{
+		bool existe = false;
 		cout << "Para qual das Modalidades pretende visualizar?" << endl;
 		getline(cin, modalidade);
 		for (unsigned int j = 0; j < Modalidades.size(); j++) {
@@ -1110,7 +1113,9 @@ void Campeonato::verResultados()
 		cout << "Visualizar outra Prova ou sair?" << endl;
 		cin >> resposta;
 		transform(resposta.begin(), resposta.end(), resposta.begin(),
-				::towlower);
+						::towlower);
+		cin.clear();
+		cin.ignore(1000,'\n');
 	} while (resposta != "sair");
 }
 
@@ -1119,8 +1124,8 @@ void Campeonato::adicionarProvas()
 {
 	string resposta,atleta, equipa,modalidade;
 	int indice, pontuacao, horas, minutos, segundos;
-	bool existeE = false, existeA = false;
 	do {
+		bool existeE = false, existeA = false;
 		cout << "Em que equipa se encontra o Atleta?" << endl;
 		getline(cin, equipa);
 		for(unsigned int i =0;i<Equipas.size();i++)
@@ -1134,7 +1139,7 @@ void Campeonato::adicionarProvas()
 		}
 		if(existeE)
 		{
-			cout << "Qual atleta pretende adicionar a prova? E Modalidade?" << endl;
+			cout << "Qual atleta pretende adicionar a prova? E Modalidade? (1 em cada linha)" << endl;
 			getline(cin, atleta);
 			getline(cin, modalidade);
 			for(unsigned int i =0;i<Equipas[indice].getAtletas().size();i++)
@@ -1143,12 +1148,12 @@ void Campeonato::adicionarProvas()
 				if(atletas[i].getNome() == atleta)
 				{
 					for (unsigned int j = 0; j < Modalidades.size(); j++) {
-						if (modalidade == Modalidades[j]->getNome()) {
-							indice = j;
-							existeA = true;
-							break;
-						}
-					}
+								if (modalidade == Modalidades[j]->getNome()) {
+									indice = j;
+									existeA = true;
+									break;
+								}
+							}
 					break;
 				}
 			}
@@ -1169,15 +1174,17 @@ void Campeonato::adicionarProvas()
 						cout << "Introduza a pontuacao que o atleta fez"
 								<< endl;
 						cin >> pontuacao;
-						Modalidades[indice]->adicionaResultado(indice, atleta,
+						Modalidades[indice]->adicionaResultado(i, atleta,
 								0, 0, 0, pontuacao);
 					}
 					if (ev[i]->getTipo() == "TEMPO") {
 						cout
-						<< "Introduza o tempo que o atleta fez em horas, minutos e segundos"
-						<< endl;
+								<< "Introduza o tempo que o atleta fez em horas, minutos e segundos"
+								<< endl;
+						cin.clear();
+						cin.ignore(100,'\n');
 						cin >> horas >> minutos >> segundos;
-						Modalidades[indice]->adicionaResultado(indice, atleta,
+						Modalidades[indice]->adicionaResultado(i, atleta,
 								horas, minutos, segundos, 0);
 					}
 					break;
@@ -1187,21 +1194,23 @@ void Campeonato::adicionarProvas()
 		}
 		else
 		{
-			cout << "Nao foi encontrado o Atleta e/ou Modalidade pretendida!" << endl;
+			cout << "Nao foi encontrado um ou mais  parametros pretendidos!" << endl;
 		}
-		cout << "Adicionar outro Resultado?" << endl;
+		cout << "Adicionar outro Resultado, ou sair?" << endl;
 		cin >> resposta;
 		transform(resposta.begin(), resposta.end(), resposta.begin(),
 				::towlower);
+		cin.clear();
+		cin.ignore(1000,'\n');
 	} while (resposta != "sair");
 }
 
 void Campeonato::removerProvas()
 {
 	string resposta,atleta, equipa,modalidade;
-	int indice, pontuacao, horas, minutos, segundos;
-	bool existeE = false, existeA = false;
+	int indice;
 	do {
+		bool existeE = false, existeA = false;
 		cout << "Em que equipa se encntra o Atleta?" << endl;
 		getline(cin, equipa);
 		for(unsigned int i =0;i<Equipas.size();i++)
@@ -1215,7 +1224,7 @@ void Campeonato::removerProvas()
 		}
 		if(existeE)
 		{
-			cout << "Qual atleta pretende remover a prova? E Modalidade?" << endl;
+			cout << "Qual atleta pretende remover a prova? E Modalidade?(1 em cada linha)" << endl;
 			getline(cin, atleta);
 			getline(cin, modalidade);
 			for(unsigned int i =0;i<Equipas[indice].getAtletas().size();i++)
@@ -1224,12 +1233,12 @@ void Campeonato::removerProvas()
 				if(atletas[i].getNome() == atleta)
 				{
 					for (unsigned int j = 0; j < Modalidades.size(); j++) {
-						if (modalidade == Modalidades[j]->getNome()) {
-							indice = j;
-							existeA = true;
-							break;
-						}
-					}
+								if (modalidade == Modalidades[j]->getNome()) {
+									indice = j;
+									existeA = true;
+									break;
+								}
+							}
 					break;
 				}
 			}
@@ -1246,7 +1255,7 @@ void Campeonato::removerProvas()
 				cout << "Pretende remover uma prova a este evento?" << endl;
 				cin >> resposta;
 				if (resposta == "sim" || resposta == "Sim") {
-					Modalidades[indice]->removeResultado(indice,atleta);
+					Modalidades[indice]->removeResultado(i,atleta);
 					break;
 				}
 
@@ -1254,12 +1263,14 @@ void Campeonato::removerProvas()
 		}
 		else
 		{
-			cout << "Nao foi encontrado o Atleta e/ou Modalidade pretendida!" << endl;
+			cout << "Nao foi encontrado um ou mais  parametros pretendidos!" << endl;
 		}
-		cout << "Remover outro Resultado?" << endl;
+		cout << "Remover outro Resultado ou sair?" << endl;
 		cin >> resposta;
 		transform(resposta.begin(), resposta.end(), resposta.begin(),
 				::towlower);
+		cin.clear();
+		cin.ignore(1000,'\n');
 	} while (resposta != "sair");
 }
 

@@ -70,7 +70,7 @@ Calendario::Calendario(){
 
 bool evento::operator == (const evento * ev) const
 		{
-	if (nome == ev->getNome() && inicial == ev->getInicial() && final == ev->getFinal() && tipo == ev->tipo)
+	if (inicial == ev->getInicial() && final == ev->getFinal())
 	{
 		return true;
 	}
@@ -189,7 +189,7 @@ bool operator == (const Data &esquerda, const Data &direita){
 ostream& operator<<(ostream& os, const Data& dt)
 {
 	os << dt.dia << '/' << dt.mes << '/' << dt.ano;
-	os << " " << dt.horas << ':'<<dt.minutos;
+	os << " " << dt.horas << ':'<<dt.minutos << ':' << dt.segundos;
 	return os;
 }
 
@@ -266,7 +266,7 @@ void Prova_Tempo::resultados()
 {
 	for(unsigned int i = 0; i<lugares.size();i++)
 	{
-		cout << i+1 << " " << nome << " " << lugares[i]->getTempo() << endl;
+		cout << i+1 << " lugar " << lugares[i]->getAtleta() << " " << lugares[i]->getTempo() << endl;
 	}
 }
 
@@ -274,7 +274,7 @@ void Prova_Pontuacao::resultados()
 {
 	for(unsigned int i = 0; i<lugares.size();i++)
 	{
-		cout << i+1 << " " << nome << " " << lugares[i]->getPontuacao() << endl;
+		cout << i+1 << " lugar " << lugares[i]->getAtleta() << " " << lugares[i]->getPontuacao() << endl;
 	}
 }
 

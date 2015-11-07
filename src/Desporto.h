@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "templates.h"
 #include "calendario.h"
 using namespace std;
 

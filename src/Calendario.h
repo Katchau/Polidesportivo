@@ -5,6 +5,7 @@
 #include <ctime>
 #include <iterator>
 #include <algorithm>
+#include "templates.h"
 
 using namespace std;
 

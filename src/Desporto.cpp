@@ -22,7 +22,7 @@ bool Desporto::adicionaProva (evento * Prova){return false;};
 bool Desporto::removeProva (evento * Prova){return false;};
 
 
-string Desporto::getTipo()const {return NULL;};
+string Desporto::getTipo()const {return "";};
 string Desporto::getDesporto() const
 {
 	return nome;

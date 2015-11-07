@@ -54,14 +54,43 @@ bool Atleta::adicionaDesporto(Desporto *d)
 }
 
 bool Atleta::removeDesporto(Desporto *d)
-{
+{	cout <<"Entrou remove Desporto" << endl;
+	cout << desportosInscrito.size() << endl;
+	showDesportos();
+
+
 	for (unsigned int i = 0; i < desportosInscrito.size(); i++) {
+		cout << desportosInscrito[i]->getDesporto();
+		cout << d->getDesporto() << endl;
 		if (desportosInscrito[i]->getNome() == d->getNome()) {
 			desportosInscrito.erase(desportosInscrito.begin() + i);
 			return true;
 		}
 	}
-	throw DesportoInexistente();
+	//throw DesportoInexistente();
+
+	return false;
+}
+
+bool Atleta::removeModalidade(string desporto,string modalidade)
+{	cout <<"Entrou remove Desporto" << endl;
+	cout << desportosInscrito.size() << endl;
+
+
+	for (unsigned int i = 0; i < desportosInscrito.size(); i++) {
+		cout << desportosInscrito[i]->getNome();
+        string nome = desporto + " , " + modalidade;
+		if (desportosInscrito[i]->getNome() == nome) {
+			cout << "entrou" << endl;
+			showDesportos();
+			cout << endl;
+			desportosInscrito.erase(desportosInscrito.begin() + i);
+			cout <<"A sair" << endl;
+			return true;
+		}
+	}
+
+
 	return false;
 }
 

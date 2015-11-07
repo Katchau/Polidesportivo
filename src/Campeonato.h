@@ -163,6 +163,9 @@ public:
 	void RemoveAtletaProva(string Atleta);
 	vector<string>listaDesporto();
 	vector<string>AtletasDesporto(string Desporto);
+	void RemoveModalidadeAtletas(string desporto,string modalidade);
+	void RemoveEventosInfra(string modalidade); //apaga os eventos da modalidades;
+
 	/**
 	 * @return nome do campeonato
 	 */

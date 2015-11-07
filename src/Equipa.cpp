@@ -16,8 +16,7 @@ void Equipa::atualizarID()
 bool Equipa::addAtleta(string nome) //falta a condicao para false
 {
 	Atleta atl(nome);
-	atletasInscritos.push_back(atl);
-	return true;
+	return adicionaVetor(atletasInscritos, atl);
 }
 
 bool Equipa::removeAtleta(string nome)
@@ -215,4 +214,18 @@ bool ordenaAlfaEquipa(const Equipa A, const Equipa B){
 		return true;
 	return false;
 }
-
+void Equipa::removeModalidade(string desporto,string modalidade){
+	Desporto * Desport;
+	for(unsigned int i = 0; i < desportosInscritos.size();i++)
+	{
+		if(desporto == desportosInscritos[i]->getDesporto() && modalidade == desportosInscritos[i]->getDesporto())
+		{	Desport = desportosInscritos[i];
+			desportosInscritos.erase(desportosInscritos.begin() + i);
+			break;
+		}
+	}
+	for(unsigned int i = 0; i < atletasInscritos.size(); i++)
+	{
+		atletasInscritos[i].removeDesporto(Desport);
+	}
+}

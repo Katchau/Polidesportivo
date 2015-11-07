@@ -19,7 +19,7 @@ public:
 	virtual	bool removeProva (evento * Prova);
 	virtual bool operator == (const Desporto& des) const;
 	virtual string getTipo()const;
-	virtual string getDesporto() const;
+	string getDesporto() const;
 	virtual vector<evento *> getProvas() const;
 };
 

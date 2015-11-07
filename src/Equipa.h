@@ -42,6 +42,7 @@ public:
 	string getNomeEquipa() const;
 	vector<Atleta> getAtletas() const; // e mais para testes
 	bool operator == (const Equipa& eqi) const;
+	void removeModalidade(string desporto,string modalidade);
 };
 	bool ordenaAlfaEquipa(const Equipa A, const Equipa B);
 #endif

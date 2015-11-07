@@ -46,11 +46,6 @@ bool Atleta::adicionaDesporto(Desporto *d)
 	desportosInscrito.push_back(d);
 
 	return true;
-	//this shall not work!
-	//if(!adicionaVetor(desportosInscrito, d))
-	//throw DesportoRepetido();
-	//
-	//return true;
 }
 
 bool Atleta::removeDesporto(Desporto *d)

@@ -15,22 +15,21 @@ void Equipa::atualizarID()
 
 bool Equipa::addAtleta(string nome) //falta a condicao para false
 {
-	Atleta atl(nome);
-	return adicionaVetor(atletasInscritos, atl);
+
+ Atleta atleta(nome);
+ cout << "Atletas Inscritos  "<< atletasInscritos.size() << endl;
+ vector<Atleta> temp = atletasInscritos;
+ adicionaVetor(temp,atleta);
+ setAtletas(temp);
+ cout << "Atletas Inscritos apos adicionar: "<< atletasInscritos.size() << endl;
+ return true;
 }
 
 bool Equipa::removeAtleta(string nome)
-{
-	for(vector<Atleta>::iterator it = atletasInscritos.begin();it!=atletasInscritos.end();it++)
-	{
-		if(it->getNome() == nome)
-		{
-			atletasInscritos.erase(it);
-			it--;
-			return true;
-		}
-	}
-	return false;
+{ vector<Atleta> temp = atletasInscritos;
+ Atleta Sai(nome);
+ removeVetor(temp,Sai);
+ setAtletas(temp);
 }
 
 Equipa::Equipa()
@@ -192,6 +191,11 @@ string Equipa::getNomeEquipa() const
 vector<Atleta> Equipa::getAtletas() const
 {
 	return atletasInscritos;
+}
+
+void Equipa::setAtletas(vector<Atleta> Atletas)
+{
+ atletasInscritos = Atletas;
 }
 
 bool Equipa::operator == (const Equipa& eqi) const

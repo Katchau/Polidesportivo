@@ -41,6 +41,7 @@ public:
 	void writetoFile(); //TODO falta a parte das medalhas
 	string getNomeEquipa() const;
 	vector<Atleta> getAtletas() const; // e mais para testes
+	void Equipa::setAtletas(vector<Atleta> Atletas);
 	bool operator == (const Equipa& eqi) const;
 	void removeModalidade(string desporto,string modalidade);
 };

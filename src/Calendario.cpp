@@ -220,14 +220,7 @@ Data::Data(unsigned int dia,unsigned int mes,unsigned int ano,unsigned int horas
 	this->segundos = segundos;
 }
 //evento
-evento::evento(Data inicial,Data final){
-	this->inicial = inicial;
-	this->final = final;
-	nome = "sem nome";
-	tipo = "";
-	provaP = NULL;
-	provaT = NULL;
-}
+
 evento::evento(string nome,Data inicial,Data final,string tipo){
 	this->inicial=inicial;
 	this->final = final;

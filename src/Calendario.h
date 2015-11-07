@@ -17,30 +17,59 @@ struct Data {
 	unsigned int minutos;
 	unsigned int segundos;
 	Data(int dia,int mes,int ano);
+	/**
+	 * Contrutor da classe Data
+	 * @param dia
+	 * @param mes
+	 * @param ano
+	 * @param horas
+	 * @param minutos
+	 * @param segundos
+	 */
 	Data(unsigned int dia,unsigned int mes,unsigned int ano,unsigned int horas,unsigned int minutos,unsigned int segundos);
 	Data();
+	/**
+	 * Operador  << permite escrever os atributos da classe Data
+	 */
 	friend ostream& operator<<(ostream& os, const Data& dt);
 };
-
+/**
+ * Operador de < entre objectos da classe Data
+ * @param inicio
+ * @param fim
+ * @return true se Data fim é posterior  á data inicio;
+ * @return false se Data fim é anterior á data inicio;
+ */
 bool operator< (const Data &inicio,const Data &fim);
+/**
+ * Operador de == entre objectos da classe Data
+ * @param inicio
+ * @param fim
+ * @return true se Data fim é igual á data inicio;
+ * @return false se Data fim nao é á data inicio;
+ */
 bool operator == (const Data &esquerda, const Data &direita);
+/**
+ * Operador de <= entre objectos da classe Data
+ * @param inicio
+ * @param fim
+ * @return true se Data fim é posterior ou igual á data inicio;
+ * @return false se Data fim é anterior á data inicio;
+ */
 bool operator <= (const Data &inicio,const Data &fim);
-
-
-
-
-//diear moder ofe gode!
-
-
-
-
-
 
 class Posicao{
 private:
 	string atleta;
 public:
+	/**
+	 * Construtor da classe Posicao
+	 * @param atleta Nome do atleta
+	 */
 	Posicao(string atleta);
+	/**
+	 * Retorna o nome do atleta
+	 */
 	string getAtleta() const;
 };
 
@@ -48,9 +77,25 @@ class Posicao_tempo : public Posicao{
 private:
 	Data tempo;
 public:
+	/**
+	 * Contrutor da classe Posicao_tempo
+	 * @param atleta Nome do atleta
+	 * @param tempo Tempo obtido pelo atleta
+	 */
 	Posicao_tempo(string atleta , Data tempo);
+	/**
+	 * Retorna o tempo obtido por um atleta
+	 */
 	Data getTempo() const;
+	/**
+	 * Permite alterar o tempo na classificacao do atleta
+	 */
 	void setTempo(Data tempo);
+	/**
+	 * Operador de menor entre objectos da classe Posicao_tempo, compara o tempo obtido pelos atletas;
+	 *  @return true se o tempo de A é maior que o objecto da classe Posicao_Pontos
+	 * @return false se  o tempo de  A é menor que o objecto da classe Posicao_Pontos
+	 */
 	bool operator < (const Posicao_tempo &A) const;
 };
 
@@ -58,9 +103,25 @@ class Posicao_Pontos : public Posicao{
 private:
 	int pontuacao;
 public:
+	/**
+	 * Construtor da classe Posicao_Pontos
+	 * @param atleta  Nome do Atleta
+	 * @param pontuacao Pontuacao obtida pelo atleta
+	 */
 	Posicao_Pontos(string atleta, int pontuacao);
+	/**
+	 * Retorna a pontuacao do atleta
+	 */
 	int getPontuacao() const;
+	/**
+	 * Permite atualizar  a pontuacao do atleta
+	 */
 	void setpontuacao(int pontuacao);
+	/**
+	 * Operador de < entre objectos da classe Posicao_Pontos, compara a pontuacao obtida pelos atletas
+	 * @return true se a pontuacao de A é menor que o objecto da classe Posicao_Pontos
+	 * @return false se a pontuaca de A é maior que o objecto da classe Posicao_Pontos
+	 */
 	bool operator < (const Posicao_Pontos &A) const;
 };
 
@@ -74,12 +135,39 @@ private:
 	Data final;
 	string tipo;
 public:
+	/**
+		 * Construtor da prova pontuacao
+		 * @param nome Nome da Prova
+		 * @param inicial Data de inicio da prova
+		 * @param final Data final da prova
+		 * @param tipo se a pontuacao da prova é por tempo ou ponto
+		 */
 	Prova_Pontuacao(string nome,Data inicial,Data final,string tipo);
+	/**
+		 * Ordena as classificaçoes obtidas pelos atletas nas provas
+		 */
 	void ordena();
+	/**
+		 * Adiciona uma posicao ao vetor de classificao da prova
+		 * @param *lugar apontador para a classificao do atleta
+		 */
 	void adicionaLugar(Posicao_Pontos *lugar);
+	/**
+		 * Remove o atleta da prova
+		 * @param nome Nome do atleta
+		 */
 	void removeLugar(string nome);
+	/**
+		 * Retorna o vector de classificaçoes da prova
+		 */
 	vector<Posicao_Pontos *> getLugares() const;
+	/**
+		 * Imprime as classificacoes da prova
+		 */
 	void resultados();
+	/**
+		 * Retorna o nome dos atletas presentes na prova
+		 */
 	vector<string> getNomeAtletas() const;
 };
 
@@ -92,22 +180,55 @@ private:
 	Data final;
 	string tipo;
 public:
+	/**
+	 * Construtor da prova tempo
+	 * @param nome Nome da Prova
+	 * @param inicial Data de inicio da prova
+	 * @param final Data final da prova
+	 * @param tipo se a pontuacao da prova é por tempo ou ponto
+	 */
 	Prova_Tempo(string nome,Data inicial,Data final,string tipo);
+	/**
+	 * Ordena as classificaçoes obtidas pelos atletas nas provas
+	 */
 	void ordena();
+	/**
+	 * Adiciona uma posicao ao vetor de classificao da prova
+	 * @param *lugar apontador para a classificao do atleta
+	 */
 	void adicionaLugar(Posicao_tempo *lugar);
+	/**
+	 * Remove o atleta da prova
+	 * @param nome Nome do atleta
+	 */
 	void removeLugar(string nome);
+	/**
+	 * Retorna o vector de classificaçoes da prova
+	 */
 	vector<Posicao_tempo *> getLugares() const;
+	/**
+	 * Imprime as classificacoes da prova
+	 */
 	void resultados();
+	/**
+	 * Retorna o nome dos atletas presentes na prova
+	 */
 	vector<string> getNomeAtletas() const;
 
 };
 
 class lugarRepetida{
 public:
+	/**
+	 * Construtor da excepcao lugarRepetida
+	 */
 	lugarRepetida(){};
 };
 class lugarNaoExiste{
 public:
+	/**
+	 * Construtor da excepcao lugarNaoExistente
+	 */
 	lugarNaoExiste(){};
 };
 
@@ -126,23 +247,69 @@ private:
 	Prova_Tempo * provaT;
 	Prova_Pontuacao * provaP;
 public:
-	evento(Data inicial,Data final);
+
+	/**
+	 * Construtor de evento
+	 * @param nome Nome do evento
+	 * @param inicial Data do inicio do evento
+	 * @param final Data final do evento
+	 * @param tipo  Tipo da pontuacao  ( TEMPO ou PONTO )
+	 */
 	evento(string nome,Data inicial,Data final,string tipo);
+	/**
+	 * Retorna o nome do evento
+	 */
 	string getNome() const;
+	/**
+	 * Retorna o nome da modalidade
+	 */
 	string getTipo() const;
+	/**
+	 * Retorna a data inicial do evento
+	 */
 	Data getInicial() const;
+	/**
+	 * Retorna a data final do evento
+	 */
 	Data getFinal() const;
+	/**
+	 * Ordena as classificaçoes dos melhores resultados para os piores
+	 */
 	void ordena();
-	void adicionaLugar(string nomeAtleta,int d, int m , int a, int h, int mi, int s, int score); //algumas duvidas
+	void retProva(); //TODO
+	void adicionaLugar(string nomeAtleta,int d, int m , int a, int h, int mi, int s, int score); //TODOalgumas duvidas
+	/**
+	 * Remove a classificacao do atleta na prova
+	 * @param nomeAteta nome do Atleta
+	 */
 	void removeLugar(string nomeAtleta);
+	/**
+	 * Operador de igualdade entre dois eventos
+	 * @param *ev;
+	 */
 	bool operator == (const evento * ev) const;
-	void retProva(); // not sure this works but ho well
+	/**
+	 * Retorna o apontador de Prova tempo
+	 */
 	Prova_Tempo * getProvaT();
+	/**
+	 * Retorna o apontador de Prova por pontuacao
+	 */
 	Prova_Pontuacao * getProvaP();
+	/**
+	 * Imprime  a classificacao na prova
+	 */
 	void ProvaResultados();
+	/**
+	 * Retorna o nome dos que estejam a participar no evento
+	 */
 	vector<string> getNomeAtletas() const;
 };
-
+/**
+ * Compara dois eventos e ve se o intervalo de tempo entre os dois eventos e retorna true se os eventos estiverem sobrepostos
+ * @param *alpha
+ * @param *beta
+ */
 bool eventos_sobrepostos(const evento *alpha,const  evento *beta);
 
 class Calendario {
@@ -214,28 +381,63 @@ class EventoExiste {
 private:
 	string nome;
 public:
+	/**
+	 * Construtor da excepcao EventoExite
+	 * @param nome Nome do evento que ja existe
+	 */
 	EventoExiste(string nome);
+	/**
+	 * Retorna o nome do evento que ja existe
+	 */
 	string getNome();
 };
 class EventoNaoExiste{
 private:
 	string nome;
 public:
+	/**
+	 * Construtor da excepcao EventoNaoExite
+	 * @param Nome do evento que nao existe
+	 */
 	EventoNaoExiste(string nome);
 	string getNome();
 };
 class EventoSobreposto{
 public:
+	/**
+	 * Construtor da excepcao EventoSobreposto
+	 */
 	EventoSobreposto(){};
 };
 
 
 
-
+/**
+ * Permite verificar se a data é valida
+ * @param Marcacao Data a verificar
+ * @param atual  Se igual a zero apenas verifica se os valores na data sao possiveis. \n
+ * 				 Se igual a um verifica se os valores da data sao possiveis e se a Marcacao é posterior á data atual
+ *
+ */
 bool ValidaData(Data Marcacao, bool atual);
+
+/**
+ * Verifica se o ano é bissexto.Retorna true se for verdade
+ * @param ano
+ */
 bool bissexto(int ano);
+/**
+ * Retorna o numero de dias de um mes
+ * @param ano
+ * @param mes
+ */
 unsigned int diasMes(int ano, int mes);
 
+/**
+ * 	Compara o evento A e o evento B. Retorna true se estao alfabeticamente ordenados
+ * 	@param  evento A
+ * 	@param evento B
+ */
 bool OrdenaEventosAlpha (const evento* A, const evento* B);
 
 #endif

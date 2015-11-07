@@ -13,6 +13,11 @@ private:
 	string nomeT;
 	vector<evento *> Provas;
 public:
+
+	/**
+	 * Construtor da classe Modalidade
+	 * @param nome
+	 */
 	Modalidade (string nome, string tipo);
 	bool adicionaProva (evento * Prova);
 	bool removeProva (evento * Prova);

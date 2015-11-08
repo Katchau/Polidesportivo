@@ -392,7 +392,6 @@ void Campeonato::AtletasPorDesporto(){
 		}
 	}
 	cout << "\n";
-	//TODO CORRIGI O BUG QUE TINHA AQUI
 }
 
 void Campeonato::AtletasPorModalidade()
@@ -462,7 +461,7 @@ void Campeonato::menuAtletas()
 		cout << "1 - Adicionar Atleta" << endl;
 		cout << "2 - Remover Atleta" << endl;
 		cout << "3 - Listar Atletas" << endl;
-		cout << "4 - Inscrever Atleta numa Modalidade" << endl; // TODO
+		cout << "4 - Inscrever Atleta numa Modalidade" << endl;
 		cout << "5 - Inscrever Atleta numa Prova -- por fazer" << endl; // TODO
 		cout << "6 - Voltar atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
@@ -774,7 +773,7 @@ void Campeonato::removerInfraestrutura()
 		if(Infraestruturas[indice]->Neventos() != 0)
 		{
 			cout << "Nao pode remover uma infraestrutura com eventos. Remova-os primeiro." << endl;
-					return;
+			return;
 		}
 	}
 
@@ -790,9 +789,9 @@ void Campeonato::menuModalidades()
 	while (1)
 	{
 		cout << "\n    Modalidades" << endl;
-		cout << "1 - Ver lista de Modalidades -- testar" << endl;
-		cout << "2 - Adicionar Modalidade -- testar" << endl;
-		cout << "3 - Remover Modalidade -- testar" << endl;
+		cout << "1 - Ver lista de Modalidades" << endl;
+		cout << "2 - Adicionar Modalidade" << endl;
+		cout << "3 - Remover Modalidade" << endl;
 		cout << "4 - Voltar atras"<< endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
@@ -834,101 +833,61 @@ void Campeonato::listaModalidades()
 }
 void Campeonato::OrdemAlfabeticaModalidades()
 {
-	cout << "MODALIDADES:SIZE(): " << Modalidades.size() << endl;
 	sort(Modalidades.begin(),Modalidades.end(),ordenaAlfaDesporto);
-	cout << "  Modalidades" << endl;
+	cout << "\n    Modalidades: " << endl;
 	for(unsigned int i = 0; i < Modalidades.size();i++)
 	{
-		cout << i+1 << " - " << Modalidades[i]->getTipo() << endl;
+		cout << i+1 << " - " << Modalidades[i]->getTipo() << " (" << Modalidades[i]->getDesporto() << ")" << endl;
 	}
-	system("pause");
 }
 
 void Campeonato::AdicionarModalidade()
 {
-	string nome,tipo;
-	Modalidade *Novo;
-	bool valido = true;
-	do
+
+	string nome, tipo;
+
+	nome = returnInput("o desporto");
+	tipo = returnInput("a modalidade");
+
+	Modalidade *Novo = new Modalidade(nome, tipo);
+
+	for(unsigned int i = 0; i < Modalidades.size();i++ )
 	{
-		cin.clear();
-		cout << "Introduza o nome o nome do Desporto: ";
-		getline(cin, nome);
-		cout << "Introduza o nome da nova Modalidade: ";
-		getline(cin,tipo);
-		if(nome == "")
-		{
-			cout << "Desporto vazio" << endl;
-			continue;
-		}
-		if(tipo == "")
-		{
-			cout << "Modalidade vazio" << endl;
-			continue;
-		}
-		Novo =new Modalidade (nome,tipo);
-		valido =  true;
-		cout << Modalidades.size() << endl;
-		for(unsigned int i = 0; i < Modalidades.size();i++ )
-		{	if(Modalidades[i]->getDesporto() == nome)
+		if(Modalidades[i]->getDesporto() == nome)
 			if( Modalidades[i]->getTipo() == Novo->getTipo())
 			{
 				cout << "A modalidade ja existe! \n" ;
-				valido = false;
 				delete Novo;
+				return;
 			}
-		}
-	} while (cin.eof() || !valido);
-
+	}
 	Modalidades.push_back(Novo);
 	cout << "Modalidade adicionada! \n";
-
 }
+
 void Campeonato::RemoverModalidade()
 {
-	do{
-		cout << "Introduza o nome do desporto : ";
-		string desp;
-		cin >> desp;
-		if(desp == "")
-		{
-			cout << "Introduza um nome não vazio! " << endl;
-			continue;
-		}
-		cout << "Introduza o nome da modalidade a apagar: ";
-		string mod;
-		cin >> mod;
-		if(mod == "")
-		{
-			cout << "Introduza um nome não vazio! " << endl;
-			continue;
-		}
+	string nome, tipo;
 
-		for(unsigned int i = 0; i <  Modalidades.size();i++)
+	nome = returnInput("o desporto");
+	tipo = returnInput("a modalidade a apagar");
+
+	for(unsigned int i = 0; i <  Modalidades.size();i++)
+	{
+		if(tipo == Modalidades[i]->getTipo())
 		{
-			if(mod == Modalidades[i]->getTipo())
+			if(nome == Modalidades[i]->getDesporto())  // TODO Faz uns couts de testes e nao remove as prova da modalidade
 			{
-				cout << "entrou" << endl;
-
-				if(desp == Modalidades[i]->getDesporto())
-				{	cout << " Remover Modalidade de Atletas" << endl;
-
-				RemoveModalidadeAtletas(desp,mod); //remove a modalidade das equipas e Atletas
-
-				cout << " Remover  Provas das Infraestrututras" <<endl;
-				RemoveEventosInfra(mod);
-				cout << "Modalidade removida " << endl;
+				RemoveModalidadeAtletas(nome, tipo);
+				RemoveEventosInfra(tipo);
+				cout << "Modalidade removida!" << endl;
 				delete Modalidades[i];
 				Modalidades.erase(Modalidades.begin()+i);
 				return;
-				}
 			}
-
-
 		}
-		cout << "A modalidade não existe!" << endl;
-	}while(true);
-	cout << "\n";
+	}
+	cout << "A modalidade não existe!" << endl;
 }
 
 int Campeonato::numAtletas() const
@@ -979,33 +938,28 @@ int Campeonato::menuEscolhaInfra()
 
 void Campeonato::totalCalendario()
 {
+	cout << "\n";
 	for(unsigned int i =0;i<Infraestruturas.size();i++)
 	{
-		cout << Infraestruturas[i]->getNome() << endl;
+		cout << Infraestruturas[i]->getNome() << ":" << endl;
 		Infraestruturas[i]->imprimeCalendario();
 		cout << endl;
 	}
-	system("pause");
 }
 
 void Campeonato::calendarioInfra()
 {
-	string resposta;
-	do
-	{
-		int indice = menuEscolhaInfra();
-		Infraestruturas[indice]->imprimeCalendario();
-		cout << endl << "Pretende visualizar outra vez?";
-		cin >> resposta;
-	}while(resposta != "nao");
-	system("pause");
+	int indice = menuEscolhaInfra();
+	cout << "\n";
+	Infraestruturas[indice]->imprimeCalendario();
+
 }
 
 void Campeonato::listaCalendarios(){
-	cout << "\n    Calendarios: Identifique qual calendario a ver" << endl;
+	cout << "\n    Calendarios: " << endl;
 	cout << "1 - Todos os calendarios" << endl;
-	cout << "2 - Calendario de Apenas 1 InfraEstrutra" << endl;
-	cout << "3 - Voltar Atras" << endl;
+	cout << "2 - Calendario de apenas 1 Infraestrutra" << endl;
+	cout << "3 - Voltar atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 	switch (selectMenu('1','3'))
 	{
@@ -1474,7 +1428,7 @@ void Campeonato::menuCalendario(){
 	cout << "1 - Ver Calendarios do Campeonato " << getNome() << endl;
 	cout << "2 - Adicionar Evento ao Calendario" << endl;
 	cout << "3 - Remover Evento do Calendario" << endl;
-	cout << "4 - Menu Provas" << endl;
+	cout << "4 - Provas" << endl;
 	cout << "5 - Voltar Atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 	switch (selectMenu('1','5'))
@@ -1510,9 +1464,9 @@ void Campeonato::gravarCampeonato()
 	grava.open(nome.c_str());
 	grava << "Equipas:" << '\n';
 	for (size_t i = 0; i < Equipas.size(); i++)
-		{
-			grava << Equipas[i].getNomeEquipa() << '\n';
-		}
+	{
+		grava << Equipas[i].getNomeEquipa() << '\n';
+	}
 	grava << '\n' << "InfraEstruturas:" << '\n';
 	for (unsigned int i =0;i<Infraestruturas.size();i++)
 	{
@@ -1529,7 +1483,6 @@ void Campeonato::gravarCampeonato()
 	}
 	grava.close();
 	gravaProvas();
-	//TODO
 }
 
 
@@ -1749,11 +1702,12 @@ void Campeonato::RemoveEventosInfra(string modalidade)
 	{
 		vector<evento* > Provas = Infraestruturas[i]->getCalendario()->getEventos();
 		for(unsigned int k = 0; k < Provas.size(); k++)
-		{	cout << "Prova NOME : " << Provas[k]->getNome() << endl;
-		if(Provas[k]->getNome() == modalidade)
 		{
-			Infraestruturas[i]->getCalendario()->remove_evento(Provas[k]);
-		}
+			if(Provas[k]->getNome() == modalidade)
+			{
+				cout << "Esta a fazer cenas";
+				Infraestruturas[i]->getCalendario()->remove_evento(Provas[k]);
+			}
 		}
 	}
 }

@@ -161,7 +161,7 @@ vector<Atleta> Equipa::getAtletas() const
 }
 
 bool Equipa::operator == (const Equipa& eqi) const
-																		{
+																				{
 	string nome1 = nome;
 	string nome2 = eqi.nome;
 	if(nome1 == nome2)
@@ -169,7 +169,7 @@ bool Equipa::operator == (const Equipa& eqi) const
 		return true;
 	}
 	else return false;
-																		}
+																				}
 bool ordenaAlfaEquipa(const Equipa A, const Equipa B){
 	string a = A.getNomeEquipa();
 	string b = B.getNomeEquipa();
@@ -196,21 +196,17 @@ bool Equipa::adicionaModalidade(Desporto *d)
 void Equipa::removeModalidade(string desporto,string modalidade){
 
 	unsigned int i ;
-	cout << "DESPORTOS INCRITOS SIZE :" <<desportosInscritos.size() << endl;
 	for( i = 0; i < desportosInscritos.size();i++)
 	{
-
 		if(desporto == desportosInscritos[i]->getDesporto() && modalidade == desportosInscritos[i]->getDesporto())
 		{
-
-			cout << "Apagar modalidade da equipa" << endl;
 			desportosInscritos.erase(desportosInscritos.begin() + i);
 			break;
 		}
 	}
 	for(unsigned int i = 0; i < atletasInscritos.size(); i++)
-	{ cout << "Apagar desporto do Atleta" << endl;
-	atletasInscritos[i].removeModalidade(desporto, modalidade);
+	{
+		atletasInscritos[i].removeModalidade(desporto, modalidade);
 	}
 
 }

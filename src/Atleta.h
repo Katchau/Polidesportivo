@@ -82,18 +82,18 @@ public:
 	/**
 	 *  Classe para o tratamento de excessoes
 	 */
-	class DesportoInexistente{};//TODO DOXY
+	class DesportoInexistente{};
 
 	/**
 	 * Classe para o tratamento de excessoes
 	 */
-	class DesportoRepetido{};//TODO DOXY
+	class DesportoRepetido{};
 
 };
 
 /**
  * Permite comparar dois atletas alfabeticamente
- * return true se nome do atleta A  e menor que o nome do atleta B
+ * @return true se nome do atleta A  e menor que o nome do atleta B
  */
-bool ordenaAlfaAtletas(const Atleta A, const Atleta B);//TODO DOXY
+bool ordenaAlfaAtletas(const Atleta A, const Atleta B);
 #endif

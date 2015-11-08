@@ -24,7 +24,7 @@ void menu()
 	cout << "    Campeonatos Polidesportivos" << endl;
 	cout << "1 - Criar um campeonato" << endl;
 	cout << "2 - Carregar um campeonato" << endl;
-	cout << "3 - Sobre o trabalho -- por fazer" << endl;
+	cout << "3 - Sobre o trabalho" << endl;
 	cout << "4 - Sair " << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 
@@ -62,7 +62,7 @@ void carregarCampeonato()
 }
 void sobre()
 {
-	cout << "Campeonatos Polidesportivos \n \n"
+	cout << "\nCampeonatos Polidesportivos \n \n"
 	<<"O projeto e sobre a gestao de campeonatos polidesportivos, onde \n"
 	<<"e possivel gerir atletas, desportos,modalidades,provas e infraestruturas.\n"
 	<<"Foi desenvolvido para a cadeira de Algoritmos e Estruturas de Dados por \n"
@@ -71,7 +71,7 @@ void sobre()
 	<<"\n"
 	<<"Diogo Campos \n"
 	<<"Jonas Loureiro \n"
-    <<"Pedro Soares \n";
+    <<"Pedro Soares \n\n";
 
 }
 

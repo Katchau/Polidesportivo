@@ -19,7 +19,7 @@ public:
 	 *
 	 * Cria o objecto modalidade
 	 */
-	Modalidade (string nome, string tipo); // TODO Melhorar Doxygen fica melhor assim penso
+	Modalidade (string nome, string tipo);
 
 	/**
 	 * @param Prova prova a adicionar

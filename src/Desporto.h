@@ -29,7 +29,7 @@ public:
 	 * @return false se a prova nao foi adicionada
 	 * @return true se a prova foi adicionada
 	 */
-	virtual bool adicionaProva (evento * Prova);//TODO
+	virtual bool adicionaProva (evento * Prova);
 	/**
 	 *Remove objecto do tipo evento da classe se ele existir
 	 *@param Prova a ser removida

@@ -306,12 +306,15 @@ public:
 	// Gravar
 
 	/**
-	 * Grava o campeonato num ficheiro .txt com nome igual
-	 * ao nome do campeonato
+	 * Grava o campeonato num ficheiro .txt com nome igual ao nome do campeonato
+	 *
 	 */
 	void gravarCampeonato();
 
-	void gravaProvas();//TODO DOXY
+	/**
+	 * Grava as provas num ficheiro .txt com nome igual a Prova_nomedocampeonato
+	 */
+	void gravaProvas();
 
 
 	// Excecoes
@@ -320,7 +323,11 @@ public:
 	private:
 		string nome;
 	public:
-		EquipaJaExistente(string nome) {this->nome = nome;}//TODO DOXY
+		/**
+		 * Construtor da classe de excecao EquipaJaExiste, atribuindo ao objeto o nome da equipa
+		 * que ja existe
+		 */
+		EquipaJaExistente(string nome) {this->nome = nome;}
 		/**
 		 * @return Nome da equipa que ja existe
 		 */

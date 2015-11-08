@@ -740,7 +740,7 @@ void Campeonato::adicionarInfraestrutura()
 
 void Campeonato::removerInfraestrutura(){
 
-	// TODO testar quando á eventos
+	// TODO ja visto   testar quando á eventos
 	do{
 		cout << "Introduza o nome da infraestrutura a apagar: ";
 		string a;
@@ -1197,20 +1197,22 @@ vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 	unsigned int horas = tempo_info->tm_hour;
 	unsigned int dia = tempo_info->tm_mday;
 	unsigned int mes = tempo_info->tm_mon + 1;/* varia de 0 a 11*/
-	unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
+	unsigned int ano = tempo_info -> tm_year +1900 ; /* ano atual*/
 	Data Atual (dia,mes,ano,horas,min,sec);
+	cout << "Data Atual :" << Atual << endl;
 	vector<evento *> ProvasRealizadas;
 	vector<evento *> ProvasPorRealizar;
 	for(unsigned int i = 0; i < Infraestruturas.size(); i++)
 	{ vector <evento *> Provas = Infraestruturas[i]->getCalendario()->getEventos();
 	for(unsigned int t = 0; t < Provas.size(); t ++)
 	{
-		Data Final = Provas[i]->getFinal();
+		Data Final = Provas[t]->getFinal();
 		if(Final <= Atual)
-			ProvasRealizadas.push_back(Provas[i]);
+			ProvasRealizadas.push_back(Provas[t]);
 		else
-			ProvasPorRealizar.push_back(Provas[i]);
+			ProvasPorRealizar.push_back(Provas[t]);
 	}
+
 	}
 	if(seleciona == 0){
 		sort(ProvasRealizadas.begin(),ProvasRealizadas.end(),  OrdenaEventosAlpha);
@@ -1221,7 +1223,7 @@ vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 	{	sort(ProvasPorRealizar.begin(),ProvasPorRealizar.end(), OrdenaEventosAlpha);
 	return ProvasPorRealizar;
 	}
-	//TODO TESTAR
+	//TODO Ja pinta testa para veres serviço xD
 }
 
 
@@ -1417,14 +1419,36 @@ void Campeonato::removerProvas()
 	} while (resposta != "sair");
 }
 
+void Campeonato::ProvasRealizadas()
+{	vector<evento *> Provas = ProvasOrganiza(0);
+	cout << "Provas Realizadas" << endl;
+	for(unsigned int i = 0; i< Provas.size(); i++)
+	{
+		cout << i+1 <<" - " << Provas[i]->getNome() << " Data Inicial: " << Provas[i]->getInicial() << " " << Provas[i]->getFinal() << endl;
+	}
+	cout << "\n";
+
+}
+void Campeonato::ProvasPorRealizar()
+{
+	    vector<evento *> Provas = ProvasOrganiza(1);
+		cout << "Provas Por Realizar" << endl;
+		for(unsigned int i = 0; i< Provas.size(); i++)
+		{
+			cout << i+1 <<" - " << Provas[i]->getNome() << " Data Inicial: " << Provas[i]->getInicial() << " " << Provas[i]->getFinal() << endl;
+		}
+		cout << "\n";
+}
 void Campeonato::menuProvas() {
 	cout << "\n    Provas" << endl;
 	cout << "1 - Ver todas os Resultados" << getNome() << endl;
 	cout << "2 - Adicionar Provas realizadas pelos Atletas" << endl;
 	cout << "3 - Remover Provas realizadas pelos Atleta" << endl;
-	cout << "4 - Voltar Atras" << endl;
+	cout << "4 - Provas por realizar" << endl;
+	cout << "5 - Provas realizadas "  << endl;
+	cout << "6 - Voltar Atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
-	switch (selectMenu('1', '4')) {
+	switch (selectMenu('1', '6')) {
 	case '1':
 		verResultados();
 		break;
@@ -1435,6 +1459,12 @@ void Campeonato::menuProvas() {
 		removerProvas();
 		break;
 	case '4':
+		ProvasPorRealizar();
+			break;
+	case '5':
+				ProvasRealizadas();
+				break;
+	case '6':
 		return;
 		break;
 	}

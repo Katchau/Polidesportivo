@@ -17,9 +17,9 @@ public:
 	 * @param nome nome do desporto
 	 * @param tipo nome da modalidade
 	 *
-	 * Cria a modalidade "tipo", derivada do desporto "nome"
+	 * Cria o objecto modalidade
 	 */
-	Modalidade (string nome, string tipo); // TODO Melhorar Doxygen
+	Modalidade (string nome, string tipo); // TODO Melhorar Doxygen fica melhor assim penso
 
 	/**
 	 * @param Prova prova a adicionar
@@ -74,17 +74,19 @@ public:
 	 */
 	 bool operator == (Desporto * des) const;
 
-	 /*
+	 /**
 	  * @return nome da modalidade
 	  */
 	 string getTipo() const;
 
-	 /*
+	 /**
+	  * Retorna as provas existentes na modalidade
 	  * @return vetor de provas da modalidade
 	  */
 	 vector<evento *> getProvas() const;
 
-	 /*
+	 /**
+	  * Retorna o nome dos Atletas inscritos na modalidade
 	  * @return vetor de atletas inscritos na modalidade
 	  */
 	 vector<string> getNomeAtletas() const;

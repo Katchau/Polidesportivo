@@ -114,6 +114,7 @@ void Equipa::addAthletesFromFile()
 	}
 }
 
+
 void Equipa::writetoFile()
 {
 	ofstream save(nameFile.c_str());

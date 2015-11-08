@@ -570,6 +570,7 @@ Data Prova_Tempo::getTempo(string nomeAtleta)
 			return lugares[i]->getTempo();
 		}
 	}
+	//TODO FALTA Throw
 }
 int Prova_Pontuacao::getPontos(string nomeAtleta)
 {
@@ -580,4 +581,5 @@ int Prova_Pontuacao::getPontos(string nomeAtleta)
 			return lugares[i]->getPontuacao();
 		}
 	}
+	//TODO falta throw
 }

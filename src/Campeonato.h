@@ -191,6 +191,8 @@ public:
 	void RemoveModalidadeAtletas(string desporto,string modalidade);
 	void RemoveEventosInfra(string modalidade); //apaga os eventos da modalidades;
 
+	void ProvasRealizadas();
+	void ProvasPorRealizar();
 	/**
 	 * @return nome do campeonato
 	 */
@@ -219,6 +221,7 @@ public:
 	 * ao nome do campeonato
 	 */
 	void gravarCampeonato();
+
 
 	// Excecoes
 	class EquipaJaExistente

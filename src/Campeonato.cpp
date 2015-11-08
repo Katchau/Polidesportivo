@@ -532,53 +532,65 @@ void Campeonato::listaEquipas(){
 
 void Campeonato::EquipasOrdemPontuacao()
 {
-	string modalidade;
-	cout << "    Equipas" << endl;
-	cout << "Numero de equipas: " << Equipas.size()  << endl;
-	bool existe_mod = false;
-	int indice_mod;
-	do {
-		cout << "Para qual modalidade deseja visualizar?(pff escreva no formato ex: Atletismo , Sprint) " << endl;
-		getline(cin, modalidade);
-		cin.clear();
-		cin.ignore(1000,'\n');
-		for (unsigned int j = 0; j < Modalidades.size(); j++) {
-			if (modalidade == Modalidades[j]->getNome()) {
-				existe_mod = true;
-				indice_mod = j;
-			}
-		}
-	} while (!existe_mod);
-	if (Modalidades[indice_mod]->getProvas().size() == 0)
+	if (Modalidades.size() == 0)
 	{
-		cout << "Nao ha provas nesta modalidade, logo nao e possivel organizar :/" << endl;
+		cout << "O campeonato ainda nao tem modalidade. Adicione uma modalidade." << endl;
 		return;
 	}
-	if (Modalidades[indice_mod]->getProvas()[0]->getTipo() == "PONTO") {
+
+	if (Equipas.size() == 0)
+	{
+		cout << "O campeonato ainda nao tem equipas. Adicione uma equipa." << endl;
+		return;
+	}
+
+	cout << "    Modalidades: " << endl;
+
+	for (unsigned int i = 0; i < Modalidades.size(); i++) {
+		{
+			cout << i+1 << " - " << Modalidades[i]->getNome() << endl;
+		}
+	}
+
+	cout << "Introduza o numero da modalidade desejada: ";
+	int escolha = (selectMenu('1','0'+Modalidades.size()) -1) - '0';
+
+	cout << "\n";
+
+	if (Modalidades[escolha]->getProvas().size() == 0)
+	{
+		cout << "A modalidade escolhida ainda nao tem provas. Adicione uma prova." << endl;
+		return;
+	}
+
+	cout << "    Equipas" << endl;
+	cout << "Numero de equipas: " << Equipas.size()  << endl;
+
+	if (Modalidades[escolha]->getProvas()[0]->getTipo() == "PONTO") {
 		for (unsigned int i = 0; i < Equipas.size(); i++) {
-			int tmp = Equipas[i].pontuacaoGeral(Modalidades[indice_mod]);
+			int tmp = Equipas[i].pontuacaoGeral(Modalidades[escolha]);
 			Equipa tmp2 = Equipas[i];
 			int j;
 			for (j = i;
 					j > 0
 					&& tmp
 					> Equipas[j - 1].pontuacaoGeral(
-							Modalidades[indice_mod]); j--)
+							Modalidades[escolha]); j--)
 				Equipas[j] = Equipas[j - 1];
 			Equipas[j] = tmp2;
 		}
 	}
-	if (Modalidades[indice_mod]->getProvas()[0]->getTipo() == "TEMPO") {
+	if (Modalidades[escolha]->getProvas()[0]->getTipo() == "TEMPO") {
 		for (unsigned int i = 0; i < Equipas.size(); i++) {
 
-			Data tmp = Equipas[i].melhorTempo(Modalidades[indice_mod]);
+			Data tmp = Equipas[i].melhorTempo(Modalidades[escolha]);
 			Equipa tmp2 = Equipas[i];
 			int j;
 			for (j = i;
 					j > 0
 					&& tmp
 					< Equipas[j - 1].melhorTempo(
-							Modalidades[indice_mod]); j--)
+							Modalidades[escolha]); j--)
 				Equipas[j] = Equipas[j - 1];
 			Equipas[j] = tmp2;
 		}
@@ -587,8 +599,6 @@ void Campeonato::EquipasOrdemPontuacao()
 	{
 		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
 	}
-	system("pause");
-	cout << "\n";
 }
 
 void Campeonato::EquipasOrdemAlfabetica()

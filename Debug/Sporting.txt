@@ -1,7 +1,7 @@
 Atletas: 2
-Nome: Pili
+Nome: Slimani
 Modalidades: 2
 Futebol , Futebol de 11 | Natacao , Costas |
-Nome: Rofl
+Nome: Ines
 Modalidades: 1
 Natacao , Costas |

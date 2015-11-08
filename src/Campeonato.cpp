@@ -1639,9 +1639,7 @@ void Campeonato::inscreverAtletaModalidade()
 
 			if (existeDes && existeMod)
 			{
-				cout << Equipas[indice].getAtletas()[i].getDesportosInsc().size() << endl;
 				Equipas[indice].adicionaModalidadeAtleta(i, Modalidades[modIndice]);
-				cout << Equipas[indice].getAtletas()[i].getDesportosInsc().size() << endl;
 				cout << "O atleta " << Equipas[indice].getAtletas()[i].getNome() << " foi inscrito na modalidade especificada." << endl;
 				return;
 			}

@@ -1,0 +1,7 @@
+Atletas: 2
+Nome: Aboubakar
+Modalidades: 2
+Futebol , Futebol de 11 | Atletismo , Corrida |
+Nome: Maria
+Modalidades: 1
+Natacao , Costas |

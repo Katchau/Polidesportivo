@@ -1,12 +1,14 @@
 Equipas:
-Equipa1
-Equipa2
+Benfica
+Porto
+Sporting
 
 InfraEstruturas:
-San Siro
-Emirates
-Cu de Judas
+Estadio da Luz
+Estadio do Dragao
+Alvalade XXI
 
 Modalidades:
 Futebol , Futebol de 11 ,
+Atletismo , Corrida ,
 Natacao , Costas .

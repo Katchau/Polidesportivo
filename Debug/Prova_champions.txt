@@ -1,20 +1,18 @@
-Evento das patacas
+100m Masculino
 TEMPO
-Natacao
-Costas
+Atletismo
+Corrida
 12/10/2005
 15:30:00
 12/10/2005
 16:30:00
-Emirates
-Jaquim
-00:12:12
-Manel
-00:12:13
-Rofl
-00:14:13
+Alvalade XXI
+Jonas
+00:00:12
+Aboubakar
+00:00:10
 
-Bananas alala
+200m Costas
 TEMPO
 Natacao
 Costas
@@ -22,13 +20,13 @@ Costas
 15:30:00
 13/10/2005
 16:30:00
-San Siro
-Jaquim
-00:12:12
-Manel
-00:12:13
+Estadio do Dragao
+Ines
+00:3:12
+Maria
+00:3:20
 
-Liga europa
+Liga Portuguesa
 PONTO
 Futebol
 Futebol de 11
@@ -36,11 +34,29 @@ Futebol de 11
 17:15:00
 15/10/2025
 19:30:00
-Cu de Judas
-Jaquim
-14
+Estadio da Luz
+Jonas
+18
 Manel
-12
-Pili
-28
+20
+Aboubakar
+17
+Slimani
+14
+
+Liga Europa
+PONTO
+Futebol
+Futebol de 11
+12/10/2004
+17:15:00
+15/10/2003
+19:30:00
+Estadio da Luz
+Jonas
+18
+Aboubakar
+1
+Slimani
+14
 

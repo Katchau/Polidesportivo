@@ -73,8 +73,18 @@ void Equipa::addAthletesFromFile()
 	{
 		string nome;
 		int n_modal;
+		string tmp = "";
 
-		Read >> lixo >> nome >> lixo >> n_modal;
+		Read >> lixo >> nome;
+
+		while (tmp != "Modalidades:")
+		{
+			if (tmp != "")
+				nome = nome + " " + tmp;
+			Read >> tmp;
+		}
+
+		Read >> n_modal;
 
 		Atleta tmpatl(nome);
 

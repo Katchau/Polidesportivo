@@ -631,6 +631,12 @@ void Campeonato::criaEquipa()
 
 void Campeonato::removerEquipa()
 {
+	if (Equipas.size() == 0)
+	{
+		cout << "Nao existem equipas no campeonato. Adicione uma equipa antes de a poder remover." << endl;
+		return;
+	}
+
 	string nome;
 
 	bool removida = false;
@@ -741,41 +747,53 @@ void Campeonato::adicionarInfraestrutura()
 
 }
 
-void Campeonato::removerInfraestrutura(){
+void Campeonato::removerInfraestrutura()
+{
+	if (Infraestruturas.size() == 0)
+	{
+		cout << "Nao existem infraestruturas no campeonato. Adicione uma infraestrutura antes de a poder remover." << endl;
+		return;
+	}
 
-	// TODO ja visto   testar quando á eventos
-	do{
-		cout << "Introduza o nome da infraestrutura a apagar: ";
-		string a;
-		getline(cin,a);
-		cout << "Input: " << a << endl;
-		if(a == "")
-		{
-			cout << "Introduza um nome não vazio! " << endl;
-			continue;
-		}
+	string nomeInfra;
+	bool existe;
+	size_t indice;
 
-		for(unsigned int i = 0; i <  Infraestruturas.size();i++)
-		{cout << "FOR" << endl;
-		if(a == Infraestruturas[i]->getNome())
-		{
-			cout << "entrou" << endl;
+	do
+	{
+		existe = false;
+		nomeInfra = returnInput("a infraestrutura a apagar");
 
-			if(Infraestruturas[i]->getCalendario() != 0)
+		for (size_t i = 0; i < Infraestruturas.size(); i++)
+			if (Infraestruturas[i]->getNome() == nomeInfra)
 			{
-				if(Infraestruturas[i]->Neventos() != 0)
-				{
-					cout << "Nao pede remover uma infraestrutura com eventos!" << endl;
-					break;
-				}
+				existe = true;
+				indice = i;
 			}
-			cout << "delete" << endl;
-			delete Infraestruturas[i];
-			Infraestruturas.erase(Infraestruturas.begin()+i);
-			return;
+
+		if (!existe)
+		{
+			cout << "A infraestrutura " << nomeInfra << " nao existe. Escolha uma das seguintes: " << endl;
+			sort(Infraestruturas.begin(),Infraestruturas.end(),ordenaAlfaInfra);
+			for(size_t i = 0; i < Infraestruturas.size();i++)
+			{
+				cout << i+1 << " - " << Infraestruturas[i]->getNome() << endl;
+			}
 		}
+	} while (!existe);
+
+	if(Infraestruturas[indice]->getCalendario() != 0)
+	{
+		if(Infraestruturas[indice]->Neventos() != 0)
+		{
+			cout << "Nao pode remover uma infraestrutura com eventos. Remova-os primeiro." << endl;
+					return;
 		}
-	}while(true);
+	}
+
+	cout << "Infraestrutura removida!" << endl;
+	delete Infraestruturas[indice];
+	Infraestruturas.erase(Infraestruturas.begin()+indice);
 
 }
 

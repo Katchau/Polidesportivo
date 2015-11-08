@@ -42,24 +42,24 @@ struct Data {
  * Operador de < entre objectos da classe Data
  * @param inicio
  * @param fim
- * @return true se Data fim é posterior  á data inicio;
- * @return false se Data fim é anterior á data inicio;
+ * @return true se Data fim e posterior  a data inicio;
+ * @return false se Data fim e anterior a data inicio;
  */
 bool operator< (const Data &inicio,const Data &fim);
 /**
  * Operador de == entre objectos da classe Data
  * @param inicio
  * @param fim
- * @return true se Data fim é igual á data inicio;
- * @return false se Data fim nao é á data inicio;
+ * @return true se Data fim e igual a data inicio;
+ * @return false se Data fim nao e igual a data inicio;
  */
 bool operator == (const Data &esquerda, const Data &direita);
 /**
  * Operador de <= entre objectos da classe Data
  * @param inicio
  * @param fim
- * @return true se Data fim é posterior ou igual á data inicio;
- * @return false se Data fim é anterior á data inicio;
+ * @return true se Data fim e posterior ou igual a data inicio;
+ * @return false se Data fim e anterior a data inicio;
  */
 bool operator <= (const Data &inicio,const Data &fim);
 
@@ -73,8 +73,7 @@ public:
 	 */
 	Posicao(string atleta);
 	/**
-	 * Retorna o nome do atleta
-	 *  @return string
+	 *  @return Retorna o nome do atleta
 	 */
 	string getAtleta() const;
 };
@@ -90,8 +89,7 @@ public:
 	 */
 	Posicao_tempo(string atleta , Data tempo);
 	/**
-	 * Retorna o tempo obtido por um atleta
-	 *  @return Data
+	 *  @return  Retorna o tempo obtido por um atleta
 	 */
 	Data getTempo() const;
 	/**
@@ -100,8 +98,8 @@ public:
 	void setTempo(Data tempo);
 	/**
 	 * Operador de menor entre objectos da classe Posicao_tempo, compara o tempo obtido pelos atletas;
-	 *  @return true se o tempo de A é maior que o objecto da classe Posicao_Pontos
-	 * @return false se  o tempo de  A é menor que o objecto da classe Posicao_Pontos
+	 *  @return true se o tempo de A e maior que o objecto da classe Posicao_Pontos
+	 * @return false se  o tempo de  A e menor que o objecto da classe Posicao_Pontos
 	 */
 	bool operator < (const Posicao_tempo &A) const;
 };
@@ -117,8 +115,8 @@ public:
 	 */
 	Posicao_Pontos(string atleta, int pontuacao);
 	/**
-	 * Retorna a pontuacao do atleta
-	 *  @return int
+	 *
+	 *  @return Retorna a pontuacao do atleta
 	 */
 	int getPontuacao() const;
 	/**
@@ -127,8 +125,8 @@ public:
 	void setpontuacao(int pontuacao);
 	/**
 	 * Operador de < entre objectos da classe Posicao_Pontos, compara a pontuacao obtida pelos atletas
-	 * @return true se a pontuacao de A é menor que o objecto da classe Posicao_Pontos
-	 * @return false se a pontuaca de A é maior que o objecto da classe Posicao_Pontos
+	 * @return true se a pontuacao de A e menor que o objecto da classe Posicao_Pontos
+	 * @return false se a pontuaca de A e maior que o objecto da classe Posicao_Pontos
 	 */
 	bool operator < (const Posicao_Pontos &A) const;
 };
@@ -148,7 +146,7 @@ public:
 		 * @param nome Nome da Prova
 		 * @param inicial Data de inicio da prova
 		 * @param final Data final da prova
-		 * @param tipo se a pontuacao da prova é por tempo ou ponto
+		 * @param tipo se a pontuacao da prova e por tempo ou ponto
 		 */
 	Prova_Pontuacao(string nome,Data inicial,Data final,string tipo);
 	/**
@@ -166,8 +164,8 @@ public:
 		 */
 	void removeLugar(string nome);
 	/**
-		 * Retorna o vector de classificaçoes da prova
-		 * return vector<Posicao_Pontos>
+		 *
+		 * return Retorna o vector de classificaçoes da prova
 		 */
 	vector<Posicao_Pontos *> getLugares() const;
 	/**
@@ -175,8 +173,8 @@ public:
 		 */
 	void resultados();
 	/**
-		 * Retorna o nome dos atletas presentes na prova
-		 *  @return vector<string>
+		 *
+		 *  @return  Retorna o nome dos atletas presentes na prova
 		 */
 	vector<string> getNomeAtletas() const;
 	/**
@@ -201,7 +199,7 @@ public:
 	 * @param nome Nome da Prova
 	 * @param inicial Data de inicio da prova
 	 * @param final Data final da prova
-	 * @param tipo se a pontuacao da prova é por tempo ou ponto
+	 * @param tipo se a pontuacao da prova  por tempo ou ponto
 	 */
 	Prova_Tempo(string nome,Data inicial,Data final,string tipo);
 	/**
@@ -219,8 +217,8 @@ public:
 	 */
 	void removeLugar(string nome);
 	/**
-	 * Retorna o vector de classificaçoes da prova
-	 *  @return vector<Posicao_tempo *>
+	 *
+	 *  @return Retorna o vector de classificaçoes da prova
 	 */
 	vector<Posicao_tempo *> getLugares() const;
 	/**
@@ -228,8 +226,8 @@ public:
 	 */
 	void resultados();
 	/**
-	 * Retorna o nome dos atletas presentes na prova
-	 *  @return vector<string>
+	 *
+	 *  @return Retorna o nome dos atletas presentes na prova
 	 */
 	vector<string> getNomeAtletas() const;
 
@@ -283,23 +281,23 @@ public:
 	 */
 	evento(string nome,Data inicial,Data final,string tipo);
 	/**
-	 * Retorna o nome do evento
-	 *  @return string
+	 *
+	 *  @return Retorna o nome do evento
 	 */
 	string getNome() const;
 	/**
-	 * Retorna o nome da modalidade
-	 *  @return string
+	 *
+	 *  @return Retorna o nome da modalidade
 	 */
 	string getTipo() const;
 	/**
-	 * Retorna a data inicial do evento
-	 *  @return Data
+	 *
+	 *  @return Retorna a data inicial do evento
 	 */
 	Data getInicial() const;
 	/**
-	 * Retorna a data final do evento
-	 *  @return Data
+	 *
+	 *  @return Retorna a data final do evento
 	 */
 	Data getFinal() const;
 	/**
@@ -391,23 +389,22 @@ public:
 	void setFim(Data fim);
 	//Ler
 	/**
-	 * Retorna a data inicial
-	 *  @return Data
+	 *
+	 *  @return Retorna a data inicial
 	 */
 	Data getInicio() const;
 	/**
-	 * Retorna a data final
-	 *  @return Data
+	 *
+	 *  @return  Retorna a data final
 	 */
 	Data getFim() const;
 	/**
-	 * Retorna os eventos;
-	 *  @return vector<evento* >
+	 *  @return Retorna os eventos;
 	 */
 	vector<evento *> getEventos() const;
 	/**
-	 * Retorna o numero de eventos
-	 *  @return int
+	 *
+	 *  @return Retorna o numero de eventos
 	 */
 	int Neventos() const;
 	/**
@@ -442,8 +439,8 @@ public:
 	 */
 	EventoNaoExiste(string nome);
 	/**
-		 * Retorna o nome do evento que nao existe
-		 *  @return string
+		 *
+		 *  @return Retorna o nome do evento que nao existe
 		 */
 	string getNome();
 };
@@ -458,27 +455,27 @@ public:
 
 
 /**
- * Permite verificar se a data é valida
+ * Permite verificar se a data e valida
  * @param Marcacao Data a verificar
  * @param atual  Se igual a zero apenas verifica se os valores na data sao possiveis. \n
- * 				 Se igual a um verifica se os valores da data sao possiveis e se a Marcacao é posterior á data atual
+ * 				 Se igual a um verifica se os valores da data sao possiveis e se a Marcacao e posterior á data atual
  * 	@return true se data e valida
- *	@return false se a data nao é valida
+ *	@return false se a data nao e valida
  */
 bool ValidaData(Data Marcacao, bool atual);
 
 /**
- * Verifica se o ano é bissexto.Retorna true se for verdade
+ * Verifica se o ano e bissexto.Retorna true se for verdade
  * @param ano
  * @return true se o ano e bissexto
  * @return false se o ano nao e bissexto
  */
 bool bissexto(int ano);
 /**
- * Retorna o numero de dias de um mes
+ *
  * @param ano
  * @param mes
- * @return unsigend int
+ * @return Retorna o numero de dias de um mes
  */
 unsigned int diasMes(int ano, int mes);
 

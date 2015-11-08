@@ -164,6 +164,7 @@ Campeonato::Campeonato(const string &filename)
 Campeonato::Campeonato()
 {
 	nome = returnInput("o campeonato");
+	nome += ".txt";
 }
 
 void Campeonato::menuCampeonato()
@@ -1755,7 +1756,7 @@ void Campeonato::RemoveEventosInfra(string modalidade)
 
 void Campeonato::gravaProvas()
 {
-	string filename = "Provas__" + nome;
+	string filename = "Provas_" + nome;
 	ofstream gravar;
 	gravar.open(filename.c_str());
 	for (unsigned int i = 0; i < Modalidades.size(); i++) {
@@ -1798,11 +1799,11 @@ void Campeonato::gravaProvas()
 				vector<Posicao_Pontos *> pTvec = provaP->getLugares();
 				for (unsigned int k = 0; k < pTvec.size(); k++) {
 					gravar << pTvec[k]->getAtleta() << '\n';
-					gravar << pTvec[k]->getPontuacao() << '\n';
+					gravar << pTvec[k]->getPontuacao();
 				}
 
 			}
-			//gravar << '\n';
+			gravar << '\n';
 		}
 	}
 

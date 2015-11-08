@@ -42,7 +42,7 @@ bool Atleta::adicionaModalidade(Desporto *d)
 	if (existe)
 		throw DesportoRepetido();
 
-	cout << d->getNome() << endl;
+	//cout << d->getNome() << endl;
 	desportosInscrito.push_back(d);
 
 	return true;

@@ -287,7 +287,7 @@ public:
 	string getNome() const;
 	/**
 	 *
-	 *  @return Retorna o nome da modalidade
+	 *  @return Retorna o tipo de classificacao
 	 */
 	string getTipo() const;
 	/**

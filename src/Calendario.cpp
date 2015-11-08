@@ -69,13 +69,13 @@ Calendario::Calendario(){
 }
 
 bool evento::operator == (const evento * ev) const
-				{
+								{
 	if (inicial == ev->getInicial() && final == ev->getFinal())
 	{
 		return true;
 	}
 	else return false;
-				}
+								}
 
 void Calendario::adiciona_evento(evento * alpha)
 {
@@ -109,12 +109,17 @@ void Calendario::remove_evento(evento *alpha)
 	}
 	throw EventoNaoExiste(alpha->getNome());
 }
+
 void Calendario::imprime() const
 {
 	for(unsigned int i = 0;i < eventos.size();i++){
-		cout << eventos[i]->getNome() << " Data inicial: "<<  eventos[i]->getInicial() << " Data final: " << eventos[i]->getFinal() << endl;
+		cout << "Nome da prova: " << eventos[i]->getNome() << endl;
+		cout << "Data inicial: " <<  eventos[i]->getInicial() << endl;
+		cout << "Data final: " << eventos[i]->getFinal() << endl;
+		cout << endl;
 	}
 }
+
 void Calendario::setInicio(Data inicio){
 	this->inicio = inicio;
 }

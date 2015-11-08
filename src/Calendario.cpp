@@ -69,13 +69,13 @@ Calendario::Calendario(){
 }
 
 bool evento::operator == (const evento * ev) const
-		{
+				{
 	if (inicial == ev->getInicial() && final == ev->getFinal())
 	{
 		return true;
 	}
 	else return false;
-		}
+				}
 
 void Calendario::adiciona_evento(evento * alpha)
 {
@@ -303,12 +303,20 @@ Prova_Pontuacao * evento::getProvaP()
 
 bool eventos_sobrepostos(const evento *alpha,const  evento *beta){
 
-	if (alpha->getFinal() <= beta->getInicial())
+	if(alpha->getInicial()< beta->getFinal() && beta->getFinal() < alpha -> getFinal())
 		return true;
-	if (beta->getFinal() <= alpha->getInicial())
+	if(alpha->getInicial()< beta-> getInicial() && beta->getInicial()< alpha -> getFinal())
 		return true;
+	if(beta->getInicial() < alpha-> getInicial()&& alpha-> getInicial()< beta->getFinal())
+		return true;
+	if(beta->getInicial()  < alpha-> getFinal()&& alpha->getFinal() < beta->getFinal())
+		return true;
+
+	if(alpha->getInicial() == beta->getInicial()) return true;
+	if(alpha->getFinal()== beta-> getFinal()) return true;
 	return false;
 }
+
 
 string evento::getNome() const{
 	return nome;

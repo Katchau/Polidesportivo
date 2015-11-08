@@ -986,41 +986,72 @@ void Campeonato::adicionarEventos()
 			}
 		}
 
-		int d, m, a, h, mi, s=0;
-		while(1){ cin.clear();
-		cin.ignore(100,'\n');
-		cout << "Data inicial" << endl;
-		cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
-		cin >> d >> m >> a >> h >> mi;
-		if(cin.fail())
+		Data inicial,fim;
+		unsigned int dia , mes, ano, horas, minutos;
+		while(1)
 		{
-			cout << "Data invalida" << endl;
-			continue;
+			cin.clear();
+			cin.ignore(100,'\n');
+			cout << "Data inicial" << endl;
+			cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
+			cin >> dia >> mes  >> ano >> horas >> minutos;
+			if(cin.fail())
+			{
+				cout << "Data invalida" << endl;
+				continue;
+			}
+
+
+			inicial=Data(dia, mes, ano, horas, minutos, 0);
+			cout <<"Data incial" << inicial << endl;
+
+			if(!ValidaData(inicial,false))
+			{
+				cout << "A data introduzida nao e valida! " << endl;
+				continue;
+			}
+			break;
 		}
-		break;
-		}
-		Data di(d, m, a, h, mi, s);
-		while(1){	cin.clear();
-		cin.ignore(100,'\n');
-		cout << "Data Final" << endl;
-		cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
-		cin >> d >> m >> a >> h >> mi;
-		Data df(d, m, a, h, mi, s);
-		if(cin.fail())
+		while(1)
 		{
-			cout << "Data invalida" << endl;
-			continue;
+			cin.clear();
+			cin.ignore(100,'\n');
+			cout << "Data Final" << endl;
+			cout << "PS: No formato:  dia mes ano hora minuto" << endl;
+			cin >> dia >> mes >> ano >> horas >> minutos;
+
+			if(cin.fail())
+			{
+				cout << "Data invalida" << endl;
+				continue;
+			}
+			fim=Data(dia, mes, ano, horas, minutos, 0);
+			cout <<"Data final" << fim << endl;
+			if(!ValidaData(fim ,false))
+			{
+				cout << "A data introduzida nao e valida! " << endl;
+				continue;
+			}
+
+			break;
 		}
-		break;
+		if(!(inicial <= fim))
+		{
+			cout << " A data inicial e igual ou posterio a data final! " << endl;
+			return;
 		}
-		Data df(d, m, a, h, mi, s);
-		// TODO falta try catches e whatnot
-		evento * ev = new evento(nomeEvento, di, df, tipo);
+
+
+
+		evento * ev = new evento(nomeEvento, inicial, fim, tipo);
+
 		int n = Infraestruturas[indice]->Neventos();
 		if (Infraestruturas[indice]->getCalendario()->getFim() == Data())
-			Infraestruturas[indice]->getCalendario()->setFim(df);
+			Infraestruturas[indice]->getCalendario()->setFim(fim);
 		Infraestruturas[indice]->adicionaEvento(ev);
+
 		int n_next = Infraestruturas[indice]->Neventos();
+
 		if (n_next != n) {
 			cout << "Para que modalidade? (do genero Atletismo , Sprint)"
 					<< endl;
@@ -1033,10 +1064,10 @@ void Campeonato::adicionarEventos()
 				}
 			}
 		}
-		cout << "Adicionar outro evento ou sair?" << endl;
+		cout << "Adicionar outro evento ou sair?['S' para sair]" << endl;
 		cin >> resposta;
 		transform(resposta.begin(),resposta.end(), resposta.begin(), ::towlower);
-	}while(resposta != "sair");
+	}while(resposta != "S");
 }
 
 void Campeonato::removerEventos()

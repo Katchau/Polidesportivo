@@ -206,7 +206,7 @@ void Campeonato::menuCampeonato()
 		}
 	};
 	gravarCampeonato();
-	return;
+	exit(1);
 }
 //MENU EQUIPAS
 void Campeonato::menuEquipas()
@@ -789,7 +789,7 @@ void Campeonato::menuModalidades()
 {
 	while (1)
 	{
-		cout << "/n    Modalidades" << endl;
+		cout << "\n    Modalidades" << endl;
 		cout << "1 - Ver lista de Modalidades -- testar" << endl;
 		cout << "2 - Adicionar Modalidade -- testar" << endl;
 		cout << "3 - Remover Modalidade -- testar" << endl;
@@ -817,7 +817,7 @@ void Campeonato::listaModalidades()
 {
 	while (1)
 	{
-		cout << "/n    Modalidades" << endl;
+		cout << "\n    Modalidades" << endl;
 		cout << "1 - Ordem Alfabetica" << endl;
 		cout << "2 - Voltar Atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
@@ -965,33 +965,14 @@ vector<Desporto*> Campeonato::getModalidades()
 
 int Campeonato::menuEscolhaInfra()
 {
-	unsigned int x,indice, s = Infraestruturas.size();
-	for(unsigned int i=0;i<Infraestruturas.size();i++) // ou entao dar replace por InfraestruturasOrdemAlfabetica();
+	for (size_t i = 0; i < Infraestruturas.size(); i++)
 	{
-		x = i+1;
-		cout << x << ": " << Infraestruturas[i]->getNome() << endl;
+		cout << i + 1 << " - " << Infraestruturas[i]->getNome() << endl;
 	}
-	do
-	{
-		cout << "Introduza um valor entre 1 e " << Infraestruturas.size() << endl;
-		cin >> indice;
-		while(cin.fail())
-		{
-			cin.clear();
-			cin.ignore(1000,'\n');
-			cout << "Porfavor introduza um valor valido" << endl;
-			cin >> indice;
-		}
-		if(indice < 1 || indice > s)
-		{
-			cout << "Porfavor introduza um valor valido "<< endl;
-			cin.clear();
-			cin.ignore(1000,'\n');
-		}
-		else break;
-	}while(true);
 
-	indice--;
+	cout << "Introduza o numero correspondente a infraestrutura desejada: ";
+	int indice = selectMenu('1','0'+Infraestruturas.size()) - '1';
+
 	return indice;
 }
 
@@ -1021,7 +1002,7 @@ void Campeonato::calendarioInfra()
 }
 
 void Campeonato::listaCalendarios(){
-	cout << " Calendarios: Identifique qual calendario a ver" << endl;
+	cout << "\n    Calendarios: Identifique qual calendario a ver" << endl;
 	cout << "1 - Todos os calendarios" << endl;
 	cout << "2 - Calendario de Apenas 1 InfraEstrutra" << endl;
 	cout << "3 - Voltar Atras" << endl;
@@ -1042,114 +1023,111 @@ void Campeonato::listaCalendarios(){
 
 void Campeonato::adicionarEventos()
 {
-	string resposta,modalidade;
+
+	if(Infraestruturas.size() == 0)
+	{
+		cout << "O campeonato ainda nao tem infraestruturas. Adicione uma infraestruturas antes de adicionar provas." << endl;
+		return;
+	}
+
+	cout << "\n    Adicionar Evento" << endl;
+
+	string nomeEvento, tipo;
+	string resposta, modalidade;
+	cout << "Escolha a infraestrutura a que pretende adicionar o evento: " << endl;
+	int indice = menuEscolhaInfra();
+
+	nomeEvento = returnInput("o evento");
+
+	cout << "Escolha o tipo de classificacao: " << endl;
+	cout << "1 - Tempo" << endl;
+	cout << "2 - Pontuacao" << endl;
+	cout << "Introduza a opcao correspondente ao tipo de classificacao desejado: ";
+	if (selectMenu('1','2') == '1')
+		tipo = "TEMPO";
+	else
+		tipo = "PONTO";
+
+	Data inicial, final;
+	bool invalido;
+	unsigned int dia, mes, ano, horas, minutos;
+
 	do
 	{
-		cout << "Qual das Infraestruturas pretende adicionar evento?" << endl;
-		int indice = menuEscolhaInfra();
+		invalido = false;
 
-		cout << "Por favor introduza o nome do evento" << endl;
-		string nomeEvento, tipo;
-		cin >> nomeEvento;
-		bool valid = false;
-		while(!valid)
+		cout << "Data Inicial: (introduza numeros inteiros)" << endl;
+
+		dia = returnInt("Dia: ");
+		mes = returnInt("Mes: ");
+		ano = returnInt("Ano: ");
+		horas = returnInt("Horas: ");
+		minutos = returnInt("Minutos: ");
+
+		inicial=Data(dia, mes, ano, horas, minutos, 0);
+
+		if(!ValidaData(inicial,false))
 		{
-			cout << "Porvavor introduza TEMPO ou PONTO do tipo de classificacao" << endl;
-			cin.clear();
-			cin.ignore(100, '\n');
-			cin >> tipo;
-			if(tipo == "TEMPO" || tipo == "PONTO")
-			{
-				valid = true;
-			}
+			cout << "A data introduzida nao e valida. Tente novamente!" << endl;
+			invalido = true;
 		}
 
-		Data inicial,fim;
-		unsigned int dia , mes, ano, horas, minutos;
-		while(1)
+	} while (invalido);
+
+	cout << "Data inicial: " << inicial << endl;
+
+	do
+	{
+		invalido = false;
+
+		cout << "Data Final: (introduza numeros inteiros)" << endl;
+
+		dia = returnInt("Dia: ");
+		mes = returnInt("Mes: ");
+		ano = returnInt("Ano: ");
+		horas = returnInt("Horas: ");
+		minutos = returnInt("Minutos: ");
+
+		final=Data(dia, mes, ano, horas, minutos, 0);
+
+		if(!ValidaData(inicial,false))
 		{
-			cin.clear();
-			cin.ignore(100,'\n');
-			cout << "Data inicial" << endl;
-			cout << "PS: No formato dia, mes, ano, hora e minuto" << endl;
-			cin >> dia >> mes  >> ano >> horas >> minutos;
-			if(cin.fail())
-			{
-				cout << "Data invalida" << endl;
-				continue;
-			}
-
-
-			inicial=Data(dia, mes, ano, horas, minutos, 0);
-			cout <<"Data incial" << inicial << endl;
-
-			if(!ValidaData(inicial,false))
-			{
-				cout << "A data introduzida nao e valida! " << endl;
-				continue;
-			}
-			break;
+			cout << "A data introduzida nao e valida. Tente novamente!" << endl;
+			invalido = true;
 		}
-		while(1)
+
+	} while (invalido);
+
+	cout << "Data final: " << final << endl;
+
+	if(!(final <= inicial))
+	{
+		cout << "Erro! A data inicial e igual ou posterior a data final." << endl;
+		return;
+	}
+
+	evento * ev = new evento(nomeEvento, inicial, final, tipo);
+
+	int n = Infraestruturas[indice]->Neventos();
+	if (Infraestruturas[indice]->getCalendario()->getFim() == Data())
+		Infraestruturas[indice]->getCalendario()->setFim(final);
+	Infraestruturas[indice]->adicionaEvento(ev);
+
+	int n_next = Infraestruturas[indice]->Neventos();
+	size_t escolha;
+	if (n_next != n) {
+
+		cin.ignore(100, '\n');
+		cout << "Escolha a modalidade da prova que deseja adicionar: " << endl;
+		for (size_t i = 0; i < Modalidades.size(); i++)
 		{
-			cin.clear();
-			cin.ignore(100,'\n');
-			cout << "Data Final" << endl;
-			cout << "PS: No formato:  dia mes ano hora minuto" << endl;
-			cin >> dia >> mes >> ano >> horas >> minutos;
-
-			if(cin.fail())
-			{
-				cout << "Data invalida" << endl;
-				continue;
-			}
-			fim=Data(dia, mes, ano, horas, minutos, 0);
-			cout <<"Data final" << fim << endl;
-			if(!ValidaData(fim ,false))
-			{
-				cout << "A data introduzida nao e valida! " << endl;
-				continue;
-			}
-
-			break;
+			cout << i+1 << ": " << Modalidades[i]->getDesporto() << " - " << Modalidades[i]->getNome() << endl;
 		}
-		if(!(inicial <= fim))
-		{
-			cout << " A data inicial e igual ou posterio a data final! " << endl;
-			return;
-		}
+		cout << "Introduza a opcao correspondente a modalidade desejada: ";
+		escolha = selectMenu('1',Modalidades.size()+'0') - '0';
 
-
-
-		evento * ev = new evento(nomeEvento, inicial, fim, tipo);
-
-		int n = Infraestruturas[indice]->Neventos();
-		if (Infraestruturas[indice]->getCalendario()->getFim() == Data())
-			Infraestruturas[indice]->getCalendario()->setFim(fim);
-		Infraestruturas[indice]->adicionaEvento(ev);
-
-		int n_next = Infraestruturas[indice]->Neventos();
-
-		if (n_next != n) {
-			bool encontrou = false;
-
-			do {
-				cout << "Para que modalidade? (do genero Atletismo , Sprint)"
-						<< endl;
-				cin.clear();
-				getline(cin, modalidade); //precisa de ser getline!!
-				cin.ignore(1000,'\n');
-				for (unsigned int j = 0; j < Modalidades.size(); j++) {
-					if (modalidade == Modalidades[j]->getNome()) {
-						Modalidades[j]->adicionaProva(ev);
-						encontrou = true;
-					}
-				}
-			} while (!encontrou);
-		}
-		cout << "Adicionar outro evento ou sair?['S' para sair]" << endl;
-		cin >> resposta;
-	}while(resposta != "S");
+		Modalidades[escolha]->adicionaProva(ev);
+	}
 }
 
 void Campeonato::removerEventos()

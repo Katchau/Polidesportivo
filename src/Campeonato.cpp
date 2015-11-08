@@ -230,7 +230,7 @@ void Campeonato::menuEquipas()
 		cout << "1 - Ver lista de equipas" << endl;
 		cout << "2 - Adicionar equipa" << endl;
 		cout << "3 - Remover equipa" << endl;
-		cout << "4 - Atletas -- por fazer" << endl;
+		cout << "4 - Atletas" << endl;
 		cout << "5 - Voltar atras"<< endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
@@ -356,14 +356,11 @@ void Campeonato::removeAtleta()
 		else
 		{
 			cout << "O atleta " << nomeAtleta << " nao existe. Escolha um dos seguintes: " << endl;
-			for(size_t j = 0; j < Equipas.size(); j++)
+			vector<Atleta> Atle = Equipas[i].getAtletas();
+			sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
+			for(unsigned int t = 0; t < Atle.size();t++)
 			{
-				vector<Atleta> Atle = Equipas[i].getAtletas();
-				sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
-				for(unsigned int t = 0; t < Atle.size();t++)
-				{
-					cout << Atle[t].getNome() << endl;
-				}
+				cout << Atle[t].getNome() << endl;
 			}
 		}
 	} while (!existe);
@@ -380,16 +377,15 @@ void Campeonato::removeAtleta()
 
 void Campeonato::AtletasPorEquipa()
 {
-	cout<< "Atletas por equipas " << endl;
+	cout<< "Atletas por equipa:" << endl;
 	for(unsigned int i = 0; i < Equipas.size();i++)
 	{
 		vector<Atleta> Atle = Equipas[i].getAtletas();
 		sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
-		cout << Equipas[i].getNomeEquipa() << endl;
-		cout << "\n";
+		cout << "\n" << Equipas[i].getNomeEquipa() << ": " << Equipas[i].getAtletas().size() << endl;
 		for(unsigned int t = 0; t < Atle.size();t++)
 		{
-			cout << Atle[t].getNome() << endl;
+			cout << t+1 << " - " << Atle[t].getNome() << endl;
 		}
 	}
 }
@@ -402,7 +398,7 @@ void Campeonato::AtletasPorDesporto(){
 		vector<string>Atletas = AtletasDesporto(Desportos[i]);
 
 		sort(Atletas.begin(),Atletas.end());
-		cout <<i+i << " - " << Desportos[i] << endl;
+		cout <<i+1 << " - " << Desportos[i] << endl;
 		for(unsigned int k = 0; k < Atletas.size();k++)
 		{
 			cout << Atletas[k] << endl;
@@ -512,7 +508,7 @@ void Campeonato::listaEquipas(){
 
 	cout << "    Lista de Equipas" << endl;
 	cout << "1 - Por odem alfabetica" << endl;
-	cout << "2 - Por pontuacao -- por fazer" << endl;
+	cout << "2 - Por pontuacao" << endl;
 	cout << "3 - Voltar atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 
@@ -664,7 +660,7 @@ void Campeonato::menuInfraestruturas()
 		cout << "\n    Infraestruturas" << endl;
 		cout << "1 - Ver lista de infraestruturas" << endl;
 		cout << "2 - Adicionar infraestrutura" << endl;
-		cout << "3 - Remover infraestrutura -- 50/50" << endl;
+		cout << "3 - Remover infraestrutura" << endl;
 		cout << "4 - Voltar Atras " << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 		switch (selectMenu('1','4'))
@@ -676,7 +672,7 @@ void Campeonato::menuInfraestruturas()
 			adicionarInfraestrutura();
 			break;
 		case '3':
-			removerInfraestrutura();
+			removerInfraestrutura(); //TODO alterar inputs e testar com eventos
 			break;
 		case '4':
 			return;
@@ -690,8 +686,8 @@ void Campeonato::listaInfraestruturas()
 	while (1)
 	{
 		cout << "\n    Infraestruturas" << endl;
-		cout << "1 - Ordem alfabetica-- por fazer" << endl;
-		cout << "2 - Voltar Atras " << endl;
+		cout << "1 - Ordem alfabetica" << endl;
+		cout << "2 - Voltar Atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 		switch (selectMenu('1','2'))
 		{
@@ -708,18 +704,16 @@ void Campeonato::listaInfraestruturas()
 void Campeonato::InfraestruturasOrdemAlfabetica(){
 
 	sort(Infraestruturas.begin(),Infraestruturas.end(),ordenaAlfaInfra);
-	cout << " Infraestruturas" << endl;
+	cout << "\n    Infraestruturas" << endl;
 	for(unsigned int i = 0; i < Infraestruturas.size();i++)
 	{
 		cout << i+ 1 << " - " << Infraestruturas[i]->getNome() << endl;
 	}
-	system("pause");
-	cout << "\n";
 }
 
 void Campeonato::adicionarInfraestrutura()
 {
-	cout << " Infraestruturas" << endl;
+	cout << "\n    Infraestruturas" << endl;
 	string nomeInfra;
 	Infraestrutura *Novo;
 	bool valido;
@@ -730,8 +724,6 @@ void Campeonato::adicionarInfraestrutura()
 		nomeInfra = returnInput("a infraestrutura");
 
 		Novo = new Infraestrutura(nomeInfra);
-
-		cout << Infraestruturas.size() << endl;
 
 		for(unsigned int i = 0; i < Infraestruturas.size();i++ )
 		{
@@ -786,7 +778,6 @@ void Campeonato::removerInfraestrutura(){
 	}while(true);
 
 }
-
 
 //MODALIDADE
 void Campeonato::menuModalidades()

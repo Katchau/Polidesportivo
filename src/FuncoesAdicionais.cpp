@@ -23,6 +23,15 @@ std::string returnInput(std::string s1)
 				valido = true;
 	} while(std::cin.eof() || !valido);
 
+	for (size_t i = tmp.size() -1; i >= 0; i--)
+	{
+		if (tmp[i] != ' ')
+		{
+			tmp.resize(i+1);
+			break;
+		}
+	}
+
 	return tmp;
 }
 

@@ -1067,7 +1067,7 @@ void Campeonato::adicionarEventos()
 		bool valid = false;
 		while(!valid)
 		{
-			cout << "Porvavor introduza tempo ou pontos no Tipo" << endl;
+			cout << "Porvavor introduza TEMPO ou PONTO do tipo de classificacao" << endl;
 			cin.clear();
 			cin.ignore(100, '\n');
 			cin >> tipo;
@@ -1144,20 +1144,24 @@ void Campeonato::adicionarEventos()
 		int n_next = Infraestruturas[indice]->Neventos();
 
 		if (n_next != n) {
-			cout << "Para que modalidade? (do genero Atletismo , Sprint)"
-					<< endl;
-			cin.clear();
-			cin.ignore(100,'\n');
-			getline(cin, modalidade);
-			for (unsigned int j = 0; j < Modalidades.size(); j++) {
-				if (modalidade == Modalidades[j]->getNome()) {
-					Modalidades[j]->adicionaProva(ev);
+			bool encontrou = false;
+
+			do {
+				cout << "Para que modalidade? (do genero Atletismo , Sprint)"
+						<< endl;
+				cin.clear();
+				getline(cin, modalidade); //precisa de ser getline!!
+				cin.ignore(1000,'\n');
+				for (unsigned int j = 0; j < Modalidades.size(); j++) {
+					if (modalidade == Modalidades[j]->getNome()) {
+						Modalidades[j]->adicionaProva(ev);
+						encontrou = true;
+					}
 				}
-			}
+			} while (!encontrou);
 		}
 		cout << "Adicionar outro evento ou sair?['S' para sair]" << endl;
 		cin >> resposta;
-		transform(resposta.begin(),resposta.end(), resposta.begin(), ::towlower);
 	}while(resposta != "S");
 }
 
@@ -1206,16 +1210,13 @@ void Campeonato::removerEventos()
 							break;
 						}
 					}
-					break;
 				}
 			} while (!existe_mod);
 		}
-		//TODO falta isto!!
-		cout << "Remover outro evento ou sair?" << endl;
+
+		cout << "Remover outro evento ou sair?['S' para sair]" << endl;
 		cin >> resposta;
-		transform(resposta.begin(), resposta.end(), resposta.begin(),
-				::towlower);
-	} while (resposta != "sair");
+	}while(resposta != "S");
 }
 //PROVAS
 vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){

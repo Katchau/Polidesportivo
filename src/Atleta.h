@@ -6,6 +6,11 @@
 #include <iostream>
 #include "Desporto.h"
 
+class medalha
+{
+	string desporto;
+	string tipo;
+};
 
 class Atleta {
 private:

@@ -151,47 +151,132 @@ public:
 	 */
 	void adicionarEventos();
 	/*
-	 * Permite adicionar um evento, permitindo ao utilizador escolher a infraestrutura e as caracteristicas do evento
+	 * Permite remover um evento, rendo o utilizador que indicar a infraestrutura
 	 */
 	void removerEventos();
-
+/**
+ * Faz display do menu relativo a gestao das provas
+ */
 	void menuProvas();
 
-	void verResultados();// já estao ordenados lel
+	/**
+	 * Permite ao utilizador escolher uma modalidade e de seguida ver as classificacoes nessa mesma modalidade
+	 */
+	void verResultados();
 
+	/**
+	 * Permite adicionar uma prova de forma interativa com o utilizador
+	 */
 	void adicionarProvas();
-
+/**
+ * Permite remover uma prova de forma interativa com o utilizador
+ */
 	void removerProvas();
-
-	void removerClassProva();
-
+/**
+ * Permite remover a classifiacao de um atleta numa prova
+ */
+	void removerClassProva();//TODO onde é que esta isto
+/**
+ * Faz display do menu que permite a gestao do atletas
+ */
 	void menuAtletas();
-
+/**
+ * Permite adicionar um atleta de forma interativa com o utilizador
+ */
 	void adicionaAtleta();
-
+/**
+ * Permite remover um atleta de forma interativa com o utilizador
+ */
 	void removeAtleta();
-
+/**
+ * Faz o display do menu com todas as listas de ordenacao de atletas
+ */
 	void listaAtletas();
-
+/**
+ * Faz o display de uma lista de atletas ordenados por equipas
+ */
 	void AtletasPorEquipa();
 
+	/**
+	 * Faz o display de uma lista de atletas ordenados por modalidades
+	 */
 	void AtletasPorModalidade();
 
+	/**
+	 * Faz o display de uma lista de atletas ordenados por desportos
+	 */
 	void AtletasPorDesporto();
 
+	/**
+	 * Permite obter as provas realizadas e por realizar
+	 * @param seleciona  0 para provas realizadas  != 0 para provas por realizar
+	 * @return provas realizadas se selciona = 0
+	 * @return provas por realizar se seleciona != 0
+	 */
 	vector <evento*> ProvasOrganiza(unsigned int seleciona); // 0 Provas Realizadas  else Provas Por Realizar
 
+	/**
+	 * Verifica a existencia de uma equipa no campeonato
+	 * @param nome Nome da equipa a procuram
+	 * @return true se a equipa ja existir
+	 * @return false se a  equipa nao existir
+	 */
 	bool ExisteEquipa(string nome) const;
+	/**
+	 * Verifica a existencia de um atleta no campeonato
+	 * @param nome Nome do atleta
+	 * @return true se o atleta existir
+	 * @return false se o atleta nao  existir
+	 */
 	bool ExisteAtleta(string nome) const;
+	/**
+	 * Permite adicionar um atleta a uma equipa
+	 * @param Atleta Nome do Atleta
+	 * @param Equipa Nome da equipa
+	 * @return true se atleta adicionado
+	 * @return false se atleta nao adicionado
+	 */
 	bool AdicionaAtletaEquipa(string Atleta,string Equipa);
+	/**
+	 * Permite remover um atleta de uma equipa
+	 * @param equipa Nome da Equipa
+	 * @param Atleta Nome do atleta
+	 * @return true se o atleta foi removido
+	 * @return false se o atleta nao foi removido
+	 */
 	bool RemoveAtletaEquipa(string equipa,string Atleta);
+	/**
+	 * Permite remover um atleta de todas as provas
+	 * @param Atleta Nome do atleta
+	 */
 	void RemoveAtletaProva(string Atleta);
+	/**
+	 * @return Retorna os deportos presentes no campeonato
+	 */
 	vector<string>listaDesporto();
+	/**
+	 * @param Desporto Nome do desporto
+	 * @return atletas inscritos no desporto
+	 */
 	vector<string>AtletasDesporto(string Desporto);
+	/**
+	 * Remove uma modalidade de todos os atletas
+	 * @param desporto Nome do desporto
+	 * @param modalidade Nome da modalidade
+	 */
 	void RemoveModalidadeAtletas(string desporto,string modalidade);
-	void RemoveEventosInfra(string modalidade); //apaga os eventos da modalidades;
+	/**
+	 * Remove todos os eventos de uma  modalidade nas infraestruturas
+	 */
+	void RemoveEventosInfra(string modalidade);
 
+	/**
+	 * Imprime as provas realizadas no campeonato
+	 */
 	void ProvasRealizadas();
+	/**
+	 * Imprime as prvas por realizar no campeonato
+	 */
 	void ProvasPorRealizar();
 	/**
 	 * @return nome do campeonato
@@ -222,7 +307,7 @@ public:
 	 */
 	void gravarCampeonato();
 
-	void gravaProvas(string nomeCampeonato);
+	void gravaProvas(string nomeCampeonato);//TODO DOXY
 
 
 	// Excecoes
@@ -231,7 +316,10 @@ public:
 	private:
 		string nome;
 	public:
-		EquipaJaExistente(string nome) {this->nome = nome;}
+		EquipaJaExistente(string nome) {this->nome = nome;}//TODO DOXY
+		/**
+		 * @return Nome da equipa que ja existe
+		 */
 		string getNome() {return nome;}
 	};
 

@@ -311,7 +311,7 @@ public:
 	 */
 	void gravarCampeonato();
 
-	void gravaProvas(string nomeCampeonato);//TODO DOXY
+	void gravaProvas();//TODO DOXY
 
 
 	// Excecoes

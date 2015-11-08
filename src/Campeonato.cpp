@@ -22,7 +22,6 @@ Data transParaData(string dataI,string horaI)
 	HORAI >> min;
 	HORAI >> lixo;
 	HORAI >> sec;
-	cout << " teste 4" << endl;
 	return Data(dia,mes,ano,horas,min,sec);
 }
 
@@ -41,18 +40,18 @@ Campeonato::Campeonato(const string &filename)
 { //LER EQUIPAS
 	ifstream ReadConfig(filename.c_str());
 
+	nome = filename; //me need this!!
+
 	string nomeEq, nomeInf, desporto, modalidade;
 
 	ReadConfig.ignore(100, '\n');
 	while (true) {
 		getline(ReadConfig, nomeEq);
-		cout << nomeEq << endl;
 		if (nomeEq == "") //ou '\n'? boa pergunta
 			break;
 		try {
 			Equipa eq(nomeEq);
 			Equipas.push_back(eq);
-			cout << "EQUIPAS:SIZE() = " << Equipas.size() << endl;
 		} catch (Equipa::EquipaNaoExistente &e) {
 			cout << "O ficheiro  " << nomeEq << " nao existe!" << endl;
 		}
@@ -60,9 +59,7 @@ Campeonato::Campeonato(const string &filename)
 	}
 	ReadConfig.ignore(100, '\n');
 	while (true) {
-		cout << "entrou " << endl;
 		getline(ReadConfig, nomeInf);
-		cout << nomeInf << endl;
 		if (nomeInf == "") //ou '\n'?
 			break;
 		Infraestrutura * infa = new Infraestrutura(nomeInf);
@@ -72,14 +69,12 @@ Campeonato::Campeonato(const string &filename)
 	ReadConfig.ignore(100, '\n');
 	string tmp = "";
 	do {
-		cout << "entrou " << endl;
 		ReadConfig >> desporto;
 		ReadConfig >> tmp;
 		while (tmp != ",") {
 			desporto = desporto + " " + tmp;
 			ReadConfig >> tmp;
 		}
-		cout << desporto << endl;
 		tmp = "";
 		ReadConfig >> modalidade;
 		ReadConfig >> tmp;
@@ -87,7 +82,6 @@ Campeonato::Campeonato(const string &filename)
 			modalidade = modalidade + " " + tmp;
 			ReadConfig >> tmp;
 		}
-		cout << modalidade << endl;
 
 		Desporto * p = new Modalidade(desporto, modalidade);
 		Modalidades.push_back(p);
@@ -97,7 +91,6 @@ Campeonato::Campeonato(const string &filename)
 	// codigo do Jonas, esta no git na versao anterior.Updated, ainda nao testei
 	string prova = "Prova_" + filename;
 	ifstream Provas(prova.c_str());
-	cout << "PROVA" << endl;
 	while (!Provas.eof()) {
 		string tipo, desporto, modalidade, dataI, horaI, dataF, horaF, infra,
 		nome_ev;
@@ -105,33 +98,24 @@ Campeonato::Campeonato(const string &filename)
 		getline(Provas, tipo);
 		getline(Provas, desporto);
 		getline(Provas, modalidade);
-		cout << " teste 2" << endl;
 		string nomeTotal = desporto + " , " + modalidade;
-		cout << "Desporto: " << desporto << "Modalidade" << modalidade << endl;
-		cout << nomeTotal;
 		getline(Provas, dataI);
 		getline(Provas, horaI);
 		getline(Provas, dataF);
 		getline(Provas, horaF);
 		getline(Provas, infra);
-		cout << " teste 3" << endl;
 		evento *novo = transParaEvento(dataI, horaI, dataF, horaF, nome_ev,
 				tipo);
 		int indice_mod, indice_evento;
 
-		cout << Modalidades.size() << endl;
 		for (unsigned int i = 0; i < Modalidades.size(); i++) {
 			if (Modalidades[i]->getNome() == nomeTotal) {
-				cout << " teste 6" << endl;
 				Modalidades[i]->adicionaProva(novo);
 				indice_mod = i;
 			}
 		}
-		cout << Infraestruturas.size() << endl;
 		for (unsigned int i = 0; i < Infraestruturas.size(); i++) {
-			cout << i << endl;
 			if (Infraestruturas[i]->getNome() == infra) {
-				cout << " teste 7" << endl;
 				if (Infraestruturas[i]->getCalendario()->getInicio() == Data()
 						&& Infraestruturas[i]->getCalendario()->getFim()
 						== Data()) {
@@ -147,8 +131,6 @@ Campeonato::Campeonato(const string &filename)
 		string nomeAtleta = "Default", horaR, score;
 		int pontuacao;
 		getline(Provas, nomeAtleta);
-		cout << nomeAtleta;
-		cout << tipo;
 		while (nomeAtleta != "") {
 			if (tipo == "PONTO") {
 				getline(Provas, score);
@@ -173,11 +155,10 @@ Campeonato::Campeonato(const string &filename)
 						nomeAtleta, horas, minutos, segundos, 0);
 			}
 			getline(Provas, nomeAtleta);
-			cout << nomeAtleta;
 		}
 	}
 
-	cout << "fim construtor campeonatoFILE" << endl;
+	cout << "Carregou!" << endl;
 }
 
 Campeonato::Campeonato()
@@ -1541,7 +1522,8 @@ void Campeonato::gravarCampeonato()
 	{
 		Equipas[i].writetoFile();
 	}
-
+	cout << "LOOOOOL";
+	gravaProvas();
 	//TODO
 }
 
@@ -1771,9 +1753,9 @@ void Campeonato::RemoveEventosInfra(string modalidade)
 	}
 }
 
-void Campeonato::gravaProvas(string nomeCampeonato) //TODO testar isto ^^ btw tens de chamar com o nome (private da class)
+void Campeonato::gravaProvas()
 {
-	string filename = "Provas_" + nomeCampeonato;
+	string filename = "Provas__" + nome;
 	ofstream gravar;
 	gravar.open(filename.c_str());
 	for (unsigned int i = 0; i < Modalidades.size(); i++) {
@@ -1783,8 +1765,12 @@ void Campeonato::gravaProvas(string nomeCampeonato) //TODO testar isto ^^ btw te
 			gravar << provas[j]->getTipo() << '\n';
 			gravar << Modalidades[j]->getDesporto() << '\n';
 			gravar << Modalidades[j]->getTipo() << '\n';
-			gravar << provas[j]->getInicial() << '\n'; // nao sei se da para fazer isto!
-			gravar << provas[j]->getFinal() << '\n';
+			Data di = provas[j]->getInicial();// nao sei se da para fazer isto!
+			Data df = provas[j]->getFinal();
+			gravar << di.dia << "/" << di.mes << "/" << di.ano << '\n';
+			gravar << di.horas << ":" << di.minutos << ":" << di.segundos << '\n';
+			gravar << df.dia << "/" << df.mes << "/" << df.ano << '\n';
+			gravar << df.horas << ":" << df.minutos << ":" << df.segundos << '\n';
 			for (unsigned int k = 0; k < Infraestruturas.size(); k++) {
 				vector<evento *> infraprovas =
 						Infraestruturas[k]->getCalendario()->getEventos();
@@ -1801,7 +1787,8 @@ void Campeonato::gravaProvas(string nomeCampeonato) //TODO testar isto ^^ btw te
 				vector<Posicao_tempo *> pTvec = provaT->getLugares();
 				for (unsigned int k = 0; k < pTvec.size(); k++) {
 					gravar << pTvec[k]->getAtleta() << '\n';
-					gravar << pTvec[k]->getTempo() << '\n';
+					Data tempoA = pTvec[k]->getTempo();
+					gravar << tempoA.horas << ":" << tempoA.minutos << ":" << tempoA.segundos << '\n';
 				}
 
 			}
@@ -1815,7 +1802,7 @@ void Campeonato::gravaProvas(string nomeCampeonato) //TODO testar isto ^^ btw te
 				}
 
 			}
-			gravar << "" << '\n';
+			//gravar << '\n';
 		}
 	}
 

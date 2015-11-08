@@ -1084,7 +1084,7 @@ void Campeonato::adicionarEventos()
 			cout << i+1 << ": " << Modalidades[i]->getDesporto() << " - " << Modalidades[i]->getTipo() << endl;
 		}
 		cout << "Introduza a opcao correspondente a modalidade desejada: ";
-		escolha = selectMenu('1',Modalidades.size()+'0') - '0';
+		escolha = selectMenu('1',Modalidades.size()+'0') - '1';
 
 		Modalidades[escolha]->adicionaProva(ev);
 	}
@@ -1630,25 +1630,25 @@ void Campeonato::inscreverAtletaModalidade()
 						existeMod = true;
 						modIndice = t;
 					}
-
+				if(!existeMod)
+				{
+					cout << "A modalidade introduzida nao existe! " << endl;
+					return;
+				}
 			}
 
 			if (existeDes && existeMod)
 			{
 				Equipas[indice].getAtletas()[i].adicionaModalidade(Modalidades[modIndice]);
 				Equipas[indice].adicionaModalidade(Modalidades[modIndice]);
-			}
-			else
-			{
-				Modalidade * novaMod = new Modalidade(nomeDes, nomeMod);
-				Equipas[indice].getAtletas()[i].adicionaModalidade(novaMod);
-				Equipas[indice].adicionaModalidade(novaMod);
-				Modalidades.push_back(novaMod);
+				cout << "O atleta " << Equipas[indice].getAtletas()[i].getNome() << " foi inscrito na modalidade especificada." << endl;
+				return;
 			}
 
-			cout << "O atleta " << Equipas[indice].getAtletas()[i].getNome() << " foi inscrito na modalidade especificada." << endl;
+
+
 		}
-
+cout << "O desporto introduzido nao existe!" << endl;
 }
 
 vector<string> Campeonato::listaDesporto()

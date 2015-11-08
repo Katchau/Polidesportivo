@@ -305,7 +305,10 @@ public:
 	 *
 	 */
 	void ordena();
-
+	/**
+    * Adiciona a classificacao do atleta na prova
+	* @param nomeAteta nome do Atleta
+    */
 	void adicionaLugar(string nomeAtleta,int d, int m , int a, int h, int mi, int s, int score); //TODOalgumas duvidas
 	/**
 	 * Remove a classificacao do atleta na prova

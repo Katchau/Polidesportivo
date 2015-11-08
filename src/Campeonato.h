@@ -111,6 +111,10 @@ public:
 	 * faz o display das infrastruturas por ordem alfabetica;
 	 */
 	void InfraestruturasOrdemAlfabetica();
+	/**
+	 *  Faz display de um menu que permite escolher entre visualizar ou alterar
+	 *  as equipas do campeonato
+	 */
 	void menuModalidades();
 	/**
 	 * Faz display da lista de modalidades alfabeticamente
@@ -140,23 +144,23 @@ public:
 	 * o calendario do campeonato
 	 */
 	void menuCalendario();
-	/*
+	/**
 	 * Faz display do calendario de todas as infraestruturas
 	 */
 	void totalCalendario();
-	/*
+	/**
 	 * Faz display do calendario de apenas uma infraestrutura
 	 */
 	void calendarioInfra();
-	/*
+	/**
 	 * Faz display de um menu que permite escolher qual o calendario que se pretende visualizar
 	 */
 	void listaCalendarios();
-	/*
+	/**
 	 * Permite adicionar um evento, permitindo ao utilizador escolher a infraestrutura e as caracteristicas do evento
 	 */
 	void adicionarEventos();
-	/*
+	/**
 	 * Permite remover um evento, rendo o utilizador que indicar a infraestrutura
 	 */
 	void removerEventos();

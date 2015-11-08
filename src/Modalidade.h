@@ -55,12 +55,12 @@ public:
 	 */
 	void removeResultado(int indice, string nomeAtleta);
 
-	/*
+	/**
 	 * @return string que contem o nome do desporto e da modalidade
 	 */
 	string getNome();
 
-	/*
+	/**
 	 * @param modalidade a comparar
 	 *
 	 * Compara duas modalidades

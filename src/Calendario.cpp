@@ -561,3 +561,23 @@ bool OrdenaEventosAlpha (const evento* A, const evento* B)
 string evento::getTipo() const{
 	return tipo;
 }
+Data Prova_Tempo::getTempo(string nomeAtleta)
+{
+	for(unsigned int i=0;i<lugares.size();i++)
+	{
+		if(lugares[i]->getAtleta() == nomeAtleta)
+		{
+			return lugares[i]->getTempo();
+		}
+	}
+}
+int Prova_Pontuacao::getPontos(string nomeAtleta)
+{
+	for(unsigned int i=0;i<lugares.size();i++)
+	{
+		if(lugares[i]->getAtleta() == nomeAtleta)
+		{
+			return lugares[i]->getPontuacao();
+		}
+	}
+}

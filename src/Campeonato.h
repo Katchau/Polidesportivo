@@ -79,6 +79,10 @@ public:
 	 */
 	void EquipasOrdemAlfabetica();
 	/**
+		* Faz display de todas as equipas presentes numa modalidade por ordem de pontuacao total
+		*/
+	void EquipasOrdemPontuacao();
+	/**
 	 * Faz display de um menu que permite entre escolher entre visualizar ou alterar
 	 * as infraestruturas do campeonato
 	 */

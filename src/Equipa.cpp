@@ -190,3 +190,48 @@ void Equipa::removeModalidade(string desporto,string modalidade){
 	}
 
 }
+int Equipa::pontuacaoGeral(Desporto * mod)
+{
+	int score=0;
+	for(unsigned int i=0;i<atletasInscritos.size();i++)
+	{
+		vector<Desporto * > desp = atletasInscritos[i].getDesportosInsc();
+		for(unsigned int j = 0;j<desp.size();j++)
+		{
+			if(*(desp[j]) == *(mod))
+			{
+				vector<evento *> ev = mod->getProvas();
+				for(unsigned int k =0;k<ev.size();k++)
+				{
+					score += ev[k]->getProvaP()->getPontos(atletasInscritos[i].getNome());
+				}
+			}
+		}
+	}
+	return score;
+}
+
+Data Equipa::melhorTempo(Desporto * mod)
+{
+	Data melhor(999,999,999,0,0,0);
+	for(unsigned int i=0;i<atletasInscritos.size();i++)
+	{
+		vector<Desporto * > desp = atletasInscritos[i].getDesportosInsc();
+		for(unsigned int j = 0;j<desp.size();j++)
+		{
+			if(*(desp[j]) == *(mod))
+			{
+				vector<evento *> ev = mod->getProvas();
+				for(unsigned int k =0;k<ev.size();k++)
+				{
+					if(ev[k]->getProvaT()->getTempo(atletasInscritos[i].getNome()) < melhor)
+					{
+						melhor = ev[k]->getProvaT()->getTempo(atletasInscritos[i].getNome());
+					}
+				}
+			}
+		}
+	}
+	return melhor;
+}
+

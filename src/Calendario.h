@@ -179,6 +179,12 @@ public:
 		 *  @return vector<string>
 		 */
 	vector<string> getNomeAtletas() const;
+	/**
+		 	 * Retorna a pontuacao de um atleta
+		 	 *@param nomeAtleta nome do atleta
+		 	 *@return pontuacao de um atleta
+			 */
+		int getPontos(string nomeAtleta);
 };
 
 
@@ -226,6 +232,14 @@ public:
 	 *  @return vector<string>
 	 */
 	vector<string> getNomeAtletas() const;
+
+	/**
+	 * Retorna o tempo de um atleta
+	 *@param nomeAtleta nome do atleta
+	 *@return tempo de um atleta
+	 */
+	Data getTempo(string nomeAtleta);
+
 
 };
 

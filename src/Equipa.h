@@ -106,6 +106,24 @@ public:
 	 * Remove a modalidade especificada
 	 */
 	void removeModalidade(string desporto,string modalidade);
+	/*
+		 * @param desporto para verificar a pontuacao
+		 *
+		 * soma a pontuacao de todos os atletas da equipa numa modalidade
+		 *
+		 * @return total das pontuacoes
+		 *
+		 */
+	int pontuacaoGeral(Desporto * mod);
+	/*
+		 * @param desporto para verificar a pontuacao
+		 *
+		 * verifica o melhor tempo de todos os atletas de uma modalidade
+		 *
+		 * @return melhor tempo
+		 *
+		 */
+	Data melhorTempo(Desporto * mod);
 
 	class EquipaNaoExistente
 	{

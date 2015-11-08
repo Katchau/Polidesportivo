@@ -84,6 +84,7 @@ Campeonato::Campeonato(const string &filename)
 		}
 
 		Desporto * p = new Modalidade(desporto, modalidade);
+
 		Modalidades.push_back(p);
 	} while (tmp != ".");
 
@@ -1527,7 +1528,28 @@ void Campeonato::gravarCampeonato()
 	{
 		Equipas[i].writetoFile();
 	}
-	cout << "LOOOOOL";
+	ofstream grava;
+	grava.open(nome.c_str());
+	grava << "Equipas:" << '\n';
+	for (size_t i = 0; i < Equipas.size(); i++)
+		{
+			grava << Equipas[i].getNomeEquipa() << '\n';
+		}
+	grava << '\n' << "InfraEstruturas:" << '\n';
+	for (unsigned int i =0;i<Infraestruturas.size();i++)
+	{
+		grava << Infraestruturas[i]->getNome() << '\n';
+	}
+	grava << '\n' << "Modalidades:" << '\n';
+	for (unsigned int i=0;i<Modalidades.size();i++)
+	{
+		if(Modalidades.size()-i == 1)
+		{
+			grava << Modalidades[i]->getNome() << " .";
+		}
+		else grava << Modalidades[i]->getNome() << " ," << '\n';
+	}
+	grava.close();
 	gravaProvas();
 	//TODO
 }

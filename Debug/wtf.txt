@@ -1,0 +1,12 @@
+Equipas:
+Equipa1
+Equipa2
+
+InfraEstruturas:
+San Siro
+Emirates
+Cu de Judas
+
+Modalidades:
+Futebol , Futebol de 11 ,
+Natacao , Costas .

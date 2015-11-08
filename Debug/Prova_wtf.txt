@@ -1,0 +1,46 @@
+Liga europa
+PONTO
+Futebol
+Futebol de 11
+12/10/2005
+17:15:0
+15/10/2025
+19:30:0
+Cu de Judas
+Jaquim
+14
+Manel
+12
+Pili
+28
+
+Evento das patacas
+TEMPO
+Natacao
+Costas
+12/10/2005
+15:30:0
+12/10/2005
+16:30:0
+Emirates
+Jaquim
+0:12:12
+Manel
+0:12:13
+Rofl
+0:14:13
+
+Bananas alala
+TEMPO
+Natacao
+Costas
+13/10/2005
+15:30:0
+13/10/2005
+16:30:0
+San Siro
+Jaquim
+0:12:12
+Manel
+0:12:13
+

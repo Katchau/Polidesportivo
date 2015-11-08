@@ -1763,8 +1763,8 @@ void Campeonato::gravaProvas()
 		for (unsigned int j = 0; j < provas.size(); j++) {
 			gravar << provas[j]->getNome() << '\n';
 			gravar << provas[j]->getTipo() << '\n';
-			gravar << Modalidades[j]->getDesporto() << '\n';
-			gravar << Modalidades[j]->getTipo() << '\n';
+			gravar << Modalidades[i]->getDesporto() << '\n';
+			gravar << Modalidades[i]->getTipo() << '\n';
 			Data di = provas[j]->getInicial();// nao sei se da para fazer isto!
 			Data df = provas[j]->getFinal();
 			gravar << di.dia << "/" << di.mes << "/" << di.ano << '\n';

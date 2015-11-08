@@ -251,6 +251,10 @@ public:
 	 */
 	void RemoveAtletaProva(string Atleta);
 	/**
+	*  Permite inscrever um atleta numa determinada modalidade.
+	*/
+	void inscreverAtletaModalidade();
+	/**
 	 * @return Retorna os deportos presentes no campeonato
 	 */
 	vector<string>listaDesporto();
@@ -281,19 +285,19 @@ public:
 	/**
 	 * @return nome do campeonato
 	 */
-	// Ler
 	string getNome() const;
-
+	/**
+	* @return numero de atletas inscritos no campeonato
+	*/
+	int numAtletas() const;
 	/**
 	 * @return vetor de infraestruturas
 	 */
 	vector<Infraestrutura *> getInfraestruturas();
-
 	/**
 	 * @return vetor de equipas
 	 */
 	vector<Equipa> getEquipas();
-
 	/**
 	 * @return vetor de modalidades
 	 */

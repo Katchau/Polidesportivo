@@ -100,6 +100,16 @@ public:
 	bool operator == (const Equipa& eqi) const;
 
 	/*
+	 * @param d modalidade a adicionar
+	 *
+	 * Adiciona a modalidade especificada
+	 *
+	 * @return true se for possivel adicionar
+	 * @return false se a modalidade ja existir
+	 */
+	bool adicionaModalidade(Desporto* d);
+
+	/*
 	 * @param desporto nome do desporto
 	 * @param modalidade nome da modalidade
 	 *

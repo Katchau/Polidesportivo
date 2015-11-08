@@ -178,7 +178,6 @@ Campeonato::Campeonato(const string &filename)
 	}
 
 	cout << "fim construtor campeonatoFILE" << endl;
-	system("pause");
 }
 
 Campeonato::Campeonato()
@@ -415,7 +414,7 @@ void Campeonato::AtletasPorDesporto(){
 
 void Campeonato::AtletasPorModalidade()
 {
-	cout << "Atletas por modalidades" << endl;
+	cout << "Atletas por modalidades (apenas os que estao inscritos numa prova)" << endl;
 
 	sort(Modalidades.begin(),Modalidades.end(),ordenaAlfaModalidade);
 	for(unsigned int i = 0; i < Modalidades.size();i++)
@@ -478,10 +477,10 @@ void Campeonato::menuAtletas()
 	{
 		cout << "\n    Atletas	 " << endl;
 		cout << "1 - Adicionar Atleta" << endl;
-		cout << "2 - Remover Atleta -- por fazer" << endl;
-		cout << "3 - Listar Atletas -- por fazer" << endl;
+		cout << "2 - Remover Atleta" << endl;
+		cout << "3 - Listar Atletas" << endl;
 		cout << "4 - Inscrever Atleta numa Modalidade" << endl; // TODO
-		cout << "5 - Inscrever Atleta numa Prova" << endl; // TODO
+		cout << "5 - Inscrever Atleta numa Prova -- por fazer" << endl; // TODO
 		cout << "6 - Voltar atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
@@ -497,7 +496,7 @@ void Campeonato::menuAtletas()
 			listaAtletas();
 			break;
 		case '4':
-			//TODO Inscrever Atleta numa Modalidade
+			inscreverAtletaModalidade();
 			break;
 		case '5':
 			//TODO Inscrever Atleta numa Prova
@@ -562,9 +561,9 @@ void Campeonato::EquipasOrdemPontuacao()
 			int j;
 			for (j = i;
 					j > 0
-							&& tmp
-									> Equipas[j - 1].pontuacaoGeral(
-											Modalidades[indice_mod]); j--)
+					&& tmp
+					> Equipas[j - 1].pontuacaoGeral(
+							Modalidades[indice_mod]); j--)
 				Equipas[j] = Equipas[j - 1];
 			Equipas[j] = tmp2;
 		}
@@ -577,19 +576,19 @@ void Campeonato::EquipasOrdemPontuacao()
 			int j;
 			for (j = i;
 					j > 0
-							&& tmp
-									< Equipas[j - 1].melhorTempo(
-											Modalidades[indice_mod]); j--)
+					&& tmp
+					< Equipas[j - 1].melhorTempo(
+							Modalidades[indice_mod]); j--)
 				Equipas[j] = Equipas[j - 1];
 			Equipas[j] = tmp2;
 		}
 	}
 	for(unsigned int i = 0; i < Equipas.size(); i++)
-		{
-			cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
-		}
-		system("pause");
-		cout << "\n";
+	{
+		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
+	}
+	system("pause");
+	cout << "\n";
 }
 
 void Campeonato::EquipasOrdemAlfabetica()
@@ -926,6 +925,16 @@ void Campeonato::RemoverModalidade()
 	cout << "\n";
 }
 
+int Campeonato::numAtletas() const
+{
+	int num;
+
+	for (size_t i = 0; i < Equipas.size(); i++)
+		for (size_t j = 0; j < Equipas[i].getAtletas().size(); j++)
+			num++;
+
+	return num;
+}
 
 string Campeonato::getNome() const
 {
@@ -1423,23 +1432,23 @@ void Campeonato::removerProvas()
 
 void Campeonato::ProvasRealizadas()
 {	vector<evento *> Provas = ProvasOrganiza(0);
-	cout << "Provas Realizadas" << endl;
+cout << "Provas Realizadas" << endl;
+for(unsigned int i = 0; i< Provas.size(); i++)
+{
+	cout << i+1 <<" - " << Provas[i]->getNome() << " Data Inicial: " << Provas[i]->getInicial() << " " << Provas[i]->getFinal() << endl;
+}
+cout << "\n";
+
+}
+void Campeonato::ProvasPorRealizar()
+{
+	vector<evento *> Provas = ProvasOrganiza(1);
+	cout << "Provas Por Realizar" << endl;
 	for(unsigned int i = 0; i< Provas.size(); i++)
 	{
 		cout << i+1 <<" - " << Provas[i]->getNome() << " Data Inicial: " << Provas[i]->getInicial() << " " << Provas[i]->getFinal() << endl;
 	}
 	cout << "\n";
-
-}
-void Campeonato::ProvasPorRealizar()
-{
-	    vector<evento *> Provas = ProvasOrganiza(1);
-		cout << "Provas Por Realizar" << endl;
-		for(unsigned int i = 0; i< Provas.size(); i++)
-		{
-			cout << i+1 <<" - " << Provas[i]->getNome() << " Data Inicial: " << Provas[i]->getInicial() << " " << Provas[i]->getFinal() << endl;
-		}
-		cout << "\n";
 }
 void Campeonato::menuProvas() {
 	cout << "\n    Provas" << endl;
@@ -1462,10 +1471,10 @@ void Campeonato::menuProvas() {
 		break;
 	case '4':
 		ProvasPorRealizar();
-			break;
+		break;
 	case '5':
-				ProvasRealizadas();
-				break;
+		ProvasRealizadas();
+		break;
 	case '6':
 		return;
 		break;
@@ -1576,6 +1585,117 @@ void Campeonato::RemoveAtletaProva(string Atleta)
 		}
 	}
 }
+
+void Campeonato::inscreverAtletaModalidade()
+{
+	if (Equipas.size() == 0)
+	{
+		cout << "Ainda nao existem equipas inscritas no campeonato. Crie uma equipa antes de inscrever atletas.";
+		return;
+	}
+
+	if (numAtletas() == 0)
+	{
+		cout << "Ainda nao existem atletas inscritos no campeonato. Crie um atleta antes de o poder inscrever numa modalidade.";
+		return;
+	}
+
+	bool existe = false;
+	string nomeAtleta, nomeEquipa;
+
+	do
+	{
+		existe = false;
+		nomeEquipa = returnInput("a equipa");
+
+		if (ExisteEquipa(nomeEquipa))
+			existe = true;
+		else
+		{
+			cout << "A equipa " << nomeEquipa << " nao existe. Escolha uma das seguintes: " << endl;
+			sort (Equipas.begin(), Equipas.end(), ordenaAlfaEquipa);
+			for(size_t i = 0; i < Equipas.size(); i++)
+			{
+				cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
+			}
+		}
+	} while (!existe);
+
+	size_t indice;
+
+	for (indice = 0; indice < Equipas.size(); indice++)
+		if (Equipas[indice].getNomeEquipa() == nomeEquipa)
+			break;
+
+	if (Equipas[indice].getAtletas().size() == 0)
+	{
+		cout << "Nao existem atletas nessa equipa. Adicione um atleta antes de o poder inscrever numa modalidade." << endl;
+		return;
+	}
+	do
+	{
+		existe = false;
+		nomeAtleta = returnInput("o atleta");
+
+		if (Equipas[indice].existeAtleta(nomeAtleta))
+			existe = true;
+		else
+		{
+			cout << "O atleta " << nomeAtleta << " nao existe. Escolha um dos seguintes: " << endl;
+			vector<Atleta> Atle = Equipas[indice].getAtletas();
+			sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
+			for(unsigned int t = 0; t < Atle.size();t++)
+			{
+				cout << Atle[t].getNome() << endl;
+			}
+		}
+	} while (!existe);
+
+	for (size_t i = 0; i < Equipas[indice].getAtletas().size(); i++)
+		if (Equipas[indice].getAtletas()[i].getNome() == nomeAtleta)
+		{
+			size_t modIndice;
+
+			string nomeDes, nomeMod;
+			nomeDes = returnInput("o desporto");
+			bool existeDes = false;
+			bool existeMod = false;
+
+			for (size_t t = 0; t < Modalidades.size(); t++)
+				if(Modalidades[t]->getDesporto() == nomeDes)
+					existeDes = true;
+
+			if(existeDes)
+			{
+				nomeMod = returnInput("a modalidade");
+
+				for (size_t t = 0; t < Modalidades.size(); t++)
+					if(Modalidades[t]->getDesporto() == nomeDes && Modalidades[t]->getTipo() == nomeMod)
+					{
+						existeMod = true;
+						modIndice = t;
+					}
+
+			}
+
+			if (existeDes && existeMod)
+			{
+				Equipas[indice].getAtletas()[i].adicionaModalidade(Modalidades[modIndice]);
+				Equipas[indice].adicionaModalidade(Modalidades[modIndice]);
+			}
+			else
+			{
+				Modalidade * novaMod = new Modalidade(nomeDes, nomeMod);
+				Equipas[indice].getAtletas()[i].adicionaModalidade(novaMod);
+				Equipas[indice].adicionaModalidade(novaMod);
+				Modalidades.push_back(novaMod);
+			}
+
+			cout << "O atleta " << Equipas[indice].getAtletas()[i].getNome() << " foi inscrito na modalidade especificada." << endl;
+		}
+
+}
+
 vector<string> Campeonato::listaDesporto()
 {
 	vector<string> Desporto;
@@ -1632,7 +1752,7 @@ void Campeonato::RemoveEventosInfra(string modalidade)
 }
 
 void Campeonato::gravaProvas(string nomeCampeonato) //TODO testar isto ^^ btw tens de chamar com o nome (private da class)
-		{
+{
 	string filename = "Provas_" + nomeCampeonato;
 	ofstream gravar;
 	gravar.open(filename.c_str());

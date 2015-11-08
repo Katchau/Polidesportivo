@@ -24,19 +24,25 @@ public:
 
 	virtual string getNome();//TODO subst pela getDesporto() mais abaixo
 	/**
-	 * Adiciona evento na classe
-	 * @param Prova
+	 * Adiciona objecto do tipo evento se ele ainda nao existir na classe
+	 * @param Prova a ser adicionada
 	 * @return false se a prova nao foi adicionada
 	 * @return true se a prova foi adicionada
 	 */
 	virtual bool adicionaProva (evento * Prova);//TODO
 	/**
-	 *
+	 *Remove objecto do tipo evento da classe se ele existir
+	 *@param Prova a ser removida
+	 *@return true se adicionada
+	 *@return false se o evento ja exitir
 	 */
 	virtual	bool removeProva (evento * Prova);
-	virtual void adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score);
+	/**
+	 *
+	 */
+	virtual void adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score);//TODO DOXY
 
-	virtual void removeResultado(int indice, string nomeAtleta);
+	virtual void removeResultado(int indice, string nomeAtleta);//TODO DOXY
 	/*
 	 * Permite comparar dois objectos da classe desporto
 	 * @return true se  ambos os objectos tiverem o mesmo nome;

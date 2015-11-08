@@ -6,11 +6,6 @@
 #include <iostream>
 #include "Desporto.h"
 
-class medalha
-{
-	string desporto;
-	string tipo;
-};
 
 class Atleta {
 private:
@@ -78,11 +73,11 @@ public:
 	 */
 	bool operator == (const Atleta& atl) const;
 
-	class DesportoInexistente{};
+	class DesportoInexistente{};//TODO DOXY
 
-	class DesportoRepetido{};
+	class DesportoRepetido{};//TODO DOXY
 
 };
 
-bool ordenaAlfaAtletas(const Atleta A, const Atleta B);
+bool ordenaAlfaAtletas(const Atleta A, const Atleta B);//TODO DOXY
 #endif

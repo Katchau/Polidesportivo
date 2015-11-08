@@ -376,7 +376,7 @@ void Campeonato::removeAtleta()
 		cout << "Atleta Removido das provas" << endl;
 	}
 
-	//TODO TESTAR
+	//TODO TESTAR ja pinta
 }
 
 void Campeonato::AtletasPorEquipa()
@@ -403,44 +403,44 @@ void Campeonato::AtletasPorDesporto(){
 		vector<string>Atletas = AtletasDesporto(Desportos[i]);
 
 		sort(Atletas.begin(),Atletas.end());
-		cout << Desportos[i] << endl;
+		cout <<i+i << " - " << Desportos[i] << endl;
 		for(unsigned int k = 0; k < Atletas.size();k++)
 		{
 			cout << Atletas[k] << endl;
 		}
-	}//TODO testar
-	system("pause");
+	}
+	cout << "\n";
+	//TODO CORRIGI O BUG QUE TINHA AQUI
 }
 
 void Campeonato::AtletasPorModalidade()
 {
 	cout << "Atletas por modalidades" << endl;
-	cout << "MODALIDADES SIZE: " << Modalidades.size() << endl;
+
 	sort(Modalidades.begin(),Modalidades.end(),ordenaAlfaModalidade);
 	for(unsigned int i = 0; i < Modalidades.size();i++)
 	{
 		vector<evento* > Provas = Modalidades[i]->getProvas();
-		cout << Modalidades[i]->getNome() << " N Provas : " << Provas.size() << endl;
+		cout << i + 1 << " - " << Modalidades[i]->getTipo() <<  " - " << Modalidades[i]->getDesporto() << endl;
 		vector<string > Atletas;
 
 		for(unsigned int  t = 0; t < Provas.size();t++)//Juntar todos os atletas
 		{
-			vector <string> Atle = Provas[i]->getNomeAtletas();
-			cout <<"Atletas na Prova:" << Atle.size() << endl;
+			vector <string> Atle = Provas[t]->getNomeAtletas();
+
 			for(unsigned int k = 0; k < Atle.size();k++)
 			{
 				adicionaVetor(Atletas,Atle[k]);
 			}
 		}
 		sort(Atletas.begin(),Atletas.end());
-		cout << "Atletas size:" << Atletas.size() << endl;
 		for(unsigned int k = 0; k < Atletas.size();k++)
 		{
 			cout << Atletas[k] << endl;
 		}
 
 	}
-	//TODO testar
+	//TODO testar  ja resolvi o problem aki mas testem mais umas vezes
 }
 void Campeonato::listaAtletas()
 {
@@ -449,9 +449,9 @@ void Campeonato::listaAtletas()
 	{
 		cout << "\n    Listar Atletas	 " << endl;
 		cout << "1 - Por equipa" << endl;
-		cout << "2 - Por modalidade -- porfazer" << endl;
-		cout << "3 - Por desporto -- por fazer" << endl;
-		cout << "4 - Sair" << endl;
+		cout << "2 - Por modalidade" << endl;
+		cout << "3 - Por desporto" << endl;
+		cout << "4 - Voltar atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
 		switch (selectMenu('1','4'))
@@ -485,7 +485,7 @@ void Campeonato::menuAtletas()
 		cout << "6 - Voltar atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
-		switch (selectMenu('1','4'))
+		switch (selectMenu('1','6'))
 		{
 		case '1':
 			adicionaAtleta();
@@ -497,8 +497,10 @@ void Campeonato::menuAtletas()
 			listaAtletas();
 			break;
 		case '4':
+			//TODO Inscrever Atleta numa Modalidade
 			break;
 		case '5':
+			//TODO Inscrever Atleta numa Prova
 			break;
 		case '6':
 			return;
@@ -1594,7 +1596,7 @@ vector<string> Campeonato::AtletasDesporto(string Desporto)
 			cout << "Provas na Modadalidade : " << Provas.size() << endl;
 			for(unsigned int  t = 0; t < Provas.size();t++)//Juntar todos os atletas
 			{
-				vector <string> Atle = Provas[i]->getNomeAtletas();
+				vector <string> Atle = Provas[t]->getNomeAtletas();
 
 				for(unsigned int k = 0; k < Atle.size();k++)
 				{

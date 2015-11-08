@@ -36,28 +36,24 @@ public:
 	bool removeProva (evento * Prova);
 
 	/**
-	 * @param indice
-	 * @param nomeAtleta
-	 * @param h
-	 * @param m
-	 * @param s
-	 * @param score
+	 * @param indice da prova
+	 * @param nomeAtleta nome do atleta a qual se vai colocar o resultado da prova
+	 * @param h horas do tempo que o atleta fez, caso seja uma prova de tempo
+	 * @param m minutos do tempo que o atleta fez, caso seja uma prova de tempo
+	 * @param s segundos do tempo que o atleta fez, caso seja uma prova de tempo
+	 * @param score pontuacao do atleta, caso seja uma prova por pontuacao
 	 *
-	 *
+	 * Adiciona um resultado a prova do atleta, sendo que este esta incluido num vetor do evento, onde se encontra
 	 */
-	void adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score); // TODO doxygen
+	void adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score);
 
 	/**
-	 * @param indice
-	 * @param nomeAtleta
-	 * @param h
-	 * @param m
-	 * @param s
-	 * @param score
+	 * @param indice da prova
+	 * @param nomeAtleta nome do atleta a qual se vai remover o resultado da prova
 	 *
-	 *
+	 * Remove um resultado a prova do atleta, sendo que este esta incluido num vetor do evento, onde se encontra
 	 */
-	void removeResultado(int indice, string nomeAtleta); // TODO doxygen
+	void removeResultado(int indice, string nomeAtleta);
 
 	/*
 	 * @return string que contem o nome do desporto e da modalidade

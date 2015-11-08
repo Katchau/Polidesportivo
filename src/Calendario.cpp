@@ -290,11 +290,6 @@ void evento::ProvaResultados()
 	}
 }
 
-void evento::retProva()
-{
-	if(tipo == "TEMPO") getProvaT();
-	if(tipo == "PONTO") getProvaP();
-}
 
 Prova_Tempo * evento::getProvaT()
 {

@@ -38,11 +38,23 @@ public:
 	 */
 	virtual	bool removeProva (evento * Prova);
 	/**
+	 * @param indice da prova
+	 * @param nomeAtleta nome do atleta a qual se vai colocar o resultado da prova
+	 * @param h horas do tempo que o atleta fez, caso seja uma prova de tempo
+	 * @param m minutos do tempo que o atleta fez, caso seja uma prova de tempo
+	 * @param s segundos do tempo que o atleta fez, caso seja uma prova de tempo
+	 * @param score pontuacao do atleta, caso seja uma prova por pontuacao
 	 *
+	 * Adiciona um resultado a prova do atleta, sendo que este esta incluido num vetor do evento, onde se encontra
 	 */
-	virtual void adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score);//TODO doxygen
-
-	virtual void removeResultado(int indice, string nomeAtleta);//TODO doxygen
+	virtual void adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score);
+	/**
+	 * @param indice da prova
+	 * @param nomeAtleta nome do atleta a qual se vai remover o resultado da prova
+	 *
+	 * Remove um resultado a prova do atleta, sendo que este esta incluido num vetor do evento, onde se encontra
+	 */
+	virtual void removeResultado(int indice, string nomeAtleta);
 	/**
 	 * Permite comparar dois objectos da classe desporto
 	 * @return true se  ambos os objectos tiverem o mesmo nome;

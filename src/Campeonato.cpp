@@ -1691,20 +1691,33 @@ void Campeonato::RemoveModalidadeAtletas(string desporto,string modalidade)
 		Equipas[i].removeModalidade(desporto,modalidade);
 	}
 }
+
 void Campeonato::RemoveEventosInfra(string modalidade)
 {
-	for(unsigned int i = 0; i < Infraestruturas.size();i++)
+	vector<evento *> temp;
+	for(unsigned int i = 0; i < Modalidades.size();i++)
 	{
-		vector<evento* > Provas = Infraestruturas[i]->getCalendario()->getEventos();
-		for(unsigned int k = 0; k < Provas.size(); k++)
+		if(Modalidades[i]->getTipo() == modalidade)
 		{
-			if(Provas[k]->getTipo() == modalidade)
+			temp = Modalidades[i]->getProvas();
+		}
+	}
+	for(unsigned int pra = 0; pra < temp.size(); pra++)
+	{
+		for(unsigned int i = 0; i < Infraestruturas.size();i++)
+		{
+			vector<evento* > Provas = Infraestruturas[i]->getCalendario()->getEventos();
+			for(unsigned int k = 0; k < Provas.size(); k++)
 			{
-				cout << "Esta a fazer cenas";
-				Infraestruturas[i]->getCalendario()->remove_evento(Provas[k]);
+				if(Provas[k] == temp[pra])
+				{
+					cout << "Esta a fazer cenas";
+					Infraestruturas[i]->getCalendario()->remove_evento(Provas[k]);
+				}
 			}
 		}
 	}
+
 }
 
 void Campeonato::gravaProvas()

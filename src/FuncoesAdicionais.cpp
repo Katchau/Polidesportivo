@@ -1,5 +1,35 @@
 #include "FuncoesAdicionais.h"
 
+int returnInt(std::string s1)
+{
+	int tmp;
+
+	bool fail = false;
+	bool eof = false;
+
+	do
+	{
+		std::cin.clear();
+
+		if (fail && !eof)
+			std::cin.ignore(100,'\n');
+
+		std::cout << s1;
+		std::cin >> tmp;
+
+		fail = false;
+		eof = false;
+
+		if (std::cin.fail())
+			fail = true;
+
+		if (std::cin.eof())
+			eof = true;
+	} while(fail || eof);
+
+	return tmp;
+}
+
 std::string returnInput(std::string s1)
 {
 	std::string tmp;

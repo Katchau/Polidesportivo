@@ -7,6 +7,7 @@
 #include <fstream>
 #include <cstdlib>
 
+int returnInt(std::string s1);
 std::string returnInput(std::string s1);
 bool checkExistence(std::string filename);
 std::string selectFile();

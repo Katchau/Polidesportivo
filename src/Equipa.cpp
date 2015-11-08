@@ -11,9 +11,7 @@ bool Equipa::addAtleta(string nome)
 	cout << "Atletas Inscritos  "<< atletasInscritos.size() << endl;
 	if (sequentialSearch(atletasInscritos, atleta) == -1)
 	{
-		vector<Atleta> temp = atletasInscritos;
-		adicionaVetor(temp,atleta);
-		setAtletas(temp);
+		atletasInscritos.push_back(atleta);
 		cout << "Atletas Inscritos apos adicionar: "<< atletasInscritos.size() << endl;
 		return true;
 	}
@@ -22,12 +20,23 @@ bool Equipa::addAtleta(string nome)
 
 bool Equipa::removeAtleta(string nome)
 {
+
 	Atleta Sai(nome);
-	if (sequentialSearch(atletasInscritos, Sai) == -1)
+	int indice = sequentialSearch(atletasInscritos, Sai);
+	if (indice == -1)
 		return false;
-	vector<Atleta> temp = atletasInscritos;
-	removeVetor(temp,Sai);
-	setAtletas(temp);
+
+	atletasInscritos.erase(atletasInscritos.begin()+indice);
+
+	return true;
+}
+
+bool Equipa::existeAtleta(string nome)
+{
+	Atleta atleta(nome);
+	if (sequentialSearch(atletasInscritos, atleta) == -1)
+		return false;
+
 	return true;
 }
 
@@ -76,18 +85,25 @@ void Equipa::addAthletesFromFile()
 			string especialidade = "";
 			string tmp = "";
 
+			// le desporto ate encontrar uma virgula
 			do
 			{
 				Read >> tmp;
-				if (tmp != ",")
-					desporto += tmp;
+				if (tmp != "," && desporto != "")
+					desporto = desporto + " " + tmp;
+				if (tmp != "," && desporto == "")
+					desporto = tmp;
 			} while (tmp != ",");
+
+			// le modalidade ate encontrar um |
 			do
 			{
 				Read >> tmp;
-				if (tmp != "," && tmp != "|")
-					modalidade += tmp;
-			} while (tmp != "," && tmp != "|");
+				if (tmp != "|" && modalidade != "")
+					modalidade = modalidade + " " + tmp;
+				if (tmp != "," && modalidade == "")
+					modalidade = tmp;
+			} while (tmp != "|");
 
 			Desporto * pmod = new Modalidade(desporto, modalidade);
 			tmpatl.adicionaModalidade(pmod);
@@ -116,9 +132,9 @@ void Equipa::writetoFile()
 			save << modalidades[j]->getDesporto() << " , " << modalidades[j]->getTipo();
 
 			if (j == (modalidades.size() -1))
-				cout << " |\n";
+				save << " |\n";
 			else
-				cout << " | ";
+				save << " | ";
 		}
 	}
 }
@@ -133,13 +149,8 @@ vector<Atleta> Equipa::getAtletas() const
 	return atletasInscritos;
 }
 
-void Equipa::setAtletas(vector<Atleta> Atletas)
-{
-	atletasInscritos = Atletas;
-}
-
 bool Equipa::operator == (const Equipa& eqi) const
-										{
+																{
 	string nome1 = nome;
 	string nome2 = eqi.nome;
 	if(nome1 == nome2)
@@ -147,7 +158,7 @@ bool Equipa::operator == (const Equipa& eqi) const
 		return true;
 	}
 	else return false;
-										}
+																}
 bool ordenaAlfaEquipa(const Equipa A, const Equipa B){
 	string a = A.getNomeEquipa();
 	string b = B.getNomeEquipa();

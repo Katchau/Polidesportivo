@@ -100,7 +100,7 @@ Campeonato::Campeonato(const string &filename)
 	cout << "PROVA" << endl;
 	while (!Provas.eof()) {
 		string tipo, desporto, modalidade, dataI, horaI, dataF, horaF, infra,
-				nome_ev;
+		nome_ev;
 		getline(Provas, nome_ev);
 		getline(Provas, tipo);
 		getline(Provas, desporto);
@@ -134,7 +134,7 @@ Campeonato::Campeonato(const string &filename)
 				cout << " teste 7" << endl;
 				if (Infraestruturas[i]->getCalendario()->getInicio() == Data()
 						&& Infraestruturas[i]->getCalendario()->getFim()
-								== Data()) {
+						== Data()) {
 					Infraestruturas[i]->getCalendario()->setFim(
 							Data(31, 12, 9999));
 				}
@@ -192,12 +192,12 @@ void Campeonato::menuCampeonato()
 
 	while (!sair)
 	{
-		cout << "    " << nome << endl;
+		cout << "\n    " << nome << endl;
 		cout << "1 - Equipas" << endl;
 		cout << "2 - Infraestruturas" << endl;
 		cout << "3 - Modalidades -- por fazer" << endl;
 		cout << "4 - Calendario -- por fazer" << endl;
-		cout << "5 - Sair " << endl;
+		cout << "5 - Gravar e sair " << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
 		switch (selectMenu('1','5'))
@@ -219,7 +219,6 @@ void Campeonato::menuCampeonato()
 			break;
 		}
 	};
-
 	gravarCampeonato();
 	return;
 }
@@ -228,7 +227,7 @@ void Campeonato::menuEquipas()
 {
 	while (1)
 	{
-		cout << "    Equipas" << endl;
+		cout << "\n    Equipas" << endl;
 		cout << "1 - Ver lista de equipas" << endl;
 		cout << "2 - Adicionar equipa" << endl;
 		cout << "3 - Remover equipa" << endl;
@@ -258,90 +257,142 @@ void Campeonato::menuEquipas()
 }
 void Campeonato::adicionaAtleta()
 {
-	while(1)
+	if (Equipas.size() == 0)
 	{
-		cout<< "Introduza o nome do atleta: ";
-		string Atleta;
-		getline(cin,Atleta);
-		cout << "Introduza o nome da equipa: ";
-		string equipa;
-		getline(cin,equipa);
+		cout << "Nao existem equipas no campeonato. Adicione uma equipa antes de adicionar um atleta." << endl;
+		return;
+	}
 
-		if(ExisteAtleta(Atleta))
+	bool existe = false;
+	string nomeAtleta, nomeEquipa;
+
+	do
+	{
+		existe = false;
+		nomeAtleta = returnInput("o atleta");
+
+		if(ExisteAtleta(nomeAtleta))
 		{
-			cout << " O atleta ja existe!" << endl;
-			continue;
+			cout << "O atleta " << nomeAtleta << " ja existe! Escolha um novo nome." << endl;
+			existe = true;
 		}
-		if(ExisteEquipa(equipa))
+	} while (existe);
+
+	while (!existe)
+	{
+		existe = false;
+		nomeEquipa = returnInput("a equipa");
+		if(ExisteEquipa(nomeEquipa))
 		{
-			cout << " Equipa ja existe !" << endl;
-			if(AdicionaAtletaEquipa(Atleta,equipa))
+			if(AdicionaAtletaEquipa(nomeAtleta,nomeEquipa))
 			{
-				cout << "Atleta adicionado " << endl;
+				cout << nomeAtleta << " adicionado a " << nomeEquipa << "." << endl;
 				return;
 			}
 			else
 			{
-				cout << "Nao foi possivel adicionar o atleta " << endl;
-				continue;
+				cout << "Nao foi possivel adicionar o atleta." << endl;
 			}
 		}
 		else
 		{
-			cout << "A equipa nao existe!" << endl;
-			continue;
+			cout << "A equipa " << nomeEquipa << " nao existe. Escolha uma das seguintes: " << endl;
+			sort (Equipas.begin(), Equipas.end(), ordenaAlfaEquipa);
+			for(unsigned int i = 0; i < Equipas.size(); i++)
+			{
+				cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
+			}
 		}
-
-		//TODO testar isto
 	}
 }
 
 void Campeonato::removeAtleta()
 {
-	bool valido = true;
-	string nome, equipa;
-
-	nome = returnInput("o atleta");
-
-	equipa = returnInput("a equipa");
-
-	if(ExisteEquipa(equipa))
+	if (Equipas.size() == 0)
 	{
-		if (ExisteAtleta(nome))
-		{
-			if(RemoveAtletaEquipa(equipa,nome))
-			{
-				cout << "Atleta Removido da equipa" << endl;
-				RemoveAtletaProva(nome);
-				cout << "Atleta Removido das provas" << endl;
-			}
-			else
-				cout << "O atleta " << nome << " nao pertence a equipa " << equipa << "." << endl;
-		}
-		else
-			cout << "O atleta " << nome << " nao existe." << endl;
+		cout << "Nao existem equipas no campeonato. Adicione uma equipa antes de remover um atleta." << endl;
+		return;
 	}
-	else
-		cout << "A equipa " << equipa << " nao existe." << endl;
+
+	bool existe = false;
+	string nomeAtleta, nomeEquipa;
+
+	do
+	{
+		existe = false;
+		nomeEquipa = returnInput("a equipa");
+
+		if (ExisteEquipa(nomeEquipa))
+			existe = true;
+		else
+		{
+			cout << "A equipa " << nomeEquipa << " nao existe. Escolha uma das seguintes: " << endl;
+			sort (Equipas.begin(), Equipas.end(), ordenaAlfaEquipa);
+			for(size_t i = 0; i < Equipas.size(); i++)
+			{
+				cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
+			}
+		}
+	} while (!existe);
+
+	size_t i;
+
+	for (i = 0; i < Equipas.size(); i++)
+		if (Equipas[i].getNomeEquipa() == nomeEquipa)
+			break;
+
+	if (Equipas[i].getAtletas().size() == 0)
+	{
+		cout << "Nao existem atletas nessa equipa. Adicione um atleta antes de o poder remover." << endl;
+		return;
+	}
+
+	do
+	{
+		existe = false;
+		nomeAtleta = returnInput("o atleta");
+
+		if (Equipas[i].existeAtleta(nomeAtleta))
+			existe = true;
+		else
+		{
+			cout << "O atleta " << nomeAtleta << " nao existe. Escolha um dos seguintes: " << endl;
+			for(size_t j = 0; j < Equipas.size(); j++)
+			{
+				vector<Atleta> Atle = Equipas[i].getAtletas();
+				sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
+				for(unsigned int t = 0; t < Atle.size();t++)
+				{
+					cout << Atle[t].getNome() << endl;
+				}
+			}
+		}
+	} while (!existe);
+
+	if(RemoveAtletaEquipa(nomeEquipa,nomeAtleta))
+	{
+		cout << "Atleta Removido da equipa" << endl;
+		RemoveAtletaProva(nome);
+		cout << "Atleta Removido das provas" << endl;
+	}
 
 	//TODO TESTAR
 }
 
 void Campeonato::AtletasPorEquipa()
-{	cout<< "Atletas por equipas " << endl;
-for(unsigned int i = 0; i < Equipas.size();i++)
 {
-	vector<Atleta> Atle = Equipas[i].getAtletas();
-	sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
-	cout << Equipas[i].getNomeEquipa() << endl;
-	cout << "\n";
-	for(unsigned int t = 0; t < Atle.size();t++)
+	cout<< "Atletas por equipas " << endl;
+	for(unsigned int i = 0; i < Equipas.size();i++)
 	{
-		cout << Atle[t].getNome() << endl;
+		vector<Atleta> Atle = Equipas[i].getAtletas();
+		sort(Atle.begin(),Atle.end(),ordenaAlfaAtletas);
+		cout << Equipas[i].getNomeEquipa() << endl;
+		cout << "\n";
+		for(unsigned int t = 0; t < Atle.size();t++)
+		{
+			cout << Atle[t].getNome() << endl;
+		}
 	}
-}
-//TODO TESTAR
-system("pause");
 }
 
 void Campeonato::AtletasPorDesporto(){
@@ -396,8 +447,8 @@ void Campeonato::listaAtletas()
 	while(1)
 
 	{
-		cout << "    Listar Atletas	 " << endl;
-		cout << "1 - Por equipa -- porfazer" << endl;
+		cout << "\n    Listar Atletas	 " << endl;
+		cout << "1 - Por equipa" << endl;
 		cout << "2 - Por modalidade -- porfazer" << endl;
 		cout << "3 - Por desporto -- por fazer" << endl;
 		cout << "4 - Sair" << endl;
@@ -425,11 +476,13 @@ void Campeonato::menuAtletas()
 	while(1)
 
 	{
-		cout << "    Atletas	 " << endl;
-		cout << "1 - Adicionar Atleta -- por fazer" << endl;
-		cout << "2 - Remover Atleta -- porfazer" << endl;
+		cout << "\n    Atletas	 " << endl;
+		cout << "1 - Adicionar Atleta" << endl;
+		cout << "2 - Remover Atleta -- por fazer" << endl;
 		cout << "3 - Listar Atletas -- por fazer" << endl;
-		cout << "4 - Sair" << endl;
+		cout << "4 - Inscrever Atleta numa Modalidade" << endl; // TODO
+		cout << "5 - Inscrever Atleta numa Prova" << endl; // TODO
+		cout << "6 - Voltar atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
 		switch (selectMenu('1','4'))
@@ -444,6 +497,10 @@ void Campeonato::menuAtletas()
 			listaAtletas();
 			break;
 		case '4':
+			break;
+		case '5':
+			break;
+		case '6':
 			return;
 			break;
 
@@ -481,7 +538,6 @@ void Campeonato::EquipasOrdemAlfabetica()
 	{
 		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
 	}
-	system("pause");
 	cout << "\n";
 
 }
@@ -533,7 +589,7 @@ void Campeonato::menuInfraestruturas()
 {
 	while (1)
 	{
-		cout << "    Infraestruturas" << endl;
+		cout << "\n    Infraestruturas" << endl;
 		cout << "1 - Ver lista de infraestruturas" << endl;
 		cout << "2 - Adicionar infraestrutura" << endl;
 		cout << "3 - Remover infraestrutura -- 50/50" << endl;
@@ -561,7 +617,7 @@ void Campeonato::listaInfraestruturas()
 {
 	while (1)
 	{
-		cout << "    Infraestruturas" << endl;
+		cout << "\n    Infraestruturas" << endl;
 		cout << "1 - Ordem alfabetica-- por fazer" << endl;
 		cout << "2 - Voltar Atras " << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
@@ -589,34 +645,32 @@ void Campeonato::InfraestruturasOrdemAlfabetica(){
 	cout << "\n";
 }
 
-void Campeonato::adicionarInfraestrutura(){ // falta eliminar string so com espaços
+void Campeonato::adicionarInfraestrutura()
+{
 	cout << " Infraestruturas" << endl;
-	string nome;
+	string nomeInfra;
 	Infraestrutura *Novo;
-	bool valido = true;
+	bool valido;
+
 	do
 	{
-		cin.clear();
-		cout << "Introduza o nome da nova infraestrutura: ";
-		getline(cin, nome);
-		if(nome == "")
-		{
-			cout << "Nome vazio" << endl;
-			continue;
-		}
-		Novo =new Infraestrutura(nome);
-		valido =  true;
+		valido = true;
+		nomeInfra = returnInput("a infraestrutura");
+
+		Novo = new Infraestrutura(nomeInfra);
+
 		cout << Infraestruturas.size() << endl;
+
 		for(unsigned int i = 0; i < Infraestruturas.size();i++ )
 		{
 			if( Infraestruturas[i]->getNome() == Novo->getNome())
 			{
-				cout << "A infraestrutura ja existe! \n" ;
+				cout << "A infraestrutura " << Novo->getNome() << " ja existe! Escolha um novo nome." << endl;
 				valido = false;
 				delete Novo;
 			}
 		}
-	} while (cin.eof() || !valido);
+	} while (!valido);
 
 	Infraestruturas.push_back(Novo);
 	cout << "Infraestrutura adicionada! \n";
@@ -667,7 +721,7 @@ void Campeonato::menuModalidades()
 {
 	while (1)
 	{
-		cout << "    Modalidades" << endl;
+		cout << "/n    Modalidades" << endl;
 		cout << "1 - Ver lista de Modalidades -- testar" << endl;
 		cout << "2 - Adicionar Modalidade -- testar" << endl;
 		cout << "3 - Remover Modalidade -- testar" << endl;
@@ -695,7 +749,7 @@ void Campeonato::listaModalidades()
 {
 	while (1)
 	{
-		cout << "    Modalidades" << endl;
+		cout << "/n    Modalidades" << endl;
 		cout << "1 - Ordem Alfabetica" << endl;
 		cout << "2 - Voltar Atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
@@ -711,15 +765,17 @@ void Campeonato::listaModalidades()
 	}
 }
 void Campeonato::OrdemAlfabeticaModalidades()
-{	 cout << "MODALIDADES:SIZE(): " << Modalidades.size() << endl;
-sort(Modalidades.begin(),Modalidades.end(),ordenaAlfaDesporto);
-cout << "  Modalidades" << endl;
-for(unsigned int i = 0; i < Modalidades.size();i++)
 {
-	cout << i+1 << " - " << Modalidades[i]->getTipo() << endl;
+	cout << "MODALIDADES:SIZE(): " << Modalidades.size() << endl;
+	sort(Modalidades.begin(),Modalidades.end(),ordenaAlfaDesporto);
+	cout << "  Modalidades" << endl;
+	for(unsigned int i = 0; i < Modalidades.size();i++)
+	{
+		cout << i+1 << " - " << Modalidades[i]->getTipo() << endl;
+	}
+	system("pause");
 }
-system("pause");
-}
+
 void Campeonato::AdicionarModalidade()
 {
 	string nome,tipo;
@@ -1023,9 +1079,9 @@ void Campeonato::removerEventos()
 				for (unsigned int j = 0; j < Modalidades.size(); j++) {
 					for(unsigned int k =0;k < Modalidades[j]->getProvas().size();k++) {
 						if(Modalidades[j]->getProvas()[k]->getNome() == nomeEvento){
-						Modalidades[j]->removeProva(ev);
-						existe_mod = true;
-						break;
+							Modalidades[j]->removeProva(ev);
+							existe_mod = true;
+							break;
 						}
 					}
 					break;
@@ -1042,27 +1098,27 @@ void Campeonato::removerEventos()
 //PROVAS
 vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 	//DATA ATUAL
-				time_t Tempo_Atual = time(NULL);
-				struct tm *tempo_info= localtime(&Tempo_Atual);
-				unsigned int sec = tempo_info->tm_sec;
-				unsigned int min = tempo_info->tm_min;
-				unsigned int horas = tempo_info->tm_hour;
-				unsigned int dia = tempo_info->tm_mday;
-				unsigned int mes = tempo_info->tm_mon + 1;/* varia de 0 a 11*/
-				unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
+	time_t Tempo_Atual = time(NULL);
+	struct tm *tempo_info= localtime(&Tempo_Atual);
+	unsigned int sec = tempo_info->tm_sec;
+	unsigned int min = tempo_info->tm_min;
+	unsigned int horas = tempo_info->tm_hour;
+	unsigned int dia = tempo_info->tm_mday;
+	unsigned int mes = tempo_info->tm_mon + 1;/* varia de 0 a 11*/
+	unsigned int ano = tempo_info -> tm_year + 1000; /* ano atual*/
 	Data Atual (dia,mes,ano,horas,min,sec);
 	vector<evento *> ProvasRealizadas;
 	vector<evento *> ProvasPorRealizar;
 	for(unsigned int i = 0; i < Infraestruturas.size(); i++)
 	{ vector <evento *> Provas = Infraestruturas[i]->getCalendario()->getEventos();
-		for(unsigned int t = 0; t < Provas.size(); t ++)
-		{
-			Data Final = Provas[i]->getFinal();
-			if(Final <= Atual)
-				ProvasRealizadas.push_back(Provas[i]);
-			else
-				ProvasPorRealizar.push_back(Provas[i]);
-		}
+	for(unsigned int t = 0; t < Provas.size(); t ++)
+	{
+		Data Final = Provas[i]->getFinal();
+		if(Final <= Atual)
+			ProvasRealizadas.push_back(Provas[i]);
+		else
+			ProvasPorRealizar.push_back(Provas[i]);
+	}
 	}
 	if(seleciona == 0){
 		sort(ProvasRealizadas.begin(),ProvasRealizadas.end(),  OrdenaEventosAlpha);
@@ -1071,9 +1127,9 @@ vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 
 	else
 	{	sort(ProvasPorRealizar.begin(),ProvasPorRealizar.end(), OrdenaEventosAlpha);
-		return ProvasPorRealizar;
+	return ProvasPorRealizar;
 	}
-//TODO TESTAR
+	//TODO TESTAR
 }
 
 
@@ -1108,7 +1164,7 @@ void Campeonato::verResultados()
 		cout << "Visualizar outra Prova ou sair?" << endl;
 		cin >> resposta;
 		transform(resposta.begin(), resposta.end(), resposta.begin(),
-						::towlower);
+				::towlower);
 		cin.clear();
 		cin.ignore(1000,'\n');
 	} while (resposta != "sair");
@@ -1143,12 +1199,12 @@ void Campeonato::adicionarProvas()
 				if(atletas[i].getNome() == atleta)
 				{
 					for (unsigned int j = 0; j < Modalidades.size(); j++) {
-								if (modalidade == Modalidades[j]->getNome()) {
-									indice = j;
-									existeA = true;
-									break;
-								}
-							}
+						if (modalidade == Modalidades[j]->getNome()) {
+							indice = j;
+							existeA = true;
+							break;
+						}
+					}
 					break;
 				}
 			}
@@ -1174,8 +1230,8 @@ void Campeonato::adicionarProvas()
 					}
 					if (ev[i]->getTipo() == "TEMPO") {
 						cout
-								<< "Introduza o tempo que o atleta fez em horas, minutos e segundos"
-								<< endl;
+						<< "Introduza o tempo que o atleta fez em horas, minutos e segundos"
+						<< endl;
 						cin.clear();
 						cin.ignore(100,'\n');
 						cin >> horas >> minutos >> segundos;
@@ -1228,12 +1284,12 @@ void Campeonato::removerProvas()
 				if(atletas[i].getNome() == atleta)
 				{
 					for (unsigned int j = 0; j < Modalidades.size(); j++) {
-								if (modalidade == Modalidades[j]->getNome()) {
-									indice = j;
-									existeA = true;
-									break;
-								}
-							}
+						if (modalidade == Modalidades[j]->getNome()) {
+							indice = j;
+							existeA = true;
+							break;
+						}
+					}
 					break;
 				}
 			}
@@ -1270,7 +1326,7 @@ void Campeonato::removerProvas()
 }
 
 void Campeonato::menuProvas() {
-	cout << "Provas" << endl;
+	cout << "\n    Provas" << endl;
 	cout << "1 - Ver todas os Resultados" << getNome() << endl;
 	cout << "2 - Adicionar Provas realizadas pelos Atletas" << endl;
 	cout << "3 - Remover Provas realizadas pelos Atleta" << endl;
@@ -1296,7 +1352,7 @@ void Campeonato::menuProvas() {
 
 
 void Campeonato::menuCalendario(){
-	cout << " Calendario" << endl;
+	cout << "\n    Calendario" << endl;
 	cout << "1 - Ver Calendarios do Campeonato " << getNome() << endl;
 	cout << "2 - Adicionar Evento ao Calendario" << endl;
 	cout << "3 - Remover Evento do Calendario" << endl;
@@ -1347,13 +1403,14 @@ bool Campeonato::ExisteEquipa(string nome) const
 	}
 	return false;
 }
+
 bool Campeonato::ExisteAtleta(string nome) const
 {
 	for(unsigned int i = 0; i < Equipas.size();i++)
 	{
-		for(unsigned int t = 0; t < Equipas[i].getAtletas().size();i++)
+		for(unsigned int k = 0; k < Equipas[i].getAtletas().size(); k++)
 		{
-			if(Equipas[i].getAtletas()[t].getNome() == nome)
+			if(Equipas[i].getAtletas()[k].getNome() == nome)
 				return true;
 		}
 	}
@@ -1361,13 +1418,13 @@ bool Campeonato::ExisteAtleta(string nome) const
 }
 bool Campeonato::AdicionaAtletaEquipa(string Atleta,string Equipa)
 {
-	cout << "Equipa : " << Equipa << endl;
-	cout << "Atleta : " << Atleta << endl;
+	cout << "Equipa: " << Equipa << endl;
+	cout << "Atleta: " << Atleta << endl;
 	for(unsigned int i = 0; i < Equipas.size();i++)
 	{
 		if(Equipa == Equipas[i].getNomeEquipa())
-		{	cout << " Entrou " << endl;
-		return Equipas[i].addAtleta(Atleta);
+		{
+			return Equipas[i].addAtleta(Atleta);
 		}
 	}
 	return false;
@@ -1383,18 +1440,16 @@ bool Campeonato::RemoveAtletaEquipa(string equipa,string Atleta){
 	}
 	return false;
 }
-void Campeonato::RemoveAtletaProva(string Atleta) // TODO CONFIRMAR SE APONTADORES EM INFRASTRUTURAS
-{												// È O MESMO DO QUE ESTA EM MODALIDADES
+void Campeonato::RemoveAtletaProva(string Atleta)
+{
 	for(unsigned int i = 0;i < Infraestruturas.size();i++)
 	{
 		Calendario *temp = Infraestruturas[i]->getCalendario();
 		vector<evento *> Provas = temp->getEventos();
-		for(unsigned int t = 0; t < Provas.size(); t++)
+		for(unsigned int k = 0; k < Provas.size(); k++)
 		{
-			Provas[i]->removeLugar(Atleta);
+			Provas[k]->removeLugar(Atleta);
 		}
-
-
 	}
 }
 vector<string> Campeonato::listaDesporto()

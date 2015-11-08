@@ -64,6 +64,16 @@ public:
 	bool removeAtleta(string nome);
 
 	/*
+	 * @param nome nome do atleta a procura
+	 *
+	 * Procura se um atleta existe na equipa
+	 *
+	 * @return true se o atleta existir
+	 * @return false se o atleta nao existir
+	 */
+	bool existeAtleta(string nome);
+
+	/*
 	 * Grava num ficheiro .txt com o nome igual ao nome da equipa
 	 * as informacoes necessarias para carregar a equipa quando voltar a abrir o programa
 	 */
@@ -78,13 +88,6 @@ public:
 	 * @return vetor de atletas da equipa
 	 */
 	vector<Atleta> getAtletas() const;
-
-	/*
-	 * @param Atletas vetor de atletas
-	 *
-	 * Substitui o vetor atletasInscritos, que contem os atletas da equipa, pelo vetor Atletas
-	 */
-	void setAtletas(vector<Atleta> Atletas);
 
 	/*
 	 * @param equipa a comparar

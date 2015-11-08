@@ -222,6 +222,8 @@ public:
 	 */
 	void gravarCampeonato();
 
+	void gravaProvas(string nomeCampeonato);
+
 
 	// Excecoes
 	class EquipaJaExistente

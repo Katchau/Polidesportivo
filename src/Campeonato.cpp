@@ -1628,3 +1628,54 @@ void Campeonato::RemoveEventosInfra(string modalidade)
 		}
 	}
 }
+
+void Campeonato::gravaProvas(string nomeCampeonato) //TODO testar isto ^^ btw tens de chamar com o nome (private da class)
+		{
+	string filename = "Provas_" + nomeCampeonato;
+	ofstream gravar;
+	gravar.open(filename.c_str());
+	for (unsigned int i = 0; i < Modalidades.size(); i++) {
+		vector<evento *> provas = Modalidades[i]->getProvas();
+		for (unsigned int j = 0; j < provas.size(); j++) {
+			gravar << provas[j]->getNome() << '\n';
+			gravar << provas[j]->getTipo() << '\n';
+			gravar << Modalidades[j]->getDesporto() << '\n';
+			gravar << Modalidades[j]->getTipo() << '\n';
+			gravar << provas[j]->getInicial() << '\n'; // nao sei se da para fazer isto!
+			gravar << provas[j]->getFinal() << '\n';
+			for (unsigned int k = 0; k < Infraestruturas.size(); k++) {
+				vector<evento *> infraprovas =
+						Infraestruturas[k]->getCalendario()->getEventos();
+				for (unsigned int l = 0; l < infraprovas.size(); l++) {
+					if (infraprovas[l] == provas[j]) {
+						gravar << Infraestruturas[k]->getNome() << '\n';
+						break;
+					}
+				}
+			}
+			if (provas[j]->getTipo() == "TEMPO") {
+
+				Prova_Tempo * provaT = provas[j]->getProvaT();
+				vector<Posicao_tempo *> pTvec = provaT->getLugares();
+				for (unsigned int k = 0; k < pTvec.size(); k++) {
+					gravar << pTvec[k]->getAtleta() << '\n';
+					gravar << pTvec[k]->getTempo() << '\n';
+				}
+
+			}
+			if (provas[j]->getTipo() == "PONTO") {
+
+				Prova_Pontuacao * provaP = provas[j]->getProvaP();
+				vector<Posicao_Pontos *> pTvec = provaP->getLugares();
+				for (unsigned int k = 0; k < pTvec.size(); k++) {
+					gravar << pTvec[k]->getAtleta() << '\n';
+					gravar << pTvec[k]->getPontuacao() << '\n';
+				}
+
+			}
+			gravar << "" << '\n';
+		}
+	}
+
+	gravar.close();
+}

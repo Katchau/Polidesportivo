@@ -42,14 +42,13 @@ bool Atleta::adicionaModalidade(Desporto *d)
 	if (existe)
 		throw DesportoRepetido();
 
-	//cout << d->getNome() << endl;
 	desportosInscrito.push_back(d);
 
 	return true;
 }
 
 bool Atleta::removeModalidade(string desporto,string modalidade)
-{	cout <<"Entrou remove Desporto" << endl;
+{
 	cout << desportosInscrito.size() << endl;
 
 
@@ -57,11 +56,9 @@ bool Atleta::removeModalidade(string desporto,string modalidade)
 		cout << desportosInscrito[i]->getNome();
         string nome = desporto + " , " + modalidade;
 		if (desportosInscrito[i]->getNome() == nome) {
-			cout << "entrou" << endl;
 			showDesportos();
 			cout << endl;
 			desportosInscrito.erase(desportosInscrito.begin() + i);
-			cout <<"A sair" << endl;
 			return true;
 		}
 	}

@@ -40,10 +40,10 @@ public:
 	/**
 	 *
 	 */
-	virtual void adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score);//TODO DOXY
+	virtual void adicionaResultado(int indice, string nomeAtleta, int h, int m ,int s, int score);//TODO doxygen
 
-	virtual void removeResultado(int indice, string nomeAtleta);//TODO DOXY
-	/*
+	virtual void removeResultado(int indice, string nomeAtleta);//TODO doxygen
+	/**
 	 * Permite comparar dois objectos da classe desporto
 	 * @return true se  ambos os objectos tiverem o mesmo nome;
 	 * @return false se ambos os objectos nao tiverem o mesmo nome;

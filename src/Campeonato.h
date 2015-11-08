@@ -175,7 +175,7 @@ public:
 /**
  * Permite remover a classifiacao de um atleta numa prova
  */
-	void removerClassProva();//TODO onde é que esta isto
+	void removerClassProva();
 /**
  * Faz display do menu que permite a gestao do atletas
  */

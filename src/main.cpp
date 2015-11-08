@@ -70,7 +70,7 @@ void sobre()
 	<<"\n"
 	<<"\n"
 	<<"Diogo Campos \n"
-	<<"Jonas Loureiro \n"
+	<<"Joao Loureiro \n"
     <<"Pedro Soares \n\n";
 
 }

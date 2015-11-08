@@ -8,11 +8,10 @@ Equipa::EquipaNaoExistente::EquipaNaoExistente(string nomeficheiro)
 bool Equipa::addAtleta(string nome)
 {
 	Atleta atleta(nome);
-	cout << "Atletas Inscritos  "<< atletasInscritos.size() << endl;
 	if (sequentialSearch(atletasInscritos, atleta) == -1)
 	{
 		atletasInscritos.push_back(atleta);
-		cout << "Atletas Inscritos apos adicionar: "<< atletasInscritos.size() << endl;
+		cout << atleta.getNome() << " adicionado." << endl;
 		return true;
 	}
 	return false;
@@ -161,7 +160,7 @@ vector<Atleta> Equipa::getAtletas() const
 }
 
 bool Equipa::operator == (const Equipa& eqi) const
-																				{
+																						{
 	string nome1 = nome;
 	string nome2 = eqi.nome;
 	if(nome1 == nome2)
@@ -169,7 +168,7 @@ bool Equipa::operator == (const Equipa& eqi) const
 		return true;
 	}
 	else return false;
-																				}
+																						}
 bool ordenaAlfaEquipa(const Equipa A, const Equipa B){
 	string a = A.getNomeEquipa();
 	string b = B.getNomeEquipa();
@@ -179,6 +178,21 @@ bool ordenaAlfaEquipa(const Equipa A, const Equipa B){
 	if(a < b)
 		return true;
 	return false;
+}
+
+bool Equipa::adicionaModalidadeAtleta(int indice, Desporto* d)
+{
+	for (size_t i = 0; i < desportosInscritos.size(); i++)
+		if (desportosInscritos[i] == d)
+			return false;
+
+	desportosInscritos.push_back(d);
+
+	if (!atletasInscritos[indice].adicionaModalidade(d))
+		return false;
+
+	return true;
+
 }
 
 bool Equipa::adicionaModalidade(Desporto *d)

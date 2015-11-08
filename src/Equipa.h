@@ -25,25 +25,25 @@ private:
 	vector<Atleta> atletasInscritos;
 
 public:
-	/*
+	/**
 	 * Cria uma equipa, pedindo ao utilizador que introduza o nome
 	 * Atualiza o nome do ficheiro onde vai ser guardada a equipa para nome.txt, sendo nome o nome da equipa
 	 */
 	Equipa();
 
-	/*
+	/**
 	 * @param filename nome do ficheiro de equipa
 	 *
 	 * Cria uma equipa, lendo de um ficheiro a seua configuracao.
 	 */
 	Equipa(string filename);
 
-	/*
+	/**
 	 * Le a configuracao da equipa a partir do ficheiro
 	 */
 	void addAthletesFromFile();
 
-	/*
+	/**
 	 * @param nome nome do atleta a criar
 	 *
 	 * Cria um atleta com o nome pretendido e adiciona-o ao vetor atletasInscritos.
@@ -53,7 +53,7 @@ public:
 	 */
 	bool addAtleta(string nome);
 
-	/*
+	/**
 	 * @param nome nome do atleta a criar
 	 *
 	 * Remove o atleta com o nome pretendido do vetor atletasInscritos.
@@ -63,7 +63,7 @@ public:
 	 */
 	bool removeAtleta(string nome);
 
-	/*
+	/**
 	 * @param nome nome do atleta a procura
 	 *
 	 * Procura se um atleta existe na equipa
@@ -73,23 +73,23 @@ public:
 	 */
 	bool existeAtleta(string nome);
 
-	/*
+	/**
 	 * Grava num ficheiro .txt com o nome igual ao nome da equipa
 	 * as informacoes necessarias para carregar a equipa quando voltar a abrir o programa
 	 */
-	void writetoFile(); //TODO falta tudo
+	void writetoFile();
 
-	/*
+	/**
 	 * @return nome da equipa
 	 */
 	string getNomeEquipa() const;
 
-	/*
+	/**
 	 * @return vetor de atletas da equipa
 	 */
 	vector<Atleta> getAtletas() const;
 
-	/*
+	/**
 	 * @param equipa a comparar
 	 *
 	 * Compara duas equipas
@@ -99,7 +99,18 @@ public:
 	 */
 	bool operator == (const Equipa& eqi) const;
 
-	/*
+	/**
+	 * @param indice indice do atleta no vetor de atletas
+	 * @param d modalidade a adicionar
+	 *
+	 * Adiciona a modalidade especificada ao atleta especificado
+	 *
+	 * @return true se for possivel adicionar
+	 * @return false se a modalidade ja existir
+	 */
+	bool adicionaModalidadeAtleta(int indice, Desporto* d);
+
+	/**
 	 * @param d modalidade a adicionar
 	 *
 	 * Adiciona a modalidade especificada
@@ -109,30 +120,30 @@ public:
 	 */
 	bool adicionaModalidade(Desporto* d);
 
-	/*
+	/**
 	 * @param desporto nome do desporto
 	 * @param modalidade nome da modalidade
 	 *
 	 * Remove a modalidade especificada
 	 */
 	void removeModalidade(string desporto,string modalidade);
-	/*
-		 * @param desporto para verificar a pontuacao
-		 *
-		 * soma a pontuacao de todos os atletas da equipa numa modalidade
-		 *
-		 * @return total das pontuacoes
-		 *
-		 */
+	/**
+	 * @param desporto para verificar a pontuacao
+	 *
+	 * soma a pontuacao de todos os atletas da equipa numa modalidade
+	 *
+	 * @return total das pontuacoes
+	 *
+	 */
 	int pontuacaoGeral(Desporto * mod);
-	/*
-		 * @param desporto para verificar a pontuacao
-		 *
-		 * verifica o melhor tempo de todos os atletas de uma modalidade
-		 *
-		 * @return melhor tempo
-		 *
-		 */
+	/**
+	 * @param desporto para verificar a pontuacao
+	 *
+	 * verifica o melhor tempo de todos os atletas de uma modalidade
+	 *
+	 * @return melhor tempo
+	 *
+	 */
 	Data melhorTempo(Desporto * mod);
 
 	class EquipaNaoExistente

@@ -30,7 +30,7 @@ public:
 	 */
 	Atleta(string nome);
 
-	/*
+	/**
 	 * @param d modalidade a adicionar
 	 *
 	 * Adiciona a modalidade ao vetor desportosInscrito
@@ -58,17 +58,17 @@ public:
 	 */
 	vector<Desporto *> getDesportosInsc();
 
-	/*
+	/**
 	 * Imprime no ecra todos as modalidades em que o atleta esta inscrito
 	 */
 	void showDesportos();
 
-	/*
+	/**
 	 * @return nome do atleta
 	 */
 	string getNome() const;
 
-	void classificacaoFinal(Desporto * des); // TODO nao esta feito
+	void classificacaoFinal(Desporto * des);
 
 	/**
 	 * @param atleta a comparar

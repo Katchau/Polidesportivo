@@ -150,7 +150,7 @@ public:
 		 */
 	Prova_Pontuacao(string nome,Data inicial,Data final,string tipo);
 	/**
-		 * Ordena as classificaçoes obtidas pelos atletas nas provas
+		 * Ordena as classificacoes obtidas pelos atletas nas provas
 		 */
 	void ordena();
 	/**
@@ -165,7 +165,7 @@ public:
 	void removeLugar(string nome);
 	/**
 		 *
-		 * return Retorna o vector de classificaçoes da prova
+		 * return Retorna o vector de classificacoes da prova
 		 */
 	vector<Posicao_Pontos *> getLugares() const;
 	/**
@@ -203,7 +203,7 @@ public:
 	 */
 	Prova_Tempo(string nome,Data inicial,Data final,string tipo);
 	/**
-	 * Ordena as classificaçoes obtidas pelos atletas nas provas
+	 * Ordena as classificacoes obtidas pelos atletas nas provas
 	 */
 	void ordena();
 	/**
@@ -218,7 +218,7 @@ public:
 	void removeLugar(string nome);
 	/**
 	 *
-	 *  @return Retorna o vector de classificaçoes da prova
+	 *  @return Retorna o vector de classificacoes da prova
 	 */
 	vector<Posicao_tempo *> getLugares() const;
 	/**
@@ -301,11 +301,11 @@ public:
 	 */
 	Data getFinal() const;
 	/**
-	 * Ordena as classificaçoes dos melhores resultados para os piores
+	 * Ordena as classificacoes dos melhores resultados para os piores
 	 *
 	 */
 	void ordena();
-	void retProva(); //TODO
+	void retProva(); //TODO doxygen
 	void adicionaLugar(string nomeAtleta,int d, int m , int a, int h, int mi, int s, int score); //TODOalgumas duvidas
 	/**
 	 * Remove a classificacao do atleta na prova
@@ -366,14 +366,14 @@ public:
 	//Gerir
 	/**
 	 * Adiciona um evento ao Calendario
-	 * lança objecto EventoSobreposto se houver um evento no mesmo intervalo de tempo
-	 * lança objecto EventoExiste se o evento ja existir no calendario
+	 * lanca objecto EventoSobreposto se houver um evento no mesmo intervalo de tempo
+	 * lanca objecto EventoExiste se o evento ja existir no calendario
 	 * @param alpha  apontador para o evento
 	 */
 	void adiciona_evento(evento *alpha);
 	/**
 	 * Remove um evento do calendario
-	 * lança objecto EventoNaoExiste se o evento nao existir no calendario
+	 * lanca objecto EventoNaoExiste se o evento nao existir no calendario
 	 * @param alpha evento a ser removido
 	 */
 	void remove_evento(evento * alpha);

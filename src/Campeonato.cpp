@@ -181,8 +181,8 @@ void Campeonato::menuCampeonato()
 		cout << "\n    " << nome << endl;
 		cout << "1 - Equipas" << endl;
 		cout << "2 - Infraestruturas" << endl;
-		cout << "3 - Modalidades -- por fazer" << endl;
-		cout << "4 - Calendario -- por fazer" << endl;
+		cout << "3 - Modalidades" << endl;
+		cout << "4 - Calendario" << endl;
 		cout << "5 - Gravar e sair " << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
@@ -354,12 +354,10 @@ void Campeonato::removeAtleta()
 
 	if(RemoveAtletaEquipa(nomeEquipa,nomeAtleta))
 	{
-		cout << "Atleta Removido da equipa" << endl;
 		RemoveAtletaProva(nome);
-		cout << "Atleta Removido das provas" << endl;
+		cout << "Atleta Removido!" << endl;
 	}
 
-	//TODO TESTAR ja pinta
 }
 
 void Campeonato::AtletasPorEquipa()
@@ -421,7 +419,6 @@ void Campeonato::AtletasPorModalidade()
 		}
 
 	}
-	//TODO testar  ja resolvi o problem aki mas testem mais umas vezes
 }
 void Campeonato::listaAtletas()
 {
@@ -462,8 +459,7 @@ void Campeonato::menuAtletas()
 		cout << "2 - Remover Atleta" << endl;
 		cout << "3 - Listar Atletas" << endl;
 		cout << "4 - Inscrever Atleta numa Modalidade" << endl;
-		cout << "5 - Inscrever Atleta numa Prova -- por fazer" << endl; // TODO
-		cout << "6 - Voltar atras" << endl;
+		cout << "5 - Voltar atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
 		switch (selectMenu('1','6'))
@@ -481,9 +477,6 @@ void Campeonato::menuAtletas()
 			inscreverAtletaModalidade();
 			break;
 		case '5':
-			//TODO Inscrever Atleta numa Prova
-			break;
-		case '6':
 			return;
 			break;
 
@@ -664,7 +657,7 @@ void Campeonato::menuInfraestruturas()
 			adicionarInfraestrutura();
 			break;
 		case '3':
-			removerInfraestrutura(); //TODO alterar inputs e testar com eventos
+			removerInfraestrutura();
 			break;
 		case '4':
 			return;
@@ -876,7 +869,7 @@ void Campeonato::RemoverModalidade()
 	{
 		if(tipo == Modalidades[i]->getTipo())
 		{
-			if(nome == Modalidades[i]->getDesporto())  // TODO Faz uns couts de testes e nao remove as prova da modalidade
+			if(nome == Modalidades[i]->getDesporto())
 			{
 				RemoveModalidadeAtletas(nome, tipo);
 				RemoveEventosInfra(tipo);
@@ -1171,10 +1164,11 @@ vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 	}
 
 	else
-	{	sort(ProvasPorRealizar.begin(),ProvasPorRealizar.end(), OrdenaEventosAlpha);
-	return ProvasPorRealizar;
+	{
+		sort(ProvasPorRealizar.begin(),ProvasPorRealizar.end(), OrdenaEventosAlpha);
+		return ProvasPorRealizar;
 	}
-	//TODO Ja pinta testa para veres serviço xD
+
 }
 
 
@@ -1206,87 +1200,93 @@ void Campeonato::verResultados()
 
 void Campeonato::adicionarProvas()
 {
-	string resposta,atleta, equipa,modalidade;
-	int indice, pontuacao, horas, minutos, segundos;
-	do {
-		bool existeE = false, existeA = false;
-		cout << "Em que equipa se encontra o Atleta?" << endl;
-		getline(cin, equipa);
-		for(unsigned int i =0;i<Equipas.size();i++)
-		{
-			if(Equipas[i].getNomeEquipa() == equipa)
-			{
-				indice = i;
-				existeE = true;
-				break;
-			}
-		}
-		if(existeE)
-		{
-			cout << "Qual atleta pretende adicionar a prova? E Modalidade? (1 em cada linha)" << endl;
-			getline(cin, atleta);
-			getline(cin, modalidade);
-			for(unsigned int i =0;i<Equipas[indice].getAtletas().size();i++)
-			{
-				vector<Atleta> atletas = Equipas[indice].getAtletas();
-				if(atletas[i].getNome() == atleta)
-				{
-					for (unsigned int j = 0; j < Modalidades.size(); j++) {
-						if (modalidade == Modalidades[j]->getNome()) {
-							indice = j;
-							existeA = true;
-							break;
-						}
-					}
-					break;
-				}
-			}
-		}
+	if (Infraestruturas.size() == 0)
+	{
+		cout << "Nao existem infraestruturas no campeonato. Adicione uma infraestrutura antes de poder inscrever atletas em provas." << endl;
+		return;
+	}
 
+	if (Equipas.size() == 0)
+	{
+		cout << "Ainda nao existem equipas inscritas no campeonato. Crie uma equipa antes de inscrever atletas.";
+		return;
+	}
 
-		if (existeA) {
-			vector<evento *> ev = Modalidades[indice]->getProvas();
-			cout << "Eventos: " << endl;
-			for (unsigned int i = 0; i < ev.size(); i++) {
-				cout << ev[i]->getNome() << "Data inicial: "
-						<< ev[i]->getInicial() << " data final: "
-						<< ev[i]->getFinal() << endl;
-				cout << "Pretende adicionar uma prova a este evento?" << endl;
-				cin >> resposta;
-				if (resposta == "sim" || resposta == "Sim") {
-					if (ev[i]->getTipo() == "PONTO") {
-						cout << "Introduza a pontuacao que o atleta fez"
-								<< endl;
-						cin >> pontuacao;
-						Modalidades[indice]->adicionaResultado(i, atleta,
-								0, 0, 0, pontuacao);
-					}
-					if (ev[i]->getTipo() == "TEMPO") {
-						cout
-						<< "Introduza o tempo que o atleta fez em horas, minutos e segundos"
-						<< endl;
-						cin.clear();
-						cin.ignore(100,'\n');
-						cin >> horas >> minutos >> segundos;
-						Modalidades[indice]->adicionaResultado(i, atleta,
-								horas, minutos, segundos, 0);
-					}
-					break;
-				}
+	size_t indiceEquipa, indiceAtleta, indiceModalidade, indiceProva;
+	bool sobreposto;
 
-			}
-		}
-		else
-		{
-			cout << "Nao foi encontrado um ou mais  parametros pretendidos!" << endl;
-		}
-		cout << "Adicionar outro Resultado, ou sair?" << endl;
-		cin >> resposta;
-		transform(resposta.begin(), resposta.end(), resposta.begin(),
-				::towlower);
-		cin.clear();
-		cin.ignore(1000,'\n');
-	} while (resposta != "sair");
+	cout << "Escolha a equipa do atleta que pretende inscrever: " << endl;
+
+	for(size_t i = 0; i < Equipas.size(); i++)
+		cout << i+1 << " - " << Equipas[i].getNomeEquipa() << endl;
+
+	cout << "Introduza a opcao correspondente a equipa desejada: ";
+	indiceEquipa = selectMenu('1',Equipas.size()+'0') - '1';
+
+	if (Equipas[indiceEquipa].getAtletas().size() == 0)
+	{
+		cout << "Ainda nao existem atletas inscritos nessa equipa. Crie um atleta antes de o poder inscrever numa prova.";
+		return;
+	}
+
+	cout << "Escolha o atleta que pretende inscrever: " << endl;
+
+	for(size_t i = 0; i < Equipas[indiceEquipa].getAtletas().size(); i++)
+		cout << i+1 << " - " << Equipas[indiceEquipa].getAtletas()[i].getNome() << endl;
+
+	cout << "Introduza a opcao correspondente a equipa desejada: ";
+	indiceAtleta = selectMenu('1',Equipas[indiceEquipa].getAtletas().size()+'0') - '1';
+
+	Atleta atleta = Equipas[indiceEquipa].getAtletas()[indiceAtleta];
+
+	if (atleta.getDesportosInsc().size() == 0)
+	{
+		cout << "O atleta escolhido nao esta inscrito em nenhuma modalidade.\n";
+		cout << "Inscreva-o numa modalidade antes de o inscrever na prova.\n";
+		return;
+	}
+
+	cout << "Escolha a modalidade da prova em que pretende inscrever o atleta: " << endl;
+
+	for (size_t i = 0; i < Modalidades.size(); i++)
+		cout << i+1 << ": " << Modalidades[i]->getDesporto() << " - " << Modalidades[i]->getTipo() << endl;
+
+	cout << "Introduza a opcao correspondente a modalidade desejada: ";
+	indiceModalidade = selectMenu('1',Modalidades.size()+'0') - '1';
+
+	vector<evento *> provas = Modalidades[indiceModalidade]->getProvas();
+
+	if (provas.size() == 0)
+	{
+		cout << "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
+	}
+
+	cout << "Escolha a prova em que pretende inscrever o atleta: " << endl;
+
+	for (size_t i = 0; i < provas.size(); i++)
+		cout << i+1 << " - " << provas[i]->getNome() << endl;
+
+	cout << "Introduza a opcao correspondente a prova desejada: ";
+	indiceProva = selectMenu('1',provas.size()+'0') - '1';
+
+	for (size_t i = 0; i < provas.size(); i++)
+	{
+		int indice = sequentialSearch(provas[i]->getNomeAtletas(), atleta.getNome());
+		if(indice != -1)
+			if (eventos_sobrepostos(provas[i], provas[indiceProva]))
+				sobreposto = true;
+	}
+
+	if (sobreposto)
+	{
+		cout << "Evento sobreposto a um evento em que o atleta ja inscrito!" << endl;
+		return;
+	}
+
+	Modalidades[indiceModalidade]->adicionaResultado(indiceProva, atleta.getNome(), 0, 0, 0, 0);
+
+	return;
+
 }
 
 void Campeonato::removerProvas()
@@ -1384,8 +1384,8 @@ void Campeonato::menuProvas()
 	{
 		cout << "\n    Provas" << endl;
 		cout << "1 - Ver todas os Resultados" << endl;
-		cout << "2 - Adicionar Provas realizadas pelos Atletas" << endl;
-		cout << "3 - Remover Provas realizadas pelos Atleta" << endl;
+		cout << "2 - Inscrever atleta numa prova" << endl;
+		cout << "3 - Remover atleta duma prova" << endl;
 		cout << "4 - Provas por realizar" << endl;
 		cout << "5 - Provas realizadas "  << endl;
 		cout << "6 - Voltar Atras" << endl;
@@ -1639,16 +1639,15 @@ void Campeonato::inscreverAtletaModalidade()
 
 			if (existeDes && existeMod)
 			{
-				Equipas[indice].getAtletas()[i].adicionaModalidade(Modalidades[modIndice]);
-				Equipas[indice].adicionaModalidade(Modalidades[modIndice]);
+				cout << Equipas[indice].getAtletas()[i].getDesportosInsc().size() << endl;
+				Equipas[indice].adicionaModalidadeAtleta(i, Modalidades[modIndice]);
+				cout << Equipas[indice].getAtletas()[i].getDesportosInsc().size() << endl;
 				cout << "O atleta " << Equipas[indice].getAtletas()[i].getNome() << " foi inscrito na modalidade especificada." << endl;
 				return;
 			}
 
-
-
 		}
-cout << "O desporto introduzido nao existe!" << endl;
+	cout << "O desporto introduzido nao existe!" << endl;
 }
 
 vector<string> Campeonato::listaDesporto()

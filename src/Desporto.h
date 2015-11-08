@@ -22,7 +22,7 @@ public:
 	 */
 	virtual ~Desporto(){}
 
-	virtual string getNome();//TODO subst pela getDesporto() mais abaixo
+	virtual string getNome();
 	/**
 	 * Adiciona objecto do tipo evento se ele ainda nao existir na classe
 	 * @param Prova a ser adicionada

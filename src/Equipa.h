@@ -151,6 +151,8 @@ public:
 	void removeMedalhas(evento * prov,string nomeAtleta);
 
 	void atualizaMedalhas();
+	//testing
+	void printMedalhas();
 
 	bool operator < (const Equipa eq) const;
 

@@ -300,6 +300,7 @@ void Equipa::getMedalhas(evento * prov)
 
 void Equipa::removeMedalhas(evento * prov,string nomeAtleta)
 {
+	/*
 	for(size_t i = 0;i<atletasInscritos.size();i++)
 	{
 		int x =0;
@@ -320,6 +321,10 @@ void Equipa::removeMedalhas(evento * prov,string nomeAtleta)
 		}
 
 	}
+	*/
+	medalhas.ouro = 0;
+	medalhas.prata = 0;
+	medalhas.bronze = 0;
 }
 //precisa de optimizacao esta funcao!!!!!!!!
 
@@ -333,6 +338,11 @@ void Equipa::atualizaMedalhas()
 			getMedalhas(provas[i]);
 		}
 	}
+}
+
+void Equipa::printMedalhas()
+{
+	cout << "Medalhas de ouro: " << medalhas.ouro << " medalhas de prata: " << medalhas.prata << " medalhas de bronze " << medalhas.bronze << endl;
 }
 
 bool Equipa::operator < (const Equipa eq) const

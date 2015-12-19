@@ -320,9 +320,11 @@ public:
 	 */
 	void gravaProvas();
 
-	template<class P>
 	void EquipasOrdemMedalhadas();
 
+	void simulacaoProva();
+
+	void simulacaoCampeonato();
 	// Excecoes
 	class EquipaJaExistente
 	{

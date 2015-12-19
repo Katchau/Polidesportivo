@@ -101,6 +101,7 @@ int Atleta::classificacaoFinal(evento * prova)
 	{
 		Prova_Tempo * pt=prova->getProvaT();
 		vector<Posicao_tempo *> vpt = pt->getLugares();
+		if(vpt.size() == 0 )return 0;
 		tempo=pt->getTempo(nome);
 		if(tempo == Data(-1,-1,-1)) return 0;
 		for(size_t i = 0;i<vpt.size();i++)
@@ -118,6 +119,7 @@ int Atleta::classificacaoFinal(evento * prova)
 		{
 		Prova_Pontuacao * pt = prova->getProvaP();
 		vector<Posicao_Pontos *> vpt = pt->getLugares();
+		if(vpt.size() == 0 )return 0;
 		resultado=pt->getPontos(nome);
 		if(resultado == -1) return 0;
 		for (size_t i = 0; i < vpt.size(); i++)
@@ -128,7 +130,28 @@ int Atleta::classificacaoFinal(evento * prova)
 			}
 		}
 	}
+
+	switch(posicaoFinal)
+			{
+			case 1:
+				medalhas.ouro ++;
+				break;
+			case 2:
+				medalhas.prata ++;
+				break;
+			case 3:
+				medalhas.bronze ++;
+				break;
+			default:
+				break;
+			}
+
 	return posicaoFinal;
+}
+
+medalha Atleta::getMedalhas() const
+{
+	return medalhas;
 }
 
 bool Atleta::operator == (const Atleta& atl) const

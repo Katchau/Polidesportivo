@@ -18,6 +18,7 @@ private:
 	string nome;
 	vector<Desporto *> desportosInscrito;
 	vector<int> classificacoes;
+	medalha medalhas;
 public:
 	/**
 	 * Cria um atleta, pedindo ao utilizador que introduza o nome
@@ -68,6 +69,8 @@ public:
 	 * @return nome do atleta
 	 */
 	string getNome() const;
+
+	medalha getMedalhas() const;
 
 	int classificacaoFinal(evento * prova);
 

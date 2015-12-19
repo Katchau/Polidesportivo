@@ -42,7 +42,9 @@ bool Equipa::existeAtleta(string nome)
 Equipa::Equipa()
 {
 	nome = returnInput("a equipa");
-
+	medalhas.bronze = 0;
+	medalhas.prata = 0;
+	medalhas.ouro = 0;
 	nameFile = nome + ".txt";
 
 }
@@ -55,6 +57,9 @@ Equipa::Equipa(string nome)
 	if(checkExistence(nameFile))
 	{
 		addAthletesFromFile();
+		medalhas.bronze = 0;
+		medalhas.prata = 0;
+		medalhas.ouro = 0;
 	}
 	else throw Equipa::EquipaNaoExistente(nameFile);
 }
@@ -269,3 +274,75 @@ Data Equipa::melhorTempo(Desporto * mod)
 	return melhor;
 }
 
+
+void Equipa::getMedalhas(evento * prov)
+{
+	for(size_t i = 0;i<atletasInscritos.size();i++)
+	{
+		int x = atletasInscritos[i].classificacaoFinal(prov);
+		switch(x)
+		{
+		case 1:
+			medalhas.ouro ++;
+			break;
+		case 2:
+			medalhas.prata ++;
+			break;
+		case 3:
+			medalhas.bronze ++;
+			break;
+		default:
+			break;
+		}
+
+	}
+}
+
+void Equipa::removeMedalhas(evento * prov,string nomeAtleta)
+{
+	for(size_t i = 0;i<atletasInscritos.size();i++)
+	{
+		int x =0;
+		if(atletasInscritos[i] == nomeAtleta)x = atletasInscritos[i].classificacaoFinal(prov);
+		switch(x)
+		{
+		case 1:
+			medalhas.ouro ++;
+			break;
+		case 2:
+			medalhas.prata ++;
+			break;
+		case 3:
+			medalhas.bronze ++;
+			break;
+		default:
+			break;
+		}
+
+	}
+}
+//precisa de optimizacao esta funcao!!!!!!!!
+
+void Equipa::atualizaMedalhas()
+{
+	for(size_t i = 0;i<desportosInscritos.size();i++)
+	{
+		vector<evento *> provas = desportosInscritos[i]->getProvas();
+		for(size_t j = 0;j<provas.size();j++)
+		{
+			getMedalhas(provas[i]);
+		}
+	}
+}
+
+bool Equipa::operator < (const Equipa eq) const
+{
+	if(medalhas < eq.medalhas) return true;
+	else return false;
+}
+
+bool Equipa::operator > (const Equipa eq) const
+{
+	if(medalhas < eq.medalhas) return false;
+	else return true;
+}

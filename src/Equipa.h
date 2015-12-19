@@ -21,7 +21,7 @@ private:
 	string nome;
 
 	vector<Desporto *> desportosInscritos;
-	vector<medalha> medalhas;
+	medalha medalhas;
 	vector<Atleta> atletasInscritos;
 
 public:
@@ -145,6 +145,16 @@ public:
 	 *
 	 */
 	Data melhorTempo(Desporto * mod);
+
+	void getMedalhas(evento * prov);
+
+	void removeMedalhas(evento * prov,string nomeAtleta);
+
+	void atualizaMedalhas();
+
+	bool operator < (const Equipa eq) const;
+
+	bool operator > (const Equipa eq) const;
 
 	class EquipaNaoExistente
 	{

@@ -1,6 +1,8 @@
 #ifndef CAMPEONATO_H
 #define CAMPEONATO_H
 #include <iostream>
+#include <queue>
+#include <stack>
 #include <algorithm>
 #include "Modalidade.h"
 #include "Equipa.h"
@@ -20,6 +22,7 @@ private:
 	vector<Infraestrutura *> Infraestruturas;
 	vector<Equipa> Equipas;
 	vector<Desporto*> Modalidades;
+	priority_queue<Equipa> EquipasMedalhadas;
 public:
 	// Criar
 
@@ -65,6 +68,7 @@ public:
 	/**
 	 * Faz display de todas as opçoes de ordenacao das equipas presentes no campeonato
 	 */
+	//template<class P>
 	void listaEquipas();
 	/**
 	 * Permite adicionar uma equipa
@@ -316,6 +320,8 @@ public:
 	 */
 	void gravaProvas();
 
+	template<class P>
+	void EquipasOrdemMedalhadas();
 
 	// Excecoes
 	class EquipaJaExistente

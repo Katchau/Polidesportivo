@@ -483,7 +483,8 @@ void Campeonato::menuAtletas()
 		}
 	}
 }
-void Campeonato::listaEquipas(){
+
+void Campeonato::listaEquipas(){ //TODO alterar o menu
 
 	cout << "    Lista de Equipas" << endl;
 	cout << "1 - Por odem alfabetica" << endl;
@@ -500,6 +501,9 @@ void Campeonato::listaEquipas(){
 		EquipasOrdemPontuacao();
 		break;
 	case '3':
+		//EquipasOrdemMedalhadas();
+		break;
+	case '4':
 		return;
 		break;
 	}
@@ -587,6 +591,22 @@ void Campeonato::EquipasOrdemAlfabetica()
 	}
 	cout << "\n";
 
+}
+
+template<class P>
+void Campeonato::EquipasOrdemMedalhadas()
+{
+	for(size_t i =0;i<Equipas.size();i++)
+	{
+		Equipas[i].atualizaMedalhas();
+	}
+	sort(Equipas.begin(),Equipas.end());
+	priority_queue<Equipa> Coiso;
+	for(size_t i = 0;Equipas.size();i++)
+	{
+		Coiso.push(Equipas[i]);
+	}
+	EquipasMedalhadas = Coiso;
 }
 
 void Campeonato::criaEquipa()
@@ -1283,7 +1303,25 @@ void Campeonato::adicionarProvas()
 		return;
 	}
 
-	Modalidades[indiceModalidade]->adicionaResultado(indiceProva, atleta.getNome(), 0, 0, 0, 0);
+	int score,horas,minutos,segundos;
+
+	if(provas[indiceProva]->getTipo() == "TEMPO")
+	{
+		cout << "Porfavor, introduza o tempo do atleta (h m s)" << endl;
+		cin >> horas >> minutos >> segundos;
+		Modalidades[indiceModalidade]->adicionaResultado(indiceProva, atleta.getNome(),
+										horas, minutos, segundos, 0);
+
+	}
+	if (provas[indiceProva]->getTipo() == "PONTO") {
+		cout << "Porfavor, introduza o resultado do atleta" << endl;
+		cin >> score;
+		Modalidades[indiceModalidade]->adicionaResultado(indiceProva,
+				atleta.getNome(), 0, 0, 0, score);
+	}
+
+
+	//Modalidades[indiceModalidade]->adicionaResultado(indiceProva, atleta.getNome(), 0, 0, 0, 0);
 
 	return;
 

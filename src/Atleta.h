@@ -8,8 +8,9 @@
 
 class medalha
 {
-	string desporto;
-	string tipo;
+public:
+	int ouro,prata,bronze;
+	bool operator < (const medalha md) const;
 };
 
 class Atleta {
@@ -68,7 +69,7 @@ public:
 	 */
 	string getNome() const;
 
-	void classificacaoFinal(Desporto * des);
+	int classificacaoFinal(evento * prova);
 
 	/**
 	 * @param atleta a comparar

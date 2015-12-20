@@ -298,7 +298,7 @@ void Equipa::getMedalhas(evento * prov)
 	}
 }
 
-void Equipa::removeMedalhas(evento * prov,string nomeAtleta)
+void Equipa::removeMedalhas()
 {
 	/*
 	for(size_t i = 0;i<atletasInscritos.size();i++)
@@ -327,17 +327,9 @@ void Equipa::removeMedalhas(evento * prov,string nomeAtleta)
 	medalhas.bronze = 0;
 }
 //precisa de optimizacao esta funcao!!!!!!!!
-
-void Equipa::atualizaMedalhas()
+medalha Equipa::getMedalhasEquipa()
 {
-	for(size_t i = 0;i<desportosInscritos.size();i++)
-	{
-		vector<evento *> provas = desportosInscritos[i]->getProvas();
-		for(size_t j = 0;j<provas.size();j++)
-		{
-			getMedalhas(provas[i]);
-		}
-	}
+	return medalhas;
 }
 
 void Equipa::printMedalhas()

@@ -319,11 +319,17 @@ public:
 	 * Grava as provas num ficheiro .txt com nome igual a Prova_nomedocampeonato
 	 */
 	void gravaProvas();
-
+	/**
+	 * Mostra o ranking das equipas, baseado nas medalhas que estes obtiveram.Só estao incluidas equipas com medalhas
+	 */
 	void EquipasOrdemMedalhadas();
-
+	/**
+	 * Simula a finalizacao de um evento, e a respetiva obtencao de medalhas
+	 */
 	void simulacaoProva();
-
+	/**
+	 * Faz simulacao de um campeonato, devolvendo ao utilizador as medalhas de todas as equipas
+	 */
 	void simulacaoCampeonato();
 	// Excecoes
 	class EquipaJaExistente

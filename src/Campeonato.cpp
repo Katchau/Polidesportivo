@@ -489,10 +489,11 @@ void Campeonato::listaEquipas(){ //TODO alterar o menu
 	cout << "    Lista de Equipas" << endl;
 	cout << "1 - Por odem alfabetica" << endl;
 	cout << "2 - Por pontuacao" << endl;
-	cout << "3 - Voltar atras" << endl;
+	cout << "3 - Por ranking de medalhas" << endl;
+	cout << "4 - Voltar atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 
-	switch (selectMenu('1','3'))
+	switch (selectMenu('1','4'))
 	{
 	case '1':
 		EquipasOrdemAlfabetica();
@@ -501,7 +502,7 @@ void Campeonato::listaEquipas(){ //TODO alterar o menu
 		EquipasOrdemPontuacao();
 		break;
 	case '3':
-		//EquipasOrdemMedalhadas();
+		EquipasOrdemMedalhadas();
 		break;
 	case '4':
 		return;
@@ -595,17 +596,24 @@ void Campeonato::EquipasOrdemAlfabetica()
 
 void Campeonato::EquipasOrdemMedalhadas()
 {
-	for(size_t i =0;i<Equipas.size();i++)
+	if(EquipasMedalhadas.empty())
 	{
-		Equipas[i].atualizaMedalhas();
+		cout << "Por favor, faca uma simulacao para poder visualizar!" << endl;
+		return;
 	}
-	sort(Equipas.begin(),Equipas.end());
-	priority_queue<Equipa> Coiso;
-	for(size_t i = 0;Equipas.size();i++)
+	if(Equipas.size() == 0)
 	{
-		Coiso.push(Equipas[i]);
+		cout << "Nao foram encontradas equipas no campeonato!!" << endl;
+		return;
 	}
-	EquipasMedalhadas = Coiso;
+	priority_queue<Equipa> temp = EquipasMedalhadas;
+	int i = 1;
+	while(!temp.empty())
+	{
+		cout << i << ": " << temp.top().getNomeEquipa() << endl;
+		temp.pop();
+		i++;
+	}
 }
 
 void Campeonato::criaEquipa()
@@ -1273,6 +1281,24 @@ void Campeonato::adicionarProvas()
 	cout << "Introduza a opcao correspondente a modalidade desejada: ";
 	indiceModalidade = selectMenu('1',Modalidades.size()+'0') - '1';
 
+	vector<Desporto*> dp = atleta.getDesportosInsc();
+	bool estaInscrito = false;
+	for(size_t i = 0;i < dp.size();i++)
+	{
+		if(*(dp[i]) == *(Modalidades[indiceModalidade]))
+		{
+			estaInscrito = true;
+			break;
+		}
+	}
+
+	if(!estaInscrito)
+	{
+		cout << "O atleta escolhido nao esta inscrito nesta modalidade.\n";
+		cout << "Inscreva-o na modalidade antes de o inscrever na prova.\n";
+		return;
+	}
+
 	vector<evento *> provas = Modalidades[indiceModalidade]->getProvas();
 
 	if (provas.size() == 0)
@@ -1445,7 +1471,7 @@ void Campeonato::simulacaoProva()
 	indiceProva = selectMenu('1', provas.size() + '0') - '1';
 	for(size_t i = 0;i<Equipas.size();i++)
 	{
-		Equipas[i].removeMedalhas(NULL,"");
+		Equipas[i].removeMedalhas();
 	}
 	for(size_t i = 0;i<Equipas.size();i++)
 	{
@@ -1458,7 +1484,7 @@ void Campeonato::simulacaoProva()
 void Campeonato::simulacaoCampeonato()
 {
 	for (size_t k = 0; k < Equipas.size(); k++) {
-		Equipas[k].removeMedalhas(NULL,"");
+		Equipas[k].removeMedalhas();
 	}
 	for(size_t i = 0;i < Modalidades.size();i++)
 	{
@@ -1468,11 +1494,23 @@ void Campeonato::simulacaoCampeonato()
 			for(size_t k = 0;k < Equipas.size();k ++)
 			{
 				Equipas[k].getMedalhas(ev[j]);
-				cout << Equipas[k].getNomeEquipa() << endl;
-				Equipas[k].printMedalhas();
 			}
 		}
 	}
+	medalha medalhas;
+	medalhas.ouro = medalhas.prata = medalhas.bronze = 0;
+	priority_queue<Equipa> temp;
+	for (size_t k = 0; k < Equipas.size(); k++) {
+		cout << Equipas[k].getNomeEquipa() << endl;
+		Equipas[k].printMedalhas();
+		if(medalhas == Equipas[k].getMedalhasEquipa())
+		{}
+		else
+		{
+			temp.push(Equipas[k]);
+		}
+	}
+	EquipasMedalhadas = temp;
 }
 
 void Campeonato::menuProvas()
@@ -1485,10 +1523,11 @@ void Campeonato::menuProvas()
 		cout << "3 - Remover atleta duma prova" << endl;
 		cout << "4 - Provas por realizar" << endl;
 		cout << "5 - Provas realizadas "  << endl;
-		cout << "6 - Simulacao de Medalhados "  << endl;
-		cout << "7 - Voltar Atras" << endl;
+		cout << "6 - Simulacao de 1 Prova "  << endl;
+		cout << "7 - Simulacao do Campeonato"  << endl;
+		cout << "8 - Voltar Atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
-		switch (selectMenu('1', '7')) {
+		switch (selectMenu('1', '8')) {
 		case '1':
 			verResultados();
 			break;
@@ -1505,9 +1544,12 @@ void Campeonato::menuProvas()
 			ProvasRealizadas();
 			break;
 		case '6':
-			simulacaoCampeonato();
+			simulacaoProva();
 			break;
 		case '7':
+			simulacaoCampeonato();
+			break;
+		case '8':
 			return;
 			break;
 		}

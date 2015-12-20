@@ -8,6 +8,15 @@ bool medalha::operator <(const medalha md) const
 	return false;
 }
 
+bool medalha::operator == (const medalha md) const
+{
+	if(ouro == md.ouro && prata == md.prata && bronze == md.bronze)
+	{
+		return true;
+	}
+	else return false;
+}
+
 Atleta::Atleta()
 {
 	bool valido = true;
@@ -130,29 +139,9 @@ int Atleta::classificacaoFinal(evento * prova)
 			}
 		}
 	}
-
-	switch(posicaoFinal)
-			{
-			case 1:
-				medalhas.ouro ++;
-				break;
-			case 2:
-				medalhas.prata ++;
-				break;
-			case 3:
-				medalhas.bronze ++;
-				break;
-			default:
-				break;
-			}
-
 	return posicaoFinal;
 }
 
-medalha Atleta::getMedalhas() const
-{
-	return medalhas;
-}
 
 bool Atleta::operator == (const Atleta& atl) const
 		{

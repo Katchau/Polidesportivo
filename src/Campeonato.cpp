@@ -1924,7 +1924,8 @@ void Campeonato::ListarBilhetes(){
 		{
 			cout << provas[i] << ", ";
 		}
-		cout << "______________________________________" << endl;
+
+		cout << endl <<  "______________________________________" << endl;
 	}
 }
 void  Campeonato::AdicionaBilhete()
@@ -2056,6 +2057,7 @@ void Campeonato::AdicionaProvaBilhete()
 			rr.Adiciona_evento(prova);
 			bilheteira.addBilhete(rr);
 			cout << "Prova adicionada com sucesso! " << endl;
+			return;
 
 		}
 		catch(Bilheteira::NaoExiteDono &a)

@@ -8,6 +8,7 @@
 #include "Equipa.h"
 #include "Infrastrutura.h"
 #include "Atleta.h"
+#include "Bilhete.h"
 
 #include <sstream>
 using namespace std;
@@ -23,6 +24,7 @@ private:
 	vector<Equipa> Equipas;
 	vector<Desporto*> Modalidades;
 	priority_queue<Equipa> EquipasMedalhadas;
+	Bilheteira bilheteira;
 public:
 	// Criar
 
@@ -331,6 +333,19 @@ public:
 	 * Faz simulacao de um campeonato, devolvendo ao utilizador as medalhas de todas as equipas
 	 */
 	void simulacaoCampeonato();
+	/**
+	 * Menu da bilheteira
+	 */
+	void MenuBilheteira();
+	void AdicionaBilhete();
+	void RemoveBilhete();
+	void VendeBilhete();
+	void AdicionaProvaBilhete();
+	void RemoveProvaBilhete();
+	void ListarBilhetes();
+	bool ExisteProva(string nome);
+
+
 	// Excecoes
 	class EquipaJaExistente
 	{

@@ -183,10 +183,11 @@ void Campeonato::menuCampeonato()
 		cout << "2 - Infraestruturas" << endl;
 		cout << "3 - Modalidades" << endl;
 		cout << "4 - Calendario" << endl;
-		cout << "5 - Gravar e sair " << endl;
+		cout << "5 - Bilheteira" << endl;
+		cout << "6 - Gravar e sair " << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
 
-		switch (selectMenu('1','5'))
+		switch (selectMenu('1','6'))
 		{
 		case '1':
 			menuEquipas();
@@ -201,6 +202,9 @@ void Campeonato::menuCampeonato()
 			menuCalendario();
 			break;
 		case '5':
+			MenuBilheteira();
+			break;
+		case '6':
 			sair = true;
 			break;
 		}
@@ -1335,7 +1339,7 @@ void Campeonato::adicionarProvas()
 		cout << "Porfavor, introduza o tempo do atleta (h m s)" << endl;
 		cin >> horas >> minutos >> segundos;
 		Modalidades[indiceModalidade]->adicionaResultado(indiceProva, atleta.getNome(),
-										horas, minutos, segundos, 0);
+				horas, minutos, segundos, 0);
 
 	}
 	if (provas[indiceProva]->getTipo() == "PONTO") {
@@ -1450,7 +1454,7 @@ void Campeonato::simulacaoProva()
 
 	for (size_t i = 0; i < Modalidades.size(); i++)
 		cout << i + 1 << ": " << Modalidades[i]->getDesporto() << " - "
-				<< Modalidades[i]->getTipo() << endl;
+		<< Modalidades[i]->getTipo() << endl;
 
 	cout << "Introduza a opcao correspondente a modalidade desejada: ";
 	indiceModalidade = selectMenu('1', Modalidades.size() + '0') - '1';
@@ -1459,7 +1463,7 @@ void Campeonato::simulacaoProva()
 
 	if (provas.size() == 0) {
 		cout
-				<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
+		<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
 	}
 
 	cout << "Escolha a prova para simular " << endl;
@@ -1858,6 +1862,242 @@ void Campeonato::RemoveEventosInfra(string modalidade)
 		}
 	}
 
+}
+/** Bilheteira */
+
+void Campeonato::MenuBilheteira()
+{
+	while (1)
+	{
+		cout << "\n    Bilheteira" << endl;
+		cout << "1 - Ver lista Bilhetes" << endl;
+		cout << "2 - Adicionar Bilhete" << endl;
+		cout << "3 - Remover Bilhete" << endl;
+		cout << "4 - Vender Bilhete" << endl;
+		cout << "5 - Adicionar prova" << endl;
+		cout << "6 - Remover prova" << endl;
+		cout << "7 - Voltar Atras " << endl;
+		cout << "\nIntroduza a opcao pretendida: ";
+		switch (selectMenu('1','7'))
+		{
+		case '1':
+			ListarBilhetes();
+			break;
+		case '2':
+			AdicionaBilhete();
+			break;
+		case '3':
+			RemoveBilhete();
+			break;
+		case '4':
+			VendeBilhete();
+			break;
+		case '5':
+			AdicionaProvaBilhete();
+			break;
+		case '6':
+			RemoveProvaBilhete();
+			break;
+		case '7':
+			return;
+			break;
+		}
+	}
+}
+void Campeonato::ListarBilhetes(){
+	//TODO testar
+	hasBilhete temp = bilheteira.getVendidos();
+	if (temp.size() == 0)
+		cout << "Nao ha bilhetes vendidos!" << endl;
+	cout << temp.bucket_count() << endl;
+	for(hasBilhete::iterator it = temp.begin(); it != temp.end(); it ++)
+	{
+		Bilhete imp = *it;
+
+		cout << "ID: "<<  imp.getID() << endl;
+		cout << "Dono: "<< imp.getNome() << endl;
+		cout << "Email: " << imp.getEmail() << endl;
+		cout << "Morada: " << imp.getMorada() << endl;
+		cout << "Provas: ";
+		vector<string> provas = imp.getProvas();
+		for(unsigned i = 0; i < provas.size(); i++)
+		{
+			cout << provas[i] << ", ";
+		}
+		cout << "______________________________________" << endl;
+	}
+}
+void  Campeonato::AdicionaBilhete()
+{
+	while(1)
+	{
+		cout << "Introduza o nome do comprador do bilhete :";
+		string nome;
+		getline(cin,nome);
+		try{
+			bilheteira.BilheteDeDono(nome);
+			cout << "O comprador ja e propriatario de um bilhete! "<< endl;
+			return;
+		}
+		catch(Bilheteira::NaoExiteDono &a)
+		{
+			cout << "Introduza o email do comprador do bilhete : ";
+			string email;
+			getline(cin,email);
+			cout << "Introduza a morada  do comprador do bilhete : ";
+			string morada;
+			getline(cin,morada);
+			vector<string> vazio;
+			Bilhete novo = Bilhete (vazio,email,nome,morada);
+			if(bilheteira.addBilhete(novo))
+				cout << "Bilhete adicionado com sucesso! " << endl;
+			else cout <<"Bilhete nao foi adicionado! " << endl;
+
+			return;
+		}
+	}
+	// TODO testar
+
+}
+void  Campeonato::RemoveBilhete(){
+
+
+	while(1)
+	{
+		cout << "Introduza o nome do dono do bilhete :";
+		string nome;
+		getline(cin,nome);
+		try{
+			if(bilheteira.removeBilhete(bilheteira.BilheteDeDono(nome)));
+			cout << "O Bilhete foi removido! "<< endl;
+			return;
+		}
+		catch(Bilheteira::NaoExiteDono &a)
+		{
+			cout << " Nao exite nenhum bilhete com o proprietario indicado" << endl;
+		}
+	}
+	//TODO testar
+}
+
+void  Campeonato::VendeBilhete()
+{
+	while(1)
+	{
+		cout << "Introduza o nome do dono do bilhete a vender:";
+		string nome;
+		getline(cin,nome);
+		try{
+			Bilhete vender = bilheteira.BilheteDeDono(nome);
+			cout << "Introduza o nome do comprador : " << endl;
+			string comprador;
+			getline(cin,comprador);
+			cout << "Introduza o email do comprador : " << endl;
+			string email;
+			getline(cin,email);
+			cout << "Introduza a morada do comprador : " << endl;
+			string morada;
+			getline(cin, morada);
+
+			bilheteira.vendeBilhete(vender,comprador,email,morada);
+			cout << "Bilhete vendido! " << endl;
+			return;
+
+		}
+		catch(Bilheteira::NaoExiteDono &a)
+		{
+			cout << " Nao exite nenhum bilhete com o proprietario indicado" << endl;
+			return;
+		}
+	}
+	//TODO testar
+}
+bool Campeonato::ExisteProva(string nome)
+{
+	vector <evento*> realizadas = ProvasOrganiza(0);
+	vector <evento*> naorea = ProvasOrganiza(1);
+
+	for(vector<evento*> :: iterator it = realizadas.begin(); it != realizadas.end(); it++)
+	{
+		evento temp = **it;
+		if(temp.getNome() == nome)
+			return true;
+	}
+	for(vector<evento*> :: iterator it = naorea.begin(); it != naorea.end(); it++)
+	{
+		evento temp = **it;
+		if(temp.getNome() == nome)
+			return true;
+	}
+
+	return false;
+
+}
+void Campeonato::AdicionaProvaBilhete()
+{
+
+	while(1)
+	{
+		cout << "Introduza o nome do dono do bilhete a adicionar a prova:";
+		string nome;
+		getline(cin,nome);
+		try{
+			Bilhete rr = bilheteira.BilheteDeDono(nome);
+
+			cout << "Introduza o nome da prova a adicionar : ";
+			string prova;
+			getline(cin,prova);
+			if(!ExisteProva(prova))
+			{
+				cout << " A prova pretendida nao existe! " << endl;
+				return;
+			}
+			bilheteira.removeBilhete(rr);
+			rr.Adiciona_evento(prova);
+			bilheteira.addBilhete(rr);
+			cout << "Prova adicionada com sucesso! " << endl;
+
+		}
+		catch(Bilheteira::NaoExiteDono &a)
+		{
+			cout << " Nao exite nenhum bilhete com o proprietario indicado" << endl;
+			return;
+		}
+
+	}
+}
+void Campeonato::RemoveProvaBilhete()
+{
+	//TODO
+	while(1)
+		{
+			cout << "Introduza o nome do dono do bilhete a remover a prova:";
+			string nome;
+			getline(cin,nome);
+			try{
+				Bilhete rr = bilheteira.BilheteDeDono(nome);
+
+				cout << "Introduza o nome da prova a remover : ";
+				string prova;
+				getline(cin,prova);
+				if(!ExisteProva(prova))
+				{
+					cout << " A prova pretendida nao existe! " << endl;
+					return;
+				}
+				bilheteira.removeBilhete(rr);
+				rr.Remove_evento(prova);
+				bilheteira.addBilhete(rr);
+				cout << "Prova removida com sucesso! " << endl;
+
+			}
+			catch(Bilheteira::NaoExiteDono &a)
+			{
+				cout << " Nao exite nenhum bilhete com o proprietario indicado" << endl;
+				return;
+			}
+
+		}
 }
 
 void Campeonato::gravaProvas()

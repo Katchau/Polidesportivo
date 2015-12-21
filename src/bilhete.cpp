@@ -8,7 +8,7 @@
 
 int Bilhete::counter = 0;
 
-Bilhete::Bilhete(vector<evento*> acesso, string email, string nome, string morada)
+Bilhete::Bilhete(vector<string> acesso, string email, string nome, string morada)
 {
 	this->acesso = acesso;
 	this->email = email;
@@ -24,13 +24,13 @@ void Bilhete::NovoDono( string email, string nome, string morada)
 	this->nome = nome;
 	this->morada = morada;
 }
-bool Bilhete::Adiciona_evento(evento *prova)
+bool Bilhete::Adiciona_evento(string prova)
 {
-	vector<evento*>:: iterator it;
+	vector<string>:: iterator it;
 	for ( it = acesso.begin(); it != acesso.end(); it++)
 	{
-		evento *temp = *it;
-		if(temp->getNome() == prova->getNome())
+		string temp = *it;
+		if(temp == prova)
 			return false;
 	}
 	acesso.push_back(prova);
@@ -38,11 +38,11 @@ bool Bilhete::Adiciona_evento(evento *prova)
 }
 bool Bilhete::Remove_evento(string nome)
 {
-	vector<evento*>:: iterator it;
+	vector<string>:: iterator it;
 	for ( it = acesso.begin(); it != acesso.end(); it++)
 	{
-		evento *temp = *it;
-		if(temp->getNome() == nome)
+		string temp = *it;
+		if(temp == nome)
 		{
 			acesso.erase(it);
 			return true;
@@ -51,7 +51,7 @@ bool Bilhete::Remove_evento(string nome)
 	return false;
 }
 
-vector<evento*> Bilhete::getProvas() const
+vector<string> Bilhete::getProvas() const
 {
 	return acesso;
 }
@@ -67,6 +67,10 @@ int Bilhete::getID()const
 {
 	return ID;
 }
+string Bilhete::getEmail() const
+{
+	return email;
+}
 
 /*******************************************************************************************************************/
 
@@ -75,9 +79,12 @@ bool Bilheteira::addBilhete(Bilhete novo)
 {
 
 	if(vendidos.find(novo) == vendidos.end())
+	{
+		vendidos.insert(novo);
+		return true;
+	}
 		return false;
-	vendidos.insert(novo);
-	return true;
+
 }
 bool Bilheteira::removeBilhete(Bilhete velho)
 {
@@ -94,8 +101,8 @@ void Bilheteira::vendeBilhete(Bilhete venda,string novodono,string email, string
 	{
 		Bilhete temp = BilheteDeDono(novodono);
 		vendidos.erase(temp);
-		vector<evento *> eventos = venda.getProvas();
-		for(vector<evento *> :: iterator it  = eventos.begin(); it != eventos.end(); it ++)
+		vector<string> eventos = venda.getProvas();
+		for(vector<string> :: iterator it  = eventos.begin(); it != eventos.end(); it ++)
 		{
 			temp.Adiciona_evento(*it);
 		}
@@ -121,4 +128,8 @@ Bilhete Bilheteira::BilheteDeDono(string nome)
 			return temp;
 	}
 	throw NaoExiteDono();
+}
+hasBilhete Bilheteira::getVendidos() const
+{
+	return vendidos;
 }

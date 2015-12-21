@@ -18,7 +18,7 @@ class Bilhete {
 private:
 	static int counter;
 	int ID;
-	vector<evento *> acesso;
+	vector<string> acesso;
 	string email;
 	string nome;
 	string morada;
@@ -26,12 +26,12 @@ private:
 public:
 	/**
 	 * Construtor da classe bilhete
-	 * @param acesso provas a que o bilhete da acesso
+	 * @param acesso nome das provas a que o bilhete da acesso
 	 * @param email  correio eletronico do detentor do bilhete
 	 * @param nome  nome do detentor do bilhete
 	 * @param morada
 	 */
-	Bilhete(vector<evento*> acesso, string email, string nome, string morada);
+	Bilhete(vector<string> acesso, string email, string nome, string morada);
 	/**
 	 * Atualiza o detentor do bilhete
 	 * @param email  correio eletronico do detentor do bilhete
@@ -41,11 +41,11 @@ public:
 	void NovoDono( string email, string nome, string morada);
 	/**
 	 * Adiciona um acesso a uma prova
-	 * @param prova a adicionar
+	 * @param nome da  prova a adicionar
 	 * @return true  se a prova for adicionada
 	 * @return false se a prova nao for adicionada
 	 */
-	bool Adiciona_evento(evento *prova);
+	bool Adiciona_evento(string prova);
 	/**
 	 * Remove um acesso a uma prova
 	 * @param nome do evento
@@ -54,11 +54,14 @@ public:
 	 */
 	bool Remove_evento(string nome);
 
-
+	/**
+	 * Retorna a email do detentor
+	 */
+	string getEmail() const;
 	/**
 	 * @return vetor de provas
 	 */
-	vector<evento*> getProvas() const;
+	vector<string> getProvas() const;
 	/**
 	 * @return nome do detentor
 	 */
@@ -123,6 +126,10 @@ public:
 	 * @throw NaoExisteDono se a pessoa nao possuir bilhete
 	 */
 	Bilhete BilheteDeDono(string nome);
+	/**
+	 * Retorna os bilhetes vendidos
+	 */
+	hasBilhete getVendidos() const;
 	/*
 	 * classe para tratamento de excepcoes
 	 */

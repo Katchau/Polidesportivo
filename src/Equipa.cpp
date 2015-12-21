@@ -42,7 +42,9 @@ bool Equipa::existeAtleta(string nome)
 Equipa::Equipa()
 {
 	nome = returnInput("a equipa");
-
+	medalhas.bronze = 0;
+	medalhas.prata = 0;
+	medalhas.ouro = 0;
 	nameFile = nome + ".txt";
 
 }
@@ -55,6 +57,9 @@ Equipa::Equipa(string nome)
 	if(checkExistence(nameFile))
 	{
 		addAthletesFromFile();
+		medalhas.bronze = 0;
+		medalhas.prata = 0;
+		medalhas.ouro = 0;
 	}
 	else throw Equipa::EquipaNaoExistente(nameFile);
 }
@@ -269,3 +274,77 @@ Data Equipa::melhorTempo(Desporto * mod)
 	return melhor;
 }
 
+
+void Equipa::getMedalhas(evento * prov)
+{
+	for(size_t i = 0;i<atletasInscritos.size();i++)
+	{
+		int x = atletasInscritos[i].classificacaoFinal(prov);
+		switch(x)
+		{
+		case 1:
+			medalhas.ouro ++;
+			break;
+		case 2:
+			medalhas.prata ++;
+			break;
+		case 3:
+			medalhas.bronze ++;
+			break;
+		default:
+			break;
+		}
+
+	}
+}
+
+void Equipa::removeMedalhas()
+{
+	/*
+	for(size_t i = 0;i<atletasInscritos.size();i++)
+	{
+		int x =0;
+		if(atletasInscritos[i] == nomeAtleta)x = atletasInscritos[i].classificacaoFinal(prov);
+		switch(x)
+		{
+		case 1:
+			medalhas.ouro ++;
+			break;
+		case 2:
+			medalhas.prata ++;
+			break;
+		case 3:
+			medalhas.bronze ++;
+			break;
+		default:
+			break;
+		}
+
+	}
+	*/
+	medalhas.ouro = 0;
+	medalhas.prata = 0;
+	medalhas.bronze = 0;
+}
+//precisa de optimizacao esta funcao!!!!!!!!
+medalha Equipa::getMedalhasEquipa()
+{
+	return medalhas;
+}
+
+void Equipa::printMedalhas()
+{
+	cout << "Medalhas de ouro: " << medalhas.ouro << " medalhas de prata: " << medalhas.prata << " medalhas de bronze " << medalhas.bronze << endl;
+}
+
+bool Equipa::operator < (const Equipa eq) const
+{
+	if(medalhas < eq.medalhas) return true;
+	else return false;
+}
+
+bool Equipa::operator > (const Equipa eq) const
+{
+	if(medalhas < eq.medalhas) return false;
+	else return true;
+}

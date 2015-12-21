@@ -1,5 +1,22 @@
 #include "Atleta.h"
 
+bool medalha::operator <(const medalha md) const
+{
+	if(ouro < md.ouro)return true;
+	if(ouro == md.ouro && prata < md.prata) return true;
+	if(ouro == md.ouro && prata == md.prata && bronze < md.bronze)return true;
+	return false;
+}
+
+bool medalha::operator == (const medalha md) const
+{
+	if(ouro == md.ouro && prata == md.prata && bronze == md.bronze)
+	{
+		return true;
+	}
+	else return false;
+}
+
 Atleta::Atleta()
 {
 	bool valido = true;
@@ -84,18 +101,47 @@ string Atleta::getNome() const
 	return nome;
 }
 
-void Atleta::classificacaoFinal(Desporto * des)
+int Atleta::classificacaoFinal(evento * prova)
 {
-	for(unsigned int i = 0;i<desportosInscrito.size();i++)
+	int resultado;
+	Data tempo;
+	int posicaoFinal = 1;
+	if(prova->getTipo() == "TEMPO")
 	{
-		if(desportosInscrito[i]->getNome() == des->getNome()) //w8 podia ter feito secSearch, oh well
+		Prova_Tempo * pt=prova->getProvaT();
+		vector<Posicao_tempo *> vpt = pt->getLugares();
+		if(vpt.size() == 0 )return 0;
+		tempo=pt->getTempo(nome);
+		if(tempo == Data(-1,-1,-1)) return 0;
+		for(size_t i = 0;i<vpt.size();i++)
 		{
-			int resultado = 0;
-			//resultado = falta funcao que da ret disso
-			classificacoes[i] = resultado;
+			if(tempo <= vpt[i]->getTempo())
+			{
+			}
+			else
+			{
+				posicaoFinal++;
+			}
 		}
 	}
+	if(prova->getTipo() == "PONTO")
+		{
+		Prova_Pontuacao * pt = prova->getProvaP();
+		vector<Posicao_Pontos *> vpt = pt->getLugares();
+		if(vpt.size() == 0 )return 0;
+		resultado=pt->getPontos(nome);
+		if(resultado == -1) return 0;
+		for (size_t i = 0; i < vpt.size(); i++)
+		{
+			if(resultado < vpt[i]->getPontuacao())
+			{
+				posicaoFinal++;
+			}
+		}
+	}
+	return posicaoFinal;
 }
+
 
 bool Atleta::operator == (const Atleta& atl) const
 		{

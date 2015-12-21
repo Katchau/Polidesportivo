@@ -8,8 +8,26 @@
 
 class medalha
 {
-	string desporto;
-	string tipo;
+public:
+	int ouro,prata,bronze;
+	/**
+	 * @param medalha a comparar
+	 *
+	 *	Compara e devolve um resultado, dependendo do numero de medalhas e do tipo
+	 *
+	 * @return true se a medalha tiver menor numero de de ouro for menor, caso seja igual compara o numero de prata,repetindo-se o procedimento para as de bronze
+	 * @return false se a medalha a comparar tiver maior nº de ouro, ou tiver o msm nº de medalhas em to do o caso
+	 */
+	bool operator < (const medalha md) const;
+	/**
+	 * @param medalha a comparar
+	 *
+	 *	Compara e devolve um resultado dependendo do numero de medalhas
+	 *
+	 * @return true se tiverem quantidades iguais
+	 * @return false se a quantidade for diferente
+	 */
+	bool operator == (const medalha md) const;
 };
 
 class Atleta {
@@ -67,8 +85,14 @@ public:
 	 * @return nome do atleta
 	 */
 	string getNome() const;
-
-	void classificacaoFinal(Desporto * des);
+	/**
+	 * @param prova realizada
+	 *
+	 * Calcula a posicao que o atleta ficou numa certa prova. Retorna 0 caso nao tenha participado
+	 *
+	 * @return valor da posicao final do atletan uma prova
+	 */
+	int classificacaoFinal(evento * prova);
 
 	/**
 	 * @param atleta a comparar

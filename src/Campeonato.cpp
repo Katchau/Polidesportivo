@@ -483,15 +483,17 @@ void Campeonato::menuAtletas()
 		}
 	}
 }
-void Campeonato::listaEquipas(){
+
+void Campeonato::listaEquipas(){ //TODO alterar o menu
 
 	cout << "    Lista de Equipas" << endl;
 	cout << "1 - Por odem alfabetica" << endl;
 	cout << "2 - Por pontuacao" << endl;
-	cout << "3 - Voltar atras" << endl;
+	cout << "3 - Por ranking de medalhas" << endl;
+	cout << "4 - Voltar atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
 
-	switch (selectMenu('1','3'))
+	switch (selectMenu('1','4'))
 	{
 	case '1':
 		EquipasOrdemAlfabetica();
@@ -500,6 +502,9 @@ void Campeonato::listaEquipas(){
 		EquipasOrdemPontuacao();
 		break;
 	case '3':
+		EquipasOrdemMedalhadas();
+		break;
+	case '4':
 		return;
 		break;
 	}
@@ -587,6 +592,28 @@ void Campeonato::EquipasOrdemAlfabetica()
 	}
 	cout << "\n";
 
+}
+
+void Campeonato::EquipasOrdemMedalhadas()
+{
+	if(EquipasMedalhadas.empty())
+	{
+		cout << "Por favor, faca uma simulacao para poder visualizar!" << endl;
+		return;
+	}
+	if(Equipas.size() == 0)
+	{
+		cout << "Nao foram encontradas equipas no campeonato!!" << endl;
+		return;
+	}
+	priority_queue<Equipa> temp = EquipasMedalhadas;
+	int i = 1;
+	while(!temp.empty())
+	{
+		cout << i << ": " << temp.top().getNomeEquipa() << endl;
+		temp.pop();
+		i++;
+	}
 }
 
 void Campeonato::criaEquipa()
@@ -1254,6 +1281,24 @@ void Campeonato::adicionarProvas()
 	cout << "Introduza a opcao correspondente a modalidade desejada: ";
 	indiceModalidade = selectMenu('1',Modalidades.size()+'0') - '1';
 
+	vector<Desporto*> dp = atleta.getDesportosInsc();
+	bool estaInscrito = false;
+	for(size_t i = 0;i < dp.size();i++)
+	{
+		if(*(dp[i]) == *(Modalidades[indiceModalidade]))
+		{
+			estaInscrito = true;
+			break;
+		}
+	}
+
+	if(!estaInscrito)
+	{
+		cout << "O atleta escolhido nao esta inscrito nesta modalidade.\n";
+		cout << "Inscreva-o na modalidade antes de o inscrever na prova.\n";
+		return;
+	}
+
 	vector<evento *> provas = Modalidades[indiceModalidade]->getProvas();
 
 	if (provas.size() == 0)
@@ -1283,7 +1328,25 @@ void Campeonato::adicionarProvas()
 		return;
 	}
 
-	Modalidades[indiceModalidade]->adicionaResultado(indiceProva, atleta.getNome(), 0, 0, 0, 0);
+	int score,horas,minutos,segundos;
+
+	if(provas[indiceProva]->getTipo() == "TEMPO")
+	{
+		cout << "Porfavor, introduza o tempo do atleta (h m s)" << endl;
+		cin >> horas >> minutos >> segundos;
+		Modalidades[indiceModalidade]->adicionaResultado(indiceProva, atleta.getNome(),
+										horas, minutos, segundos, 0);
+
+	}
+	if (provas[indiceProva]->getTipo() == "PONTO") {
+		cout << "Porfavor, introduza o resultado do atleta" << endl;
+		cin >> score;
+		Modalidades[indiceModalidade]->adicionaResultado(indiceProva,
+				atleta.getNome(), 0, 0, 0, score);
+	}
+
+
+	//Modalidades[indiceModalidade]->adicionaResultado(indiceProva, atleta.getNome(), 0, 0, 0, 0);
 
 	return;
 
@@ -1378,6 +1441,78 @@ void Campeonato::ProvasPorRealizar()
 	}
 	cout << "\n";
 }
+
+void Campeonato::simulacaoProva()
+{
+	size_t indiceModalidade, indiceProva;
+	cout << "Escolha a modalidade da prova em que pretende simular "
+			<< endl;
+
+	for (size_t i = 0; i < Modalidades.size(); i++)
+		cout << i + 1 << ": " << Modalidades[i]->getDesporto() << " - "
+				<< Modalidades[i]->getTipo() << endl;
+
+	cout << "Introduza a opcao correspondente a modalidade desejada: ";
+	indiceModalidade = selectMenu('1', Modalidades.size() + '0') - '1';
+
+	vector<evento *> provas = Modalidades[indiceModalidade]->getProvas();
+
+	if (provas.size() == 0) {
+		cout
+				<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
+	}
+
+	cout << "Escolha a prova para simular " << endl;
+
+	for (size_t i = 0; i < provas.size(); i++)
+		cout << i + 1 << " - " << provas[i]->getNome() << endl;
+
+	cout << "Introduza a opcao correspondente a prova desejada: ";
+	indiceProva = selectMenu('1', provas.size() + '0') - '1';
+	for(size_t i = 0;i<Equipas.size();i++)
+	{
+		Equipas[i].removeMedalhas();
+	}
+	for(size_t i = 0;i<Equipas.size();i++)
+	{
+		Equipas[i].getMedalhas(provas[indiceProva]);
+		cout << Equipas[i].getNomeEquipa() << endl;
+		Equipas[i].printMedalhas();
+	}
+}
+
+void Campeonato::simulacaoCampeonato()
+{
+	for (size_t k = 0; k < Equipas.size(); k++) {
+		Equipas[k].removeMedalhas();
+	}
+	for(size_t i = 0;i < Modalidades.size();i++)
+	{
+		vector<evento * > ev = Modalidades[i]->getProvas();
+		for (size_t j = 0;j < ev.size();j++)
+		{
+			for(size_t k = 0;k < Equipas.size();k ++)
+			{
+				Equipas[k].getMedalhas(ev[j]);
+			}
+		}
+	}
+	medalha medalhas;
+	medalhas.ouro = medalhas.prata = medalhas.bronze = 0;
+	priority_queue<Equipa> temp;
+	for (size_t k = 0; k < Equipas.size(); k++) {
+		cout << Equipas[k].getNomeEquipa() << endl;
+		Equipas[k].printMedalhas();
+		if(medalhas == Equipas[k].getMedalhasEquipa())
+		{}
+		else
+		{
+			temp.push(Equipas[k]);
+		}
+	}
+	EquipasMedalhadas = temp;
+}
+
 void Campeonato::menuProvas()
 {
 	while(1)
@@ -1388,9 +1523,11 @@ void Campeonato::menuProvas()
 		cout << "3 - Remover atleta duma prova" << endl;
 		cout << "4 - Provas por realizar" << endl;
 		cout << "5 - Provas realizadas "  << endl;
-		cout << "6 - Voltar Atras" << endl;
+		cout << "6 - Simulacao de 1 Prova "  << endl;
+		cout << "7 - Simulacao do Campeonato"  << endl;
+		cout << "8 - Voltar Atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
-		switch (selectMenu('1', '6')) {
+		switch (selectMenu('1', '8')) {
 		case '1':
 			verResultados();
 			break;
@@ -1407,6 +1544,12 @@ void Campeonato::menuProvas()
 			ProvasRealizadas();
 			break;
 		case '6':
+			simulacaoProva();
+			break;
+		case '7':
+			simulacaoCampeonato();
+			break;
+		case '8':
 			return;
 			break;
 		}

@@ -21,7 +21,7 @@ private:
 	string nome;
 
 	vector<Desporto *> desportosInscritos;
-	vector<medalha> medalhas;
+	medalha medalhas;
 	vector<Atleta> atletasInscritos;
 
 public:
@@ -145,6 +145,45 @@ public:
 	 *
 	 */
 	Data melhorTempo(Desporto * mod);
+	/**
+	 * @param prova realizada para poder verificar resultados de atletas
+	 *
+	 * verifica todos os resultados dos atletas da equipa, e obtem as medalhas totais relativamente á prestacao os atletas
+	 *
+	 */
+	void getMedalhas(evento * prov);
+	/**
+	 * coloca as medalhas da equipa a valores iniciais(ou seja, tudo a 0)
+	 */
+	void removeMedalhas();
+	/**
+	 * permite vizualizar as medalhas que a equipa possui ao utilizador
+	 */
+	void printMedalhas();
+	/**
+	 * retorna as medalhas da equipa
+	 * @return medalhas da equipa
+	 */
+	medalha getMedalhasEquipa();
+	/**
+	 * @param equipa a comparar
+	 *
+	 *	Compara e devolve resultado equivalente a uma equipa a comparar
+	 *
+	 * @return true se a equipa tiver menor numero de equipas
+	 * @return false se a equipa tiver maior numero de equipas
+	 */
+	bool operator < (const Equipa eq) const;
+	/**
+	 * @param equipa a comparar
+	 *
+	 *	Compara e devolve resultado equivalente a uma equipa a comparar
+	 *
+	 * @return true se a equipa tiver maior numero de equipas
+	 * @return false se a equipa tiver menor numero de equipas
+	 */
+	bool operator > (const Equipa eq) const;
+
 
 	class EquipaNaoExistente
 	{

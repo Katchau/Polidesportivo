@@ -1,6 +1,8 @@
 #ifndef CAMPEONATO_H
 #define CAMPEONATO_H
 #include <iostream>
+#include <queue>
+#include <stack>
 #include <algorithm>
 #include "Modalidade.h"
 #include "Equipa.h"
@@ -20,6 +22,7 @@ private:
 	vector<Infraestrutura *> Infraestruturas;
 	vector<Equipa> Equipas;
 	vector<Desporto*> Modalidades;
+	priority_queue<Equipa> EquipasMedalhadas;
 public:
 	// Criar
 
@@ -65,6 +68,7 @@ public:
 	/**
 	 * Faz display de todas as opçoes de ordenacao das equipas presentes no campeonato
 	 */
+	//template<class P>
 	void listaEquipas();
 	/**
 	 * Permite adicionar uma equipa
@@ -315,8 +319,18 @@ public:
 	 * Grava as provas num ficheiro .txt com nome igual a Prova_nomedocampeonato
 	 */
 	void gravaProvas();
-
-
+	/**
+	 * Mostra o ranking das equipas, baseado nas medalhas que estes obtiveram.Só estao incluidas equipas com medalhas
+	 */
+	void EquipasOrdemMedalhadas();
+	/**
+	 * Simula a finalizacao de um evento, e a respetiva obtencao de medalhas
+	 */
+	void simulacaoProva();
+	/**
+	 * Faz simulacao de um campeonato, devolvendo ao utilizador as medalhas de todas as equipas
+	 */
+	void simulacaoCampeonato();
 	// Excecoes
 	class EquipaJaExistente
 	{

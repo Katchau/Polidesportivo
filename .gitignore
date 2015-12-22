@@ -47,3 +47,5 @@ Debug/Polidesportivo.exe
 Debug/Polidesportivos.exe
 *.o
 /Debug/
+Debug/src/Atleta.o
+*.o

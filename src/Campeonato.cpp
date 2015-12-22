@@ -165,6 +165,63 @@ Campeonato::Campeonato(const string &filename)
 		}
 	}
 
+
+		string Bilhe = "Bilheteira_" + filename;
+		ifstream Bio(Bilhe.c_str());
+
+		int counter = 999999;
+		cout << " aqui " << endl;
+		string amer;
+		getline(Bio,amer,'\n');
+		cout << "lixo :" <<  amer<< endl;
+		stringstream ss;
+		ss <<amer;
+		ss>> counter;
+		cout << counter << endl;
+
+
+
+	cout << "entrou" << endl;
+		while(!Bio.eof())
+		{
+			getline(Bio,amer);
+			cout <<"ciclo" << endl;
+
+			string nome, morada,email;
+			int ID;
+			vector<string> acesso;
+
+			getline(Bio,nome);
+			cout <<"ciclo1" << endl;
+			Bio >> ID;
+			cout <<"ciclo2" << endl;
+			getline(Bio,email);
+			cout <<"ciclo3" << endl;
+			getline(Bio,morada);
+			cout <<"ciclo4" << endl;
+			cout << nome << endl;
+			cout << ID << endl;
+			cout << email << endl;
+			cout << morada << endl;
+			system("pause");
+			int ac;
+			Bio >> ac;
+			while(ac > 0)
+			{
+				string prova;
+				getline(Bio,prova);
+				acesso.push_back(prova);
+				ac --;
+
+				cout << prova << endl;
+			}
+			Bilhete novo = Bilhete(acesso,email,nome,morada,ID);
+			novo.updateCounter(counter);
+			bilheteira.addBilhete(novo);
+
+		}
+		Bio.close();
+
 	cout << "Carregou!" << endl;
 }
 
@@ -2226,6 +2283,36 @@ void Campeonato::RemoveProvaBilhete()
 		}
 
 	}
+}
+void Campeonato::GravaBilhetes()
+{
+
+	    string Bilhe = "Bilheteira_" + nome + ".txt";
+		ofstream Bio(Bilhe.c_str());
+
+		hasBilhete vendidos = bilheteira.getVendidos();
+		hasBilhete::iterator it = vendidos.begin();
+
+		int counter = it->getCounter();
+		Bio << counter << "/n/n";
+		for(it = vendidos.begin(); it != vendidos.end(); it++)
+		{
+			Bilhete temp = *it;
+			Bio << temp.getNome() <<  "/n";
+			Bio << temp.getID() << "/n";
+			Bio << temp.getEmail() << "/n";
+			Bio << temp.getMorada() << "/n";
+			vector <string > acessos = temp.getProvas();
+
+			for(unsigned i = 0; i < acessos.size(); i++)
+			{
+				Bio << acessos[i] << "/n";
+			}
+			Bio << "/n";
+		}
+		Bio.close();
+
+
 }
 
 void Campeonato::gravaProvas()

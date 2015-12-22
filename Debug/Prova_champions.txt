@@ -1,39 +1,11 @@
-100m Masculino
-TEMPO
-Atletismo
-Corrida
-12/10/2005
-15:30:00
-12/10/2005
-16:30:00
-Alvalade XXI
-Jonas
-00:00:12
-Aboubakar
-00:00:10
-
-200m Costas
-TEMPO
-Natacao
-Costas
-13/10/2005
-15:30:00
-13/10/2005
-16:30:00
-Estadio do Dragao
-Ines
-00:3:12
-Maria
-00:3:20
-
 Liga Portuguesa
 PONTO
 Futebol
 Futebol de 11
 12/10/2005
-17:15:00
+17:15:0
 15/10/2025
-19:30:00
+19:30:0
 Estadio da Luz
 Jonas
 18
@@ -49,9 +21,9 @@ PONTO
 Futebol
 Futebol de 11
 12/10/2004
-17:15:00
+17:15:0
 15/10/2003
-19:30:00
+19:30:0
 Estadio da Luz
 Jonas
 18
@@ -59,4 +31,32 @@ Aboubakar
 1
 Slimani
 14
+
+100m Masculino
+TEMPO
+Atletismo
+Corrida
+12/10/2005
+15:30:0
+12/10/2005
+16:30:0
+Alvalade XXI
+Jonas
+0:0:12
+Aboubakar
+0:0:10
+
+200m Costas
+TEMPO
+Natacao
+Costas
+13/10/2005
+15:30:0
+13/10/2005
+16:30:0
+Estadio do Dragao
+Ines
+0:3:12
+Maria
+0:3:20
 

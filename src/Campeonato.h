@@ -5,6 +5,7 @@
 #include <stack>
 #include <algorithm>
 #include <set>
+#include <sstream>
 #include "Modalidade.h"
 #include "Equipa.h"
 #include "Infrastrutura.h"
@@ -354,7 +355,7 @@ public:
 	void RemoveProvaBilhete();
 	void ListarBilhetes();
 	bool ExisteProva(string nome);
-
+	void GravaBilhetes();
 
 	// Excecoes
 	class EquipaJaExistente

@@ -69,13 +69,13 @@ Calendario::Calendario(){
 }
 
 bool evento::operator == (const evento * ev) const
-								{
+																				{
 	if (inicial == ev->getInicial() && final == ev->getFinal())
 	{
 		return true;
 	}
 	else return false;
-								}
+																				}
 
 void Calendario::adiciona_evento(evento * alpha)
 {
@@ -154,16 +154,17 @@ EventoExiste::EventoExiste(string nome){
 //data
 bool operator< (const Data &inicio,const Data &fim){
 
-
 	if(inicio.ano <  fim.ano )
 		return true;
 	if(inicio.mes < fim.mes && inicio.ano == fim.ano )
 		return true;
-	if(inicio.dia < fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
+	if(inicio.dia < fim.dia && inicio.mes == fim.mes && inicio.ano == fim.ano)
 		return true;
-	if(inicio.minutos < fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+	if(inicio.horas < fim.horas && inicio.dia == fim.dia && inicio.mes == fim.mes && inicio.ano == fim.ano)
 		return true;
-	if(inicio.segundos < fim.segundos && inicio.minutos == fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+	if(inicio.minutos < fim.minutos && inicio.horas == fim.horas && inicio.dia == fim.dia && inicio.mes == fim.mes && inicio.ano == fim.ano)
+		return true;
+	if(inicio.segundos < fim.segundos && inicio.minutos == fim.minutos && inicio.horas == fim.horas && inicio.dia == fim.dia && inicio.mes == fim.mes && inicio.ano == fim.ano)
 		return true;
 	return false;
 
@@ -316,7 +317,6 @@ bool eventos_sobrepostos(const evento *alpha,const  evento *beta){
 	if(alpha->getFinal()== beta-> getFinal()) return true;
 	return false;
 }
-
 
 string evento::getNome() const{
 	return nome;

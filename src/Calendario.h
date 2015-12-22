@@ -314,7 +314,7 @@ public:
 	void removeLugar(string nomeAtleta);
 	/**
 	 * Operador de igualdade entre dois eventos
-	 * @param *ev;
+	 * @param *ev evento a comparar
 	 */
 	bool operator == (const evento * ev) const;
 	/**
@@ -336,6 +336,30 @@ public:
 	 * Retorna o nome dos que estejam a participar no evento
 	 */
 	vector<string> getNomeAtletas() const;
+	/**
+	 * Struct com comparador de eventos para a Árvore Binária
+	 */
+	struct EventoCompare {
+		/**
+		 * Comparador de eventos para a BST
+		 *
+		 * @param *ev1 evento 1
+		 * @param *ev2 evento 2
+		 *
+		 * @return true se o evento 1 tiver data inicial inferior ao evento 2 ou no caso de igualdade se for alfabeticamente menor
+		 * @return false se o evento 1 tiver data inicial superior ao evento 2 ou no caso de igualdade se for alfabeticamente maior
+		 */
+		bool operator() (const evento *ev1, const evento *ev2)
+		{
+			if (ev1->getInicial() < ev2->getInicial())
+				return true;
+			if (ev1->getInicial() == ev2->getInicial())
+				if (ev1->getNome() < ev2->getNome())
+					return true;
+
+			return false;
+		}
+	};
 };
 /**
  * Compara dois eventos e ve se o intervalo de tempo entre os dois eventos e retorna true se os eventos estiverem sobrepostos
@@ -345,6 +369,7 @@ public:
  *  @returm false se os eventos nao estao sobrepostos
  */
 bool eventos_sobrepostos(const evento *alpha,const  evento *beta);
+
 
 class Calendario {
 private:

@@ -4,6 +4,7 @@
 #include <queue>
 #include <stack>
 #include <algorithm>
+#include <set>
 #include "Modalidade.h"
 #include "Equipa.h"
 #include "Infrastrutura.h"
@@ -25,6 +26,7 @@ private:
 	vector<Desporto*> Modalidades;
 	priority_queue<Equipa> EquipasMedalhadas;
 	Bilheteira bilheteira;
+	set<evento*, evento::EventoCompare> CalendarioCompleto;
 public:
 	// Criar
 

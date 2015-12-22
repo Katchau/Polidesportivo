@@ -44,3 +44,5 @@ Temporary Items
 *.o
 Debug/Polidesportivo.exe
 *.project
+Debug/Polidesportivos.exe
+*.o

@@ -132,6 +132,8 @@ Campeonato::Campeonato(const string &filename)
 			}
 		}
 
+		CalendarioCompleto.insert(novo);
+
 		indice_evento = Modalidades[indice_mod]->getProvas().size() - 1;
 		string nomeAtleta = "Default", horaR, score;
 		int pontuacao;
@@ -963,12 +965,18 @@ int Campeonato::menuEscolhaInfra()
 void Campeonato::totalCalendario()
 {
 	cout << "\n";
-	for(unsigned int i =0;i<Infraestruturas.size();i++)
+
+	unsigned int i = 1;
+
+	set<evento*, evento::EventoCompare>::iterator it;
+
+	for (it = CalendarioCompleto.begin(); it != CalendarioCompleto.end(); ++it)
 	{
-		cout << Infraestruturas[i]->getNome() << ":" << endl;
-		Infraestruturas[i]->imprimeCalendario();
-		cout << endl;
+		cout << i <<" - " << (*it)->getNome() << "\nData Inicial: " << (*it)->getInicial() << " - Data Final: " << (*it)->getFinal() << endl;
+		cout << "\n";
+		++i;
 	}
+
 }
 
 void Campeonato::calendarioInfra()
@@ -981,7 +989,7 @@ void Campeonato::calendarioInfra()
 
 void Campeonato::listaCalendarios(){
 	cout << "\n    Calendarios: " << endl;
-	cout << "1 - Todos os calendarios" << endl;
+	cout << "1 - Calendario do Campeonato" << endl;
 	cout << "2 - Calendario de apenas 1 Infraestrutra" << endl;
 	cout << "3 - Voltar atras" << endl;
 	cout << "\nIntroduza a opcao pretendida: ";
@@ -1112,6 +1120,8 @@ void Campeonato::adicionarEventos()
 
 		Modalidades[escolha]->adicionaProva(ev);
 	}
+
+	CalendarioCompleto.insert(ev);
 }
 
 void Campeonato::removerEventos()
@@ -1151,6 +1161,10 @@ void Campeonato::removerEventos()
 
 	nomeEvento = eventos[indiceEvento]->getNome();
 
+	evento *ev = eventos[indiceEvento];
+
+	CalendarioCompleto.erase(ev);
+
 	for (size_t i = 0; i < Modalidades.size(); i++)
 	{
 		for (size_t j = 0; j < Modalidades[i]->getProvas().size(); j++)
@@ -1161,6 +1175,7 @@ void Campeonato::removerEventos()
 	}
 
 	Infraestruturas[indice]->removeEvento(eventos[indiceEvento]);
+
 }
 //PROVAS
 vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
@@ -1174,32 +1189,43 @@ vector<evento *> Campeonato::ProvasOrganiza(unsigned int seleciona){
 	unsigned int mes = tempo_info->tm_mon + 1;/* varia de 0 a 11*/
 	unsigned int ano = tempo_info -> tm_year +1900 ; /* ano atual*/
 	Data Atual (dia,mes,ano,horas,min,sec);
-	cout << "Data Atual :" << Atual << endl;
+	cout << "Data Atual: " << Atual << endl;
 	vector<evento *> ProvasRealizadas;
 	vector<evento *> ProvasPorRealizar;
+
+	/* Versao antiga
 	for(unsigned int i = 0; i < Infraestruturas.size(); i++)
-	{ vector <evento *> Provas = Infraestruturas[i]->getCalendario()->getEventos();
-	for(unsigned int t = 0; t < Provas.size(); t ++)
 	{
-		Data Final = Provas[t]->getFinal();
+		vector <evento *> Provas = Infraestruturas[i]->getCalendario()->getEventos();
+
+		for(unsigned int t = 0; t < Provas.size(); t ++)
+		{
+			Data Final = Provas[t]->getFinal();
+			if(Final <= Atual)
+				ProvasRealizadas.push_back(Provas[t]);
+			else
+				ProvasPorRealizar.push_back(Provas[t]);
+		}
+	}
+	 */
+
+	// Versao com BST
+
+	set<evento*, evento::EventoCompare>::iterator it;
+
+	for (it = CalendarioCompleto.begin(); it != CalendarioCompleto.end(); ++it)
+	{
+		Data Final = (*it)->getFinal();
 		if(Final <= Atual)
-			ProvasRealizadas.push_back(Provas[t]);
+			ProvasRealizadas.push_back(*it);
 		else
-			ProvasPorRealizar.push_back(Provas[t]);
+			ProvasPorRealizar.push_back(*it);
 	}
 
-	}
-	if(seleciona == 0){
-		sort(ProvasRealizadas.begin(),ProvasRealizadas.end(),  OrdenaEventosAlpha);
+	if(seleciona == 0)
 		return ProvasRealizadas;
-	}
 
-	else
-	{
-		sort(ProvasPorRealizar.begin(),ProvasPorRealizar.end(), OrdenaEventosAlpha);
-		return ProvasPorRealizar;
-	}
-
+	return ProvasPorRealizar;
 }
 
 
@@ -1362,7 +1388,7 @@ void Campeonato::removerProvas()
 	int indice;
 	do {
 		bool existeE = false, existeA = false;
-		cout << "Em que equipa se encntra o Atleta?" << endl;
+		cout << "Em que equipa se encontra o Atleta?" << endl;
 		getline(cin, equipa);
 		for(unsigned int i =0;i<Equipas.size();i++)
 		{
@@ -1426,19 +1452,20 @@ void Campeonato::removerProvas()
 }
 
 void Campeonato::ProvasRealizadas()
-{	vector<evento *> Provas = ProvasOrganiza(0);
-cout << "Provas Realizadas" << endl;
-for(unsigned int i = 0; i< Provas.size(); i++)
 {
-	cout << i+1 <<" - " << Provas[i]->getNome() << " Data Inicial: " << Provas[i]->getInicial() << " " << Provas[i]->getFinal() << endl;
-}
-cout << "\n";
+	vector<evento *> Provas = ProvasOrganiza(0);
+	cout << "Provas Realizadas:" << endl;
+	for(unsigned int i = 0; i< Provas.size(); i++)
+	{
+		cout << i+1 <<" - " << Provas[i]->getNome() << " Data Inicial: " << Provas[i]->getInicial() << " " << Provas[i]->getFinal() << endl;
+	}
+	cout << "\n";
 
 }
 void Campeonato::ProvasPorRealizar()
 {
 	vector<evento *> Provas = ProvasOrganiza(1);
-	cout << "Provas Por Realizar" << endl;
+	cout << "Provas Por Realizar:" << endl;
 	for(unsigned int i = 0; i< Provas.size(); i++)
 	{
 		cout << i+1 <<" - " << Provas[i]->getNome() << " Data Inicial: " << Provas[i]->getInicial() << " " << Provas[i]->getFinal() << endl;
@@ -1522,7 +1549,7 @@ void Campeonato::menuProvas()
 	while(1)
 	{
 		cout << "\n    Provas" << endl;
-		cout << "1 - Ver todas os Resultados" << endl;
+		cout << "1 - Ver todos os Resultados" << endl;
 		cout << "2 - Inscrever atleta numa prova" << endl;
 		cout << "3 - Remover atleta duma prova" << endl;
 		cout << "4 - Provas por realizar" << endl;
@@ -2072,34 +2099,34 @@ void Campeonato::RemoveProvaBilhete()
 {
 	//TODO
 	while(1)
-		{
-			cout << "Introduza o nome do dono do bilhete a remover a prova:";
-			string nome;
-			getline(cin,nome);
-			try{
-				Bilhete rr = bilheteira.BilheteDeDono(nome);
+	{
+		cout << "Introduza o nome do dono do bilhete a remover a prova:";
+		string nome;
+		getline(cin,nome);
+		try{
+			Bilhete rr = bilheteira.BilheteDeDono(nome);
 
-				cout << "Introduza o nome da prova a remover : ";
-				string prova;
-				getline(cin,prova);
-				if(!ExisteProva(prova))
-				{
-					cout << " A prova pretendida nao existe! " << endl;
-					return;
-				}
-				bilheteira.removeBilhete(rr);
-				rr.Remove_evento(prova);
-				bilheteira.addBilhete(rr);
-				cout << "Prova removida com sucesso! " << endl;
-
-			}
-			catch(Bilheteira::NaoExiteDono &a)
+			cout << "Introduza o nome da prova a remover : ";
+			string prova;
+			getline(cin,prova);
+			if(!ExisteProva(prova))
 			{
-				cout << " Nao exite nenhum bilhete com o proprietario indicado" << endl;
+				cout << " A prova pretendida nao existe! " << endl;
 				return;
 			}
+			bilheteira.removeBilhete(rr);
+			rr.Remove_evento(prova);
+			bilheteira.addBilhete(rr);
+			cout << "Prova removida com sucesso! " << endl;
 
 		}
+		catch(Bilheteira::NaoExiteDono &a)
+		{
+			cout << " Nao exite nenhum bilhete com o proprietario indicado" << endl;
+			return;
+		}
+
+	}
 }
 
 void Campeonato::gravaProvas()

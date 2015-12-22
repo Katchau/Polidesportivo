@@ -1321,14 +1321,29 @@ void Campeonato::verResultados()
 
 bool Campeonato::verificaSobreposicao(evento* ev)
 {
-	set<evento*, evento::EventoCompare>::iterator it;
+	size_t indice;
 
-	for (it = CalendarioCompleto.begin(); it != CalendarioCompleto.end(); ++it)
+	for (size_t i = 0; i < Infraestruturas.size(); ++i)
 	{
-		if (eventos_sobrepostos(ev, *it) && ev->getNome() != (*it)->getNome())
-			return true;
+		for (size_t j = 0; j < Infraestruturas[i]->getCalendario()->getEventos().size(); ++j)
+		{
+			if (ev->getNome() == Infraestruturas[i]->getCalendario()->getEventos()[j]->getNome())
+			{
+				indice = i;
+				break;
+			}
+		}
 	}
 
+	vector<evento*> eventos = Infraestruturas[indice]->getCalendario()->getEventos();
+
+	cout << Infraestruturas[indice]->getNome() << endl;
+
+	for (size_t j = 0; j < eventos.size(); ++j)
+	{
+		if (eventos_sobrepostos(ev, eventos[j]) && ev->getNome() != eventos[j]->getNome())
+			return true;
+	}
 	return false;
 }
 
@@ -1844,23 +1859,23 @@ void Campeonato::AlterarData()
 		}
 		else
 		{
-			ano -= (*it)->getInicial().ano;
-			mes -= (*it)->getInicial().mes;
-			dia -= (*it)->getInicial().dia;
-			horas -= (*it)->getInicial().horas;
-			minutos -= (*it)->getInicial().minutos;
+			ano = (*it)->getInicial().ano - ano;
+			mes = (*it)->getInicial().mes - mes;
+			dia = (*it)->getInicial().dia - dia;
+			horas = (*it)->getInicial().horas - horas;
+			minutos = (*it)->getInicial().minutos - minutos;
 
-			anof -= (*it)->getFinal().ano;
-			mesf -= (*it)->getFinal().mes;
-			diaf -= (*it)->getFinal().dia;
-			horasf -= (*it)->getFinal().horas;
-			minutosf -= (*it)->getFinal().minutos;
+			anof = (*it)->getFinal().ano - anof;
+			mesf = (*it)->getFinal().mes - mesf;
+			diaf = (*it)->getFinal().dia - diaf;
+			horasf = (*it)->getFinal().horas - horasf;
+			minutosf = (*it)->getFinal().minutos - minutosf;
 		}
 
 		inicial = Data(dia, mes, ano, horas, minutos, 0);
-		final = Data(dia, mes, ano, horas, minutos, 0);
+		final = Data(diaf, mesf, anof, horasf, minutosf, 0);
 
-		if(!ValidaData(inicial, false) && !ValidaData(final, false))
+		if(!ValidaData(inicial, false) || !ValidaData(final, false))
 		{
 			cout << "A nova data nao e valida. Tente novamente!" << endl;
 			invalido = true;
@@ -1868,10 +1883,9 @@ void Campeonato::AlterarData()
 
 	} while (invalido);
 
-	evento* placeHolder;
-	placeHolder->setInicial(inicial);
-	placeHolder->setFinal(final);
-	placeHolder->setNome((*it)->getNome());
+	evento * placeHolder = new evento((*it)->getNome(), inicial, final, (*it)->getTipo());
+
+	evento* eventooriginal = *it;
 
 	if (verificaSobreposicao(placeHolder))
 	{
@@ -1879,13 +1893,22 @@ void Campeonato::AlterarData()
 	}
 	else
 	{
-		(*it)->setInicial(inicial);
-		(*it)->setFinal(final);
+		eventooriginal->setInicial(inicial);
+		eventooriginal->setFinal(final);
+		CalendarioCompleto.erase(it);
+		CalendarioCompleto.insert(eventooriginal);
+	}
+
+	for (it = CalendarioCompleto.begin(); it != CalendarioCompleto.end(); ++it)
+	{
+		if ((*it)->getNome() == eventooriginal->getNome())
+			break;
 	}
 
 	cout << "\nEvento Escolhido: " << (*it)->getNome() << endl;
 	cout << "Data Inicial: " << (*it)->getInicial() << endl;
 	cout << "Data Final: " << (*it)->getFinal() << endl;
+
 
 }
 

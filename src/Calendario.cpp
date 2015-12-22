@@ -69,13 +69,13 @@ Calendario::Calendario(){
 }
 
 bool evento::operator == (const evento * ev) const
-																				{
+																								{
 	if (inicial == ev->getInicial() && final == ev->getFinal())
 	{
 		return true;
 	}
 	else return false;
-																				}
+																								}
 
 void Calendario::adiciona_evento(evento * alpha)
 {
@@ -153,7 +153,6 @@ EventoExiste::EventoExiste(string nome){
 
 //data
 bool operator< (const Data &inicio,const Data &fim){
-
 	if(inicio.ano <  fim.ano )
 		return true;
 	if(inicio.mes < fim.mes && inicio.ano == fim.ano )
@@ -170,15 +169,17 @@ bool operator< (const Data &inicio,const Data &fim){
 
 }
 bool operator <= (const Data &inicio,const Data &fim){
-	if(inicio.ano <  fim.ano)
+	if(inicio.ano <  fim.ano )
 		return true;
 	if(inicio.mes < fim.mes && inicio.ano == fim.ano )
 		return true;
-	if(inicio.dia < fim.dia && inicio.mes == fim.mes &&inicio.ano == fim.ano)
+	if(inicio.dia < fim.dia && inicio.mes == fim.mes && inicio.ano == fim.ano)
 		return true;
-	if(inicio.minutos < fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+	if(inicio.horas < fim.horas && inicio.dia == fim.dia && inicio.mes == fim.mes && inicio.ano == fim.ano)
 		return true;
-	if(inicio.segundos <= fim.segundos && inicio.minutos == fim.minutos && inicio.dia == fim.dia&& inicio.mes == fim.mes &&inicio.ano == fim.ano)
+	if(inicio.minutos < fim.minutos && inicio.horas == fim.horas && inicio.dia == fim.dia && inicio.mes == fim.mes && inicio.ano == fim.ano)
+		return true;
+	if(inicio.segundos <= fim.segundos && inicio.minutos == fim.minutos && inicio.horas == fim.horas && inicio.dia == fim.dia && inicio.mes == fim.mes && inicio.ano == fim.ano)
 		return true;
 	return false;
 }
@@ -304,17 +305,22 @@ Prova_Pontuacao * evento::getProvaP()
 
 bool eventos_sobrepostos(const evento *alpha,const  evento *beta){
 
-	if(alpha->getInicial()< beta->getFinal() && beta->getFinal() < alpha -> getFinal())
-		return true;
-	if(alpha->getInicial()< beta-> getInicial() && beta->getInicial()< alpha -> getFinal())
-		return true;
-	if(beta->getInicial() < alpha-> getInicial()&& alpha-> getInicial()< beta->getFinal())
-		return true;
-	if(beta->getInicial()  < alpha-> getFinal()&& alpha->getFinal() < beta->getFinal())
-		return true;
-
 	if(alpha->getInicial() == beta->getInicial()) return true;
 	if(alpha->getFinal()== beta-> getFinal()) return true;
+
+	if(alpha->getInicial() < beta->getInicial() && beta->getInicial() < alpha->getFinal())
+		return true;
+	if(beta->getInicial() < alpha->getInicial() && alpha->getInicial() < beta->getFinal())
+		return true;
+	if(beta->getFinal() < alpha->getFinal() && alpha->getInicial() < beta->getFinal())
+		return true;
+	if(alpha->getFinal() < beta->getFinal() && beta->getInicial() < alpha->getFinal())
+		return true;
+	if(alpha->getInicial() < beta->getInicial() && beta->getFinal() < alpha->getFinal())
+		return true;
+	if(beta->getInicial() < alpha->getInicial() && alpha->getFinal() < beta->getFinal())
+		return true;
+
 	return false;
 }
 
@@ -333,7 +339,7 @@ void evento::setInicial(Data inicialdata) {
 }
 
 void evento::setFinal(Data finaldata) {
-	inicial = finaldata;
+	final = finaldata;
 }
 
 void evento::setNome(string nome) {

@@ -1473,7 +1473,7 @@ void Campeonato::ProvasPorRealizar()
 	cout << "\n";
 }
 
-void Campeonato::simulacaoProva()
+void Campeonato::simulacaoModalidade()
 {
 	size_t indiceModalidade, indiceProva;
 	cout << "Escolha a modalidade da prova em que pretende simular "
@@ -1481,7 +1481,7 @@ void Campeonato::simulacaoProva()
 
 	for (size_t i = 0; i < Modalidades.size(); i++)
 		cout << i + 1 << ": " << Modalidades[i]->getDesporto() << " - "
-		<< Modalidades[i]->getTipo() << endl;
+				<< Modalidades[i]->getTipo() << endl;
 
 	cout << "Introduza a opcao correspondente a modalidade desejada: ";
 	indiceModalidade = selectMenu('1', Modalidades.size() + '0') - '1';
@@ -1490,26 +1490,31 @@ void Campeonato::simulacaoProva()
 
 	if (provas.size() == 0) {
 		cout
-		<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
+				<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
 	}
-
-	cout << "Escolha a prova para simular " << endl;
-
-	for (size_t i = 0; i < provas.size(); i++)
-		cout << i + 1 << " - " << provas[i]->getNome() << endl;
-
-	cout << "Introduza a opcao correspondente a prova desejada: ";
-	indiceProva = selectMenu('1', provas.size() + '0') - '1';
 	for(size_t i = 0;i<Equipas.size();i++)
 	{
 		Equipas[i].removeMedalhas();
 	}
-	for(size_t i = 0;i<Equipas.size();i++)
+	for(size_t j = 0;j<provas.size();j++)
 	{
-		Equipas[i].getMedalhas(provas[indiceProva]);
-		cout << Equipas[i].getNomeEquipa() << endl;
-		Equipas[i].printMedalhas();
+		for(size_t i = 0;i<Equipas.size();i++)
+		{
+			Equipas[i].getMedalhas(provas[j]);
+		}
 	}
+	medalha medalhas;
+	medalhas.ouro = medalhas.prata = medalhas.bronze = 0;
+	priority_queue<Equipa> temp;
+	for (size_t k = 0; k < Equipas.size(); k++) {
+		cout << Equipas[k].getNomeEquipa() << endl;
+		Equipas[k].printMedalhas();
+		if (medalhas == Equipas[k].getMedalhasEquipa()) {
+		} else {
+			temp.push(Equipas[k]);
+		}
+	}
+	EquipasMedalhadas = temp;
 }
 
 void Campeonato::simulacaoCampeonato()
@@ -1544,21 +1549,118 @@ void Campeonato::simulacaoCampeonato()
 	EquipasMedalhadas = temp;
 }
 
+void Campeonato::alteraSimulacao()
+{
+	if (EquipasMedalhadas.empty()) {
+		cout << "Por favor, faca uma simulacao para poder alterá-la!" << endl;
+		return;
+	}
+	priority_queue<Equipa> temp = EquipasMedalhadas;
+	vector<Equipa> bk;
+	while(!temp.empty())
+	{
+		string resposta;
+		Equipa eq = temp.top();
+		temp.pop();
+		cout << eq.getNomeEquipa() << "Pretende alterar esta equipa? (Y/N)" << endl;
+		cin >> resposta;
+		if(resposta == "y" || resposta == "Y")
+		{
+			cout << "Pretende desqualificar a equipa? (Y/N) " << endl;
+			cin >> resposta;
+			if (resposta == "y" || resposta == "Y"){}
+			else {
+				cout << "Pretende desqualificar um atleta? (Y/N)" << endl;
+				cin >> resposta;
+				if(resposta == "y" || resposta == "Y")
+				{
+					for(size_t i = 0;i< eq.getAtletas().size();i++)
+					{
+						cout << "O atleta " << eq.getAtletas()[i].getNome() << " ?" << endl;
+						cin >> resposta;
+						if(resposta == "y" || resposta == "Y")
+						{
+							eq.removeAtleta(eq.getAtletas()[i].getNome());
+							break;
+						}
+ 					}
+				}
+				bk.push_back(eq);
+			}
+		}
+		else bk.push_back(eq);
+	}
+
+	for (size_t k = 0; k < bk.size(); k++) {
+		bk[k].removeMedalhas();
+	}
+	for (size_t i = 0; i < Modalidades.size(); i++) {
+		vector<evento *> ev = Modalidades[i]->getProvas();
+		for (size_t j = 0; j < ev.size(); j++) {
+			for (size_t k = 0; k < bk.size(); k++) {
+				bk[k].getMedalhas(ev[j]);
+			}
+		}
+	}
+	medalha medalhas;
+	medalhas.ouro = medalhas.prata = medalhas.bronze = 0;
+	priority_queue<Equipa> temp2;
+	for (size_t k = 0; k < bk.size(); k++) {
+		cout << bk[k].getNomeEquipa() << endl;
+		bk[k].printMedalhas();
+		if (medalhas == bk[k].getMedalhasEquipa()) {
+		} else {
+			temp2.push(bk[k]);
+		}
+	}
+	EquipasMedalhadas = temp2;
+}
+
+void Campeonato::menuSimulacao()
+{
+	while(1)
+	{
+		cout << "\n    Simulacao" << endl;
+		cout << "1 - Simulacao do Campeonato" << endl;
+		cout << "2 - Simulacao para provas de uma Modalidade" << endl;
+		cout << "3 - Desqualificacoes na simulacao " << endl;
+		cout << "4 - Ranking das Equipas " << endl;
+		cout << "5 - Voltar Atras" << endl;
+		cout << "\nIntroduza a opcao pretendida: ";
+		switch (selectMenu('1', '5')) {
+		case '1':
+			simulacaoCampeonato();
+			break;
+		case '2':
+			simulacaoModalidade();
+			break;
+		case '3':
+			alteraSimulacao();
+			break;
+		case '4':
+			EquipasOrdemMedalhadas();
+			break;
+		case '5':
+			return;
+			break;
+		}
+	}
+}
+
 void Campeonato::menuProvas()
 {
 	while(1)
 	{
 		cout << "\n    Provas" << endl;
-		cout << "1 - Ver todos os Resultados" << endl;
+		cout << "1 - Ver todas os Resultados" << endl;
 		cout << "2 - Inscrever atleta numa prova" << endl;
 		cout << "3 - Remover atleta duma prova" << endl;
 		cout << "4 - Provas por realizar" << endl;
 		cout << "5 - Provas realizadas "  << endl;
-		cout << "6 - Simulacao de 1 Prova "  << endl;
-		cout << "7 - Simulacao do Campeonato"  << endl;
-		cout << "8 - Voltar Atras" << endl;
+		cout << "6 - Menu Simulacao "  << endl;
+		cout << "7 - Voltar Atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
-		switch (selectMenu('1', '8')) {
+		switch (selectMenu('1', '7')) {
 		case '1':
 			verResultados();
 			break;
@@ -1575,12 +1677,9 @@ void Campeonato::menuProvas()
 			ProvasRealizadas();
 			break;
 		case '6':
-			simulacaoProva();
+			menuSimulacao();
 			break;
 		case '7':
-			simulacaoCampeonato();
-			break;
-		case '8':
 			return;
 			break;
 		}

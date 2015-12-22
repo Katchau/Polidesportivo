@@ -328,13 +328,21 @@ public:
 	 */
 	void EquipasOrdemMedalhadas();
 	/**
-	 * Simula a finalizacao de um evento, e a respetiva obtencao de medalhas
+	 * Display do menu relativo a simulacoes de resultados
 	 */
-	void simulacaoProva();
+	void menuSimulacao();
+	/**
+	 * Simula a finalizacao das provas de uma modalidade, e a respetiva obtencao de medalhas
+	 */
+	void simulacaoModalidade();
 	/**
 	 * Faz simulacao de um campeonato, devolvendo ao utilizador as medalhas de todas as equipas
 	 */
 	void simulacaoCampeonato();
+	/**
+	 * Altera certos parametros na simulacao efetuada,como por exemplo desqualificacao de uma equipa
+	 */
+	void alteraSimulacao();
 	/**
 	 * Menu da bilheteira
 	 */

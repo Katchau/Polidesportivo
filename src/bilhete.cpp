@@ -8,6 +8,15 @@
 
 int Bilhete::counter = 0;
 
+Bilhete::Bilhete(vector<string> acesso, string email, string nome, string morada, int ID)
+{
+	this->acesso = acesso;
+		this->email = email;
+		this->nome = nome;
+		this->morada = morada;
+		this->ID = ID;
+
+}
 Bilhete::Bilhete(vector<string> acesso, string email, string nome, string morada)
 {
 	this->acesso = acesso;
@@ -17,6 +26,10 @@ Bilhete::Bilhete(vector<string> acesso, string email, string nome, string morada
 	counter ++;
 	ID = counter;
 
+}
+void Bilhete::updateCounter(int num)
+{
+	counter = num;
 }
 void Bilhete::NovoDono( string email, string nome, string morada)
 {

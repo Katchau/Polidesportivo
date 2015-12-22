@@ -24,6 +24,17 @@ private:
 	string morada;
 
 public:
+
+
+	/**
+		 * Construtor da classe bilhete
+		 * @param acesso nome das provas a que o bilhete da acesso
+		 * @param email  correio eletronico do detentor do bilhete
+		 * @param nome  nome do detentor do bilhete
+		 * @param morada
+		 * @param numero de serie do bilhete
+		 */
+	Bilhete(vector<string> acesso, string email, string nome, string morada, int ID);
 	/**
 	 * Construtor da classe bilhete
 	 * @param acesso nome das provas a que o bilhete da acesso
@@ -33,11 +44,20 @@ public:
 	 */
 	Bilhete(vector<string> acesso, string email, string nome, string morada);
 	/**
+	 * Atualiza o atribuidor de ID´s de bilhetes
+	 */
+	void updateCounter(int num);
+	/**
+	 * Retorna o ultimo ID;
+	 */
+	int getCounter() const { return counter;}
+	/**
 	 * Atualiza o detentor do bilhete
 	 * @param email  correio eletronico do detentor do bilhete
 	 * @param nome  nome do detentor do bilhete
 	 * @param morada
 	 */
+
 	void NovoDono( string email, string nome, string morada);
 	/**
 	 * Adiciona um acesso a uma prova

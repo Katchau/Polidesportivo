@@ -46,3 +46,4 @@ Debug/Polidesportivo.exe
 *.project
 Debug/Polidesportivos.exe
 *.o
+/Debug/

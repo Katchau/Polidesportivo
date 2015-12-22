@@ -166,69 +166,69 @@ Campeonato::Campeonato(const string &filename)
 	}
 
 
-		string Bilhe = "Bilheteira_" + filename;
-		ifstream Bio(Bilhe.c_str());
+	string Bilhe = "Bilheteira_" + filename;
+	ifstream Bio(Bilhe.c_str());
 
-		int counter = 999999;
-		cout << " aqui " << endl;
-		string amer;
-		getline(Bio,amer,'\n');
-		stringstream ss;
-		ss <<amer;
-		ss>> counter;
+	int counter = 999999;
+	cout << " aqui " << endl;
+	string amer;
+	getline(Bio,amer,'\n');
+	stringstream ss;
+	ss <<amer;
+	ss>> counter;
 
 
 
 
 	cout << "entrou" << endl;
-		while(!Bio.eof())
+	while(!Bio.eof())
+	{
+		getline(Bio,amer);
+		cout <<"ciclo" << endl;
+
+		string nome, morada,email;
+		int ID;
+		vector<string> acesso;
+
+		getline(Bio,nome);
+		cout <<"ciclo1" << endl;
+
+		getline(Bio,amer,'\n');
+		stringstream dd;
+		dd <<amer;
+		dd>> ID;
+
+		cout <<"ciclo2" << endl;
+		getline(Bio,email);
+		cout <<"ciclo3" << endl;
+		getline(Bio,morada);
+		cout <<"ciclo4" << endl;
+		cout << nome << endl;
+		cout << ID << endl;
+		cout << email << endl;
+		cout << morada << endl;
+		system("pause");
+		int ac;
+
+		getline(Bio,amer,'\n');
+		stringstream ee;
+		ee <<amer;
+		ee>> ac;
+		while(ac > 0)
 		{
-			getline(Bio,amer);
-			cout <<"ciclo" << endl;
+			string prova;
+			getline(Bio,prova);
+			acesso.push_back(prova);
+			ac --;
 
-			string nome, morada,email;
-			int ID;
-			vector<string> acesso;
-
-			getline(Bio,nome);
-			cout <<"ciclo1" << endl;
-
-			getline(Bio,amer,'\n');
-					stringstream dd;
-					dd <<amer;
-					dd>> ID;
-
-			cout <<"ciclo2" << endl;
-			getline(Bio,email);
-			cout <<"ciclo3" << endl;
-			getline(Bio,morada);
-			cout <<"ciclo4" << endl;
-			cout << nome << endl;
-			cout << ID << endl;
-			cout << email << endl;
-			cout << morada << endl;
-			system("pause");
-			int ac;
-
-			getline(Bio,amer,'\n');
-					stringstream ee;
-					ee <<amer;
-					ee>> ac;
-			while(ac > 0)
-			{
-				string prova;
-				getline(Bio,prova);
-				acesso.push_back(prova);
-				ac --;
-
-				cout << prova << endl;
-			}
-			Bilhete novo = Bilhete(acesso,email,nome,morada,ID);
-			novo.updateCounter(counter);
-			bilheteira.addBilhete(novo);
-
+			cout << prova << endl;
 		}
-		Bio.close();
+		Bilhete novo = Bilhete(acesso,email,nome,morada,ID);
+		novo.updateCounter(counter);
+		bilheteira.addBilhete(novo);
+
+	}
+	Bio.close();
 
 	cout << "Carregou!" << endl;
 }
@@ -1319,6 +1319,18 @@ void Campeonato::verResultados()
 	}
 }
 
+bool Campeonato::verificaSobreposicao(evento* ev)
+{
+	set<evento*, evento::EventoCompare>::iterator it;
+
+	for (it = CalendarioCompleto.begin(); it != CalendarioCompleto.end(); ++it)
+	{
+		if (eventos_sobrepostos(ev, *it) && ev->getNome() != (*it)->getNome())
+			return true;
+	}
+
+	return false;
+}
 
 void Campeonato::adicionarProvas()
 {
@@ -1427,14 +1439,14 @@ void Campeonato::adicionarProvas()
 
 	if(provas[indiceProva]->getTipo() == "TEMPO")
 	{
-		cout << "Porfavor, introduza o tempo do atleta (h m s)" << endl;
+		cout << "Por favor, introduza o tempo do atleta (ex: h m s):" << endl;
 		cin >> horas >> minutos >> segundos;
 		Modalidades[indiceModalidade]->adicionaResultado(indiceProva, atleta.getNome(),
 				horas, minutos, segundos, 0);
 
 	}
-	if (provas[indiceProva]->getTipo() == "PONTO") {
-		cout << "Porfavor, introduza o resultado do atleta" << endl;
+	if (provas[indiceProva]->getTipo() == "PONTUACAO") {
+		cout << "Por favor, introduza o resultado do atleta:" << endl;
 		cin >> score;
 		Modalidades[indiceModalidade]->adicionaResultado(indiceProva,
 				atleta.getNome(), 0, 0, 0, score);
@@ -1546,7 +1558,7 @@ void Campeonato::simulacaoModalidade()
 
 	for (size_t i = 0; i < Modalidades.size(); i++)
 		cout << i + 1 << ": " << Modalidades[i]->getDesporto() << " - "
-				<< Modalidades[i]->getTipo() << endl;
+		<< Modalidades[i]->getTipo() << endl;
 
 	cout << "Introduza a opcao correspondente a modalidade desejada: ";
 	indiceModalidade = selectMenu('1', Modalidades.size() + '0') - '1';
@@ -1555,7 +1567,7 @@ void Campeonato::simulacaoModalidade()
 
 	if (provas.size() == 0) {
 		cout
-				<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
+		<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
 	}
 	for(size_t i = 0;i<Equipas.size();i++)
 	{
@@ -1648,7 +1660,7 @@ void Campeonato::alteraSimulacao()
 							eq.removeAtleta(eq.getAtletas()[i].getNome());
 							break;
 						}
- 					}
+					}
 				}
 				bk.push_back(eq);
 			}
@@ -1751,7 +1763,131 @@ void Campeonato::menuProvas()
 	}
 }
 
+void Campeonato::AlterarData()
+{
+	unsigned int i = 1;
 
+	set<evento*, evento::EventoCompare>::iterator it;
+
+	cout << "Lista de Eventos do Campeonato: " << endl;
+
+	for (it = CalendarioCompleto.begin(); it != CalendarioCompleto.end(); ++it)
+	{
+		cout << i <<" - " << (*it)->getNome() << "\nData Inicial: " << (*it)->getInicial() << " - Data Final: " << (*it)->getFinal() << endl;
+		cout << "\n";
+		++i;
+	}
+
+	cout << "\nIntroduza o evento que deseja alterar: ";
+
+	int selection = selectMenu('1','0'+(i-1)) - '0';
+
+	it = CalendarioCompleto.begin();
+
+	while (selection > 1)
+	{
+		++it;
+		--selection;
+	}
+
+	cout << "\nEvento Escolhido: " << (*it)->getNome() << endl;
+	cout << "Data Inicial: " << (*it)->getInicial() << endl;
+	cout << "Data Final: " << (*it)->getFinal() << endl;
+
+	bool adiar = false;
+
+	cout << "\nPretende adiar ou adiantar o evento: " << endl;
+	cout << "1 - Adiar" << endl;
+	cout << "2 - Adiantar" << endl;
+	cout << "Introduza a opcao pretendida: ";
+	switch (selectMenu('1', '2')) {
+	case '1':
+		adiar = true;;
+		break;
+	case '2':
+		break;
+	}
+
+	Data inicial, final;
+	bool invalido;
+	unsigned int dia, mes, ano, horas, minutos;
+	unsigned int diaf, mesf, anof, horasf, minutosf;
+
+	do
+	{
+		invalido = false;
+
+		if (adiar)
+			cout << "\nPor quanto tempo pretende adiar: " << endl;
+		else
+			cout << "\nPor quanto tempo pretende adiantar: " << endl;
+
+		ano = anof = returnInt("Anos: ");
+		mes = mesf = returnInt("Meses: ");
+		dia = diaf = returnInt("Dias: ");
+		horas = horasf = returnInt("Horas: ");
+		minutos = minutosf = returnInt("Minutos: ");
+
+		if (adiar)
+		{
+			ano += (*it)->getInicial().ano;
+			mes += (*it)->getInicial().mes;
+			dia += (*it)->getInicial().dia;
+			horas += (*it)->getInicial().horas;
+			minutos += (*it)->getInicial().minutos;
+
+			anof += (*it)->getFinal().ano;
+			mesf += (*it)->getFinal().mes;
+			diaf += (*it)->getFinal().dia;
+			horasf += (*it)->getFinal().horas;
+			minutosf += (*it)->getFinal().minutos;
+		}
+		else
+		{
+			ano -= (*it)->getInicial().ano;
+			mes -= (*it)->getInicial().mes;
+			dia -= (*it)->getInicial().dia;
+			horas -= (*it)->getInicial().horas;
+			minutos -= (*it)->getInicial().minutos;
+
+			anof -= (*it)->getFinal().ano;
+			mesf -= (*it)->getFinal().mes;
+			diaf -= (*it)->getFinal().dia;
+			horasf -= (*it)->getFinal().horas;
+			minutosf -= (*it)->getFinal().minutos;
+		}
+
+		inicial = Data(dia, mes, ano, horas, minutos, 0);
+		final = Data(dia, mes, ano, horas, minutos, 0);
+
+		if(!ValidaData(inicial, false) && !ValidaData(final, false))
+		{
+			cout << "A nova data nao e valida. Tente novamente!" << endl;
+			invalido = true;
+		}
+
+	} while (invalido);
+
+	evento* placeHolder;
+	placeHolder->setInicial(inicial);
+	placeHolder->setFinal(final);
+	placeHolder->setNome((*it)->getNome());
+
+	if (verificaSobreposicao(placeHolder))
+	{
+		cout << "Evento sobreposto a outro ja existente. A data anterior manter-se-a." << endl;
+	}
+	else
+	{
+		(*it)->setInicial(inicial);
+		(*it)->setFinal(final);
+	}
+
+	cout << "\nEvento Escolhido: " << (*it)->getNome() << endl;
+	cout << "Data Inicial: " << (*it)->getInicial() << endl;
+	cout << "Data Final: " << (*it)->getFinal() << endl;
+
+}
 
 void Campeonato::menuCalendario()
 {
@@ -1762,9 +1898,10 @@ void Campeonato::menuCalendario()
 		cout << "2 - Adicionar Evento ao Calendario" << endl;
 		cout << "3 - Remover Evento do Calendario" << endl;
 		cout << "4 - Provas" << endl;
-		cout << "5 - Voltar Atras" << endl;
+		cout << "5 - Alterar Data de um Evento" << endl;
+		cout << "6 - Voltar Atras" << endl;
 		cout << "\nIntroduza a opcao pretendida: ";
-		switch (selectMenu('1','5'))
+		switch (selectMenu('1','6'))
 		{
 		case '1':
 			listaCalendarios();
@@ -1779,6 +1916,9 @@ void Campeonato::menuCalendario()
 			menuProvas();
 			break;
 		case '5':
+			AlterarData();
+			break;
+		case '6':
 			return;
 			break;
 		}
@@ -1816,8 +1956,7 @@ void Campeonato::gravarCampeonato()
 	}
 	grava.close();
 	gravaProvas();
-	G
-	ravaBilhetes();
+	GravaBilhetes();
 }
 
 
@@ -2039,6 +2178,7 @@ void Campeonato::RemoveEventosInfra(string modalidade)
 			temp = Modalidades[i]->getProvas();
 		}
 	}
+
 	for(unsigned int pra = 0; pra < temp.size(); pra++)
 	{
 		for(unsigned int i = 0; i < Infraestruturas.size();i++)
@@ -2048,13 +2188,12 @@ void Campeonato::RemoveEventosInfra(string modalidade)
 			{
 				if(Provas[k] == temp[pra])
 				{
-					cout << "Esta a fazer cenas";
 					Infraestruturas[i]->getCalendario()->remove_evento(Provas[k]);
+					CalendarioCompleto.erase(Provas[k]);
 				}
 			}
 		}
 	}
-
 }
 /** Bilheteira */
 
@@ -2168,7 +2307,7 @@ void  Campeonato::RemoveBilhete(){
 		}
 		catch(Bilheteira::NaoExiteDono &a)
 		{
-			cout << " Nao exite nenhum bilhete com o proprietario indicado" << endl;
+			cout << " Nao existe nenhum bilhete com o proprietario indicado" << endl;
 		}
 	}
 	//TODO testar
@@ -2200,7 +2339,7 @@ void  Campeonato::VendeBilhete()
 		}
 		catch(Bilheteira::NaoExiteDono &a)
 		{
-			cout << " Nao exite nenhum bilhete com o proprietario indicado" << endl;
+			cout << " Nao existe nenhum bilhete com o proprietario indicado" << endl;
 			return;
 		}
 	}
@@ -2208,25 +2347,17 @@ void  Campeonato::VendeBilhete()
 }
 bool Campeonato::ExisteProva(string nome)
 {
-	vector <evento*> realizadas = ProvasOrganiza(0);
-	vector <evento*> naorea = ProvasOrganiza(1);
+	set<evento*, evento::EventoCompare>::iterator it;
 
-	for(vector<evento*> :: iterator it = realizadas.begin(); it != realizadas.end(); it++)
+	for (it = CalendarioCompleto.begin(); it != CalendarioCompleto.end(); ++it)
 	{
-		evento temp = **it;
-		if(temp.getNome() == nome)
-			return true;
-	}
-	for(vector<evento*> :: iterator it = naorea.begin(); it != naorea.end(); it++)
-	{
-		evento temp = **it;
-		if(temp.getNome() == nome)
+		if ((*it)->getNome() == nome)
 			return true;
 	}
 
 	return false;
-
 }
+
 void Campeonato::AdicionaProvaBilhete()
 {
 
@@ -2255,7 +2386,7 @@ void Campeonato::AdicionaProvaBilhete()
 		}
 		catch(Bilheteira::NaoExiteDono &a)
 		{
-			cout << " Nao exite nenhum bilhete com o proprietario indicado" << endl;
+			cout << " Nao existe nenhum bilhete com o proprietario indicado" << endl;
 			return;
 		}
 
@@ -2288,7 +2419,7 @@ void Campeonato::RemoveProvaBilhete()
 		}
 		catch(Bilheteira::NaoExiteDono &a)
 		{
-			cout << " Nao exite nenhum bilhete com o proprietario indicado" << endl;
+			cout << " Nao existe nenhum bilhete com o proprietario indicado" << endl;
 			return;
 		}
 
@@ -2297,30 +2428,30 @@ void Campeonato::RemoveProvaBilhete()
 void Campeonato::GravaBilhetes()
 {
 
-	    string Bilhe = "Bilheteira_" + nome;
-		ofstream Bio(Bilhe.c_str());
+	string Bilhe = "Bilheteira_" + nome;
+	ofstream Bio(Bilhe.c_str());
 
-		hasBilhete vendidos = bilheteira.getVendidos();
-		hasBilhete::iterator it = vendidos.begin();
+	hasBilhete vendidos = bilheteira.getVendidos();
+	hasBilhete::iterator it = vendidos.begin();
 
-		int counter = it->getCounter();
-		Bio << counter << "\n\n";
-		for(it = vendidos.begin(); it != vendidos.end(); it++)
+	int counter = it->getCounter();
+	Bio << counter << "\n\n";
+	for(it = vendidos.begin(); it != vendidos.end(); it++)
+	{
+		Bilhete temp = *it;
+		Bio << temp.getNome() <<  "\n";
+		Bio << temp.getID() << "\n";
+		Bio << temp.getEmail() << "\n";
+		Bio << temp.getMorada() << "\n";
+		vector <string > acessos = temp.getProvas();
+		Bio << acessos.size()<< "\n";
+		for(unsigned i = 0; i < acessos.size(); i++)
 		{
-			Bilhete temp = *it;
-			Bio << temp.getNome() <<  "\n";
-			Bio << temp.getID() << "\n";
-			Bio << temp.getEmail() << "\n";
-			Bio << temp.getMorada() << "\n";
-			vector <string > acessos = temp.getProvas();
-			Bio << acessos.size()<< "\n";
-			for(unsigned i = 0; i < acessos.size(); i++)
-			{
-				Bio << acessos[i] << "\n";
-			}
-			Bio << "\n";
+			Bio << acessos[i] << "\n";
 		}
-		Bio.close();
+		Bio << "\n";
+	}
+	Bio.close();
 
 
 }

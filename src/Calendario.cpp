@@ -328,6 +328,17 @@ Data evento::getFinal() const{
 	return final;
 }
 
+void evento::setInicial(Data inicialdata) {
+	inicial = inicialdata;
+}
+
+void evento::setFinal(Data finaldata) {
+	inicial = finaldata;
+}
+
+void evento::setNome(string nome) {
+	this->nome = nome;
+}
 string EventoExiste::getNome()
 {
 	return nome;

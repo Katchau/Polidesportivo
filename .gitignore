@@ -50,3 +50,4 @@ Debug/Polidesportivos.exe
 Debug/src/Atleta.o
 *.o
 Debug/src/Campeonato.o
+*.o

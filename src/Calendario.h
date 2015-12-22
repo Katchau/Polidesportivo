@@ -301,6 +301,18 @@ public:
 	 */
 	Data getFinal() const;
 	/**
+	 * Atribui uma nova data inicial ao evento
+	 */
+	void setInicial(Data inicialdata);
+	/**
+	 * Atribui uma nova data final ao evento
+	 */
+	void setFinal(Data finaldata);
+	/**
+	 * Atribui um novo nome ao evento
+	 */
+	void setNome(string nome);
+	/**
 	 * Ordena as classificacoes dos melhores resultados para os piores
 	 *
 	 */
@@ -360,6 +372,9 @@ public:
 			return false;
 		}
 	};
+	/**
+	 * Adia o evento de acordo com a duração escolhida pelo utilizador
+	 */
 };
 /**
  * Compara dois eventos e ve se o intervalo de tempo entre os dois eventos e retorna true se os eventos estiverem sobrepostos

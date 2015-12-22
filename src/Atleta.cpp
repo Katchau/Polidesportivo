@@ -73,8 +73,6 @@ bool Atleta::removeModalidade(string desporto,string modalidade)
 		cout << desportosInscrito[i]->getNome();
         string nome = desporto + " , " + modalidade;
 		if (desportosInscrito[i]->getNome() == nome) {
-			showDesportos();
-			cout << endl;
 			desportosInscrito.erase(desportosInscrito.begin() + i);
 			return true;
 		}

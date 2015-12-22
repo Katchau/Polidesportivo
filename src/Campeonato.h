@@ -88,8 +88,8 @@ public:
 	 */
 	void EquipasOrdemAlfabetica();
 	/**
-		* Faz display de todas as equipas presentes numa modalidade por ordem de pontuacao total
-		*/
+	 * Faz display de todas as equipas presentes numa modalidade por ordem de pontuacao total
+	 */
 	void EquipasOrdemPontuacao();
 	/**
 	 * Faz display de um menu que permite entre escolher entre visualizar ou alterar
@@ -163,10 +163,15 @@ public:
 	 * Permite remover um evento, rendo o utilizador que indicar a infraestrutura
 	 */
 	void removerEventos();
-/**
- * Faz display do menu relativo a gestao das provas
- */
+	/**
+	 * Faz display do menu relativo a gestao das provas
+	 */
 	void menuProvas();
+
+	/**
+	 * Permite ao utilizador alterar a data de um evento
+	 */
+	void AlterarData();
 
 	/**
 	 * Permite ao utilizador escolher uma modalidade e de seguida ver as classificacoes nessa mesma modalidade
@@ -177,33 +182,33 @@ public:
 	 * Permite adicionar uma prova de forma interativa com o utilizador
 	 */
 	void adicionarProvas();
-/**
- * Permite remover uma prova de forma interativa com o utilizador
- */
+	/**
+	 * Permite remover uma prova de forma interativa com o utilizador
+	 */
 	void removerProvas();
-/**
- * Permite remover a classifiacao de um atleta numa prova
- */
+	/**
+	 * Permite remover a classifiacao de um atleta numa prova
+	 */
 	void removerClassProva();
-/**
- * Faz display do menu que permite a gestao do atletas
- */
+	/**
+	 * Faz display do menu que permite a gestao do atletas
+	 */
 	void menuAtletas();
-/**
- * Permite adicionar um atleta de forma interativa com o utilizador
- */
+	/**
+	 * Permite adicionar um atleta de forma interativa com o utilizador
+	 */
 	void adicionaAtleta();
-/**
- * Permite remover um atleta de forma interativa com o utilizador
- */
+	/**
+	 * Permite remover um atleta de forma interativa com o utilizador
+	 */
 	void removeAtleta();
-/**
- * Faz o display do menu com todas as listas de ordenacao de atletas
- */
+	/**
+	 * Faz o display do menu com todas as listas de ordenacao de atletas
+	 */
 	void listaAtletas();
-/**
- * Faz o display de uma lista de atletas ordenados por equipas
- */
+	/**
+	 * Faz o display de uma lista de atletas ordenados por equipas
+	 */
 	void AtletasPorEquipa();
 
 	/**
@@ -223,6 +228,17 @@ public:
 	 * @return provas por realizar se seleciona != 0
 	 */
 	vector <evento*> ProvasOrganiza(unsigned int seleciona); // 0 Provas Realizadas  else Provas Por Realizar
+
+	/**
+	 * Verifica se o evento ev se sobrepoe a algum evento já existente, tirando ele próprio
+	 *
+	 * @param evento a verificar
+	 *
+	 * @return true se houver sobreposicao
+	 * @return false se nao houver sobreposicao
+	 *
+	 */
+	bool verificaSobreposicao(evento* ev);
 
 	/**
 	 * Verifica a existencia de uma equipa no campeonato
@@ -260,8 +276,8 @@ public:
 	 */
 	void RemoveAtletaProva(string Atleta);
 	/**
-	*  Permite inscrever um atleta numa determinada modalidade.
-	*/
+	 *  Permite inscrever um atleta numa determinada modalidade.
+	 */
 	void inscreverAtletaModalidade();
 	/**
 	 * @return Retorna os deportos presentes no campeonato
@@ -296,8 +312,8 @@ public:
 	 */
 	string getNome() const;
 	/**
-	* @return numero de atletas inscritos no campeonato
-	*/
+	 * @return numero de atletas inscritos no campeonato
+	 */
 	int numAtletas() const;
 	/**
 	 * @return vetor de infraestruturas

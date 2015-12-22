@@ -173,11 +173,10 @@ Campeonato::Campeonato(const string &filename)
 		cout << " aqui " << endl;
 		string amer;
 		getline(Bio,amer,'\n');
-		cout << "lixo :" <<  amer<< endl;
 		stringstream ss;
 		ss <<amer;
 		ss>> counter;
-		cout << counter << endl;
+
 
 
 
@@ -193,7 +192,12 @@ Campeonato::Campeonato(const string &filename)
 
 			getline(Bio,nome);
 			cout <<"ciclo1" << endl;
-			Bio >> ID;
+
+			getline(Bio,amer,'\n');
+					stringstream dd;
+					dd <<amer;
+					dd>> ID;
+
 			cout <<"ciclo2" << endl;
 			getline(Bio,email);
 			cout <<"ciclo3" << endl;
@@ -205,7 +209,11 @@ Campeonato::Campeonato(const string &filename)
 			cout << morada << endl;
 			system("pause");
 			int ac;
-			Bio >> ac;
+
+			getline(Bio,amer,'\n');
+					stringstream ee;
+					ee <<amer;
+					ee>> ac;
 			while(ac > 0)
 			{
 				string prova;
@@ -1808,6 +1816,8 @@ void Campeonato::gravarCampeonato()
 	}
 	grava.close();
 	gravaProvas();
+	G
+	ravaBilhetes();
 }
 
 
@@ -2287,28 +2297,28 @@ void Campeonato::RemoveProvaBilhete()
 void Campeonato::GravaBilhetes()
 {
 
-	    string Bilhe = "Bilheteira_" + nome + ".txt";
+	    string Bilhe = "Bilheteira_" + nome;
 		ofstream Bio(Bilhe.c_str());
 
 		hasBilhete vendidos = bilheteira.getVendidos();
 		hasBilhete::iterator it = vendidos.begin();
 
 		int counter = it->getCounter();
-		Bio << counter << "/n/n";
+		Bio << counter << "\n\n";
 		for(it = vendidos.begin(); it != vendidos.end(); it++)
 		{
 			Bilhete temp = *it;
-			Bio << temp.getNome() <<  "/n";
-			Bio << temp.getID() << "/n";
-			Bio << temp.getEmail() << "/n";
-			Bio << temp.getMorada() << "/n";
+			Bio << temp.getNome() <<  "\n";
+			Bio << temp.getID() << "\n";
+			Bio << temp.getEmail() << "\n";
+			Bio << temp.getMorada() << "\n";
 			vector <string > acessos = temp.getProvas();
-
+			Bio << acessos.size()<< "\n";
 			for(unsigned i = 0; i < acessos.size(); i++)
 			{
-				Bio << acessos[i] << "/n";
+				Bio << acessos[i] << "\n";
 			}
-			Bio << "/n";
+			Bio << "\n";
 		}
 		Bio.close();
 

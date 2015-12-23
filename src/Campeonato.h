@@ -25,6 +25,7 @@ private:
 	vector<Infraestrutura *> Infraestruturas;
 	vector<Equipa> Equipas;
 	vector<Desporto*> Modalidades;
+	vector< vector<evento*> > provaSimulada;
 	priority_queue<Equipa> EquipasMedalhadas;
 	Bilheteira bilheteira;
 	set<evento*, evento::EventoCompare> CalendarioCompleto;
@@ -357,9 +358,17 @@ public:
 	 */
 	void simulacaoCampeonato();
 	/**
-	 * Altera certos parametros na simulacao efetuada,como por exemplo desqualificacao de uma equipa
+	 * Desqualifica atletas de certas provas, podendo mesmo desclassificar uma equipa inteira
 	 */
 	void alteraSimulacao();
+	/**
+	 * @param nomeEq, nome da equipa a alterar
+	 * @param nomeAtleta, nome do atleta a alterar
+	 * @param nomeProva, nome da prova a alterar
+	 *
+	 * altera certos parametros na simulacao
+	 */
+	void alteraProvaSimulada(string nomeEq, string nomeAtleta, string nomeProva);
 	/**
 	 * Menu da bilheteira
 	 */

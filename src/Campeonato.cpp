@@ -1606,7 +1606,7 @@ void Campeonato::simulacaoModalidade()
 
 	for (size_t i = 0; i < Modalidades.size(); i++)
 		cout << i + 1 << ": " << Modalidades[i]->getDesporto() << " - "
-				<< Modalidades[i]->getTipo() << endl;
+		<< Modalidades[i]->getTipo() << endl;
 
 	cout << "Introduza a opcao correspondente a modalidade desejada: ";
 	indiceModalidade = selectMenu('1', Modalidades.size() + '0') - '1';
@@ -1616,7 +1616,7 @@ void Campeonato::simulacaoModalidade()
 	provaSimulada.push_back(provas);
 	if (provas.size() == 0) {
 		cout
-				<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
+		<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
 	}
 	for(size_t i = 0;i<Equipas.size();i++)
 	{
@@ -2487,12 +2487,20 @@ void  Campeonato::AdicionaBilhete()
 		}
 		catch(Bilheteira::NaoExiteDono &a)
 		{
-			cout << "Introduza o email do comprador do bilhete : ";
 			string email;
-			getline(cin,email);
-			cout << "Introduza a morada  do comprador do bilhete : ";
+			do{
+				cout << "Introduza o email do comprador do bilhete : ";
+
+				getline(cin,email);
+			}
+			while(email.length()<= 0);
+
 			string morada;
-			getline(cin,morada);
+			do{
+				cout << "Introduza a morada  do comprador do bilhete : ";
+				getline(cin,morada);
+			}while(morada.length() <= 0);
+
 			vector<string> vazio;
 			Bilhete novo = Bilhete (vazio,email,nome,morada);
 			if(bilheteira.addBilhete(novo))
@@ -2533,17 +2541,42 @@ void  Campeonato::VendeBilhete()
 		cout << "Introduza o nome do dono do bilhete a vender:";
 		string nome;
 		getline(cin,nome);
+		string comprador;
+		string email;
+		string morada;
+
 		try{
 			Bilhete vender = bilheteira.BilheteDeDono(nome);
-			cout << "Introduza o nome do comprador : " << endl;
-			string comprador;
-			getline(cin,comprador);
-			cout << "Introduza o email do comprador : " << endl;
-			string email;
-			getline(cin,email);
-			cout << "Introduza a morada do comprador : " << endl;
-			string morada;
-			getline(cin, morada);
+
+
+			do{
+				cout << "Introduza o nome do comprador : " << endl;
+				getline(cin,comprador);
+			}while(comprador.length() <= 0);
+
+			try
+			{
+				Bilhete compra = bilheteira.BilheteDeDono(comprador);
+
+			}
+			catch(Bilheteira::NaoExiteDono &a)
+			{
+
+				do{
+					cout << "Introduza o email do comprador : " << endl;
+
+								getline(cin,email);
+				}while(email.length() <= 0);
+
+				do{
+
+					cout << "Introduza a morada do comprador : " << endl;
+
+					getline(cin, morada);
+				}while(morada.length() <= 0);
+			}
+
+
 
 			bilheteira.vendeBilhete(vender,comprador,email,morada);
 			cout << "Bilhete vendido! " << endl;
@@ -2628,6 +2661,7 @@ void Campeonato::RemoveProvaBilhete()
 			rr.Remove_evento(prova);
 			bilheteira.addBilhete(rr);
 			cout << "Prova removida com sucesso! " << endl;
+			return;
 
 		}
 		catch(Bilheteira::NaoExiteDono &a)

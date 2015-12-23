@@ -2450,7 +2450,7 @@ void Campeonato::ListarBilhetes(){
 	hasBilhete temp = bilheteira.getVendidos();
 	if (temp.size() == 0)
 		cout << "Nao ha bilhetes vendidos!" << endl;
-	cout << temp.bucket_count() << endl;
+
 	for(hasBilhete::iterator it = temp.begin(); it != temp.end(); it ++)
 	{
 		Bilhete imp = *it;

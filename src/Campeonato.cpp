@@ -2529,6 +2529,7 @@ void  Campeonato::RemoveBilhete(){
 		catch(Bilheteira::NaoExiteDono &a)
 		{
 			cout << " Nao existe nenhum bilhete com o proprietario indicado" << endl;
+			return;
 		}
 	}
 	//TODO testar
@@ -2624,9 +2625,14 @@ void Campeonato::AdicionaProvaBilhete()
 				return;
 			}
 			bilheteira.removeBilhete(rr);
-			rr.Adiciona_evento(prova);
+			if(rr.Adiciona_evento(prova))
+			{
+				cout << "Prova adicionada com sucesso! " << endl;
+			}
+			else
+				cout << "Bilhete ja da acesso a prova! " << endl;
 			bilheteira.addBilhete(rr);
-			cout << "Prova adicionada com sucesso! " << endl;
+
 			return;
 
 		}
@@ -2658,9 +2664,16 @@ void Campeonato::RemoveProvaBilhete()
 				return;
 			}
 			bilheteira.removeBilhete(rr);
-			rr.Remove_evento(prova);
+			if(rr.Remove_evento(prova))
+			{
+				cout << "Prova removida com sucesso! " << endl;
+			}
+			else
+			{
+				cout << "Prova nao removida pois bilhete nao da acesso! " << endl;
+			}
 			bilheteira.addBilhete(rr);
-			cout << "Prova removida com sucesso! " << endl;
+
 			return;
 
 		}

@@ -373,13 +373,37 @@ public:
 	 * Menu da bilheteira
 	 */
 	void MenuBilheteira();
+	/**
+	 * Permite adicionar um bilhete á bilheteira
+	 */
 	void AdicionaBilhete();
+	/**
+	 * Permite remover um bilhete da bilheteira
+	 */
 	void RemoveBilhete();
+	/**
+	 * Permite vender um bilhete de um individuo a outro
+	 */
 	void VendeBilhete();
+	/**
+	 * Permite adicionar  uma prova a um bilhete
+	 */
 	void AdicionaProvaBilhete();
+	/**
+	 * Permite remover uma prova de um bilhete
+	 */
 	void RemoveProvaBilhete();
+	/**
+	 * Mostra os bilhetes na bilheteira por ordem de ocupaçao na tabela de dispersao
+	 */
 	void ListarBilhetes();
+	/**
+	 * Verifica se uma prova existe
+	 */
 	bool ExisteProva(string nome);
+	/**
+	 * Grava os bilhetes vendidos em  Bilheteira_´nome do campeonato´.txt
+	 */
 	void GravaBilhetes();
 
 	// Excecoes

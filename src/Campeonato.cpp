@@ -1822,8 +1822,8 @@ void Campeonato::AlterarData()
 
 	Data inicial, final;
 	bool invalido;
-	unsigned int dia, mes, ano, horas, minutos;
-	unsigned int diaf, mesf, anof, horasf, minutosf;
+	int dia, mes, ano, horas, minutos;
+	int diaf, mesf, anof, horasf, minutosf;
 
 	do
 	{
@@ -1848,11 +1848,53 @@ void Campeonato::AlterarData()
 			horas += (*it)->getInicial().horas;
 			minutos += (*it)->getInicial().minutos;
 
+			while (minutos >= 60)
+			{
+				horas++;
+				minutos -= 60;
+			}
+			while (horas >= 24)
+			{
+				dia++;
+				horas -= 24;
+			}
+			while (dia >= diasMes(ano, mes))
+			{
+				dia -= diasMes(ano, mes);
+				mes++;
+			}
+			while (mes >= 12)
+			{
+				ano++;
+				mes -= 12;
+			}
+
 			anof += (*it)->getFinal().ano;
 			mesf += (*it)->getFinal().mes;
 			diaf += (*it)->getFinal().dia;
 			horasf += (*it)->getFinal().horas;
 			minutosf += (*it)->getFinal().minutos;
+
+			while (minutosf >= 60)
+			{
+				horasf++;
+				minutosf -= 60;
+			}
+			while (horasf >= 24)
+			{
+				diaf++;
+				horasf -= 24;
+			}
+			while (diaf >= diasMes(anof, mesf))
+			{
+				diaf -= diasMes(anof, mesf);
+				mesf++;
+			}
+			while (mesf >= 12)
+			{
+				anof++;
+				mesf -= 12;
+			}
 		}
 		else
 		{
@@ -1862,11 +1904,53 @@ void Campeonato::AlterarData()
 			horas = (*it)->getInicial().horas - horas;
 			minutos = (*it)->getInicial().minutos - minutos;
 
+			while (minutos < 0)
+			{
+				horas--;
+				minutos += 60;
+			}
+			while (horas < 0)
+			{
+				dia--;
+				horas += 24;
+			}
+			while (dia < 0)
+			{
+				dia += diasMes(ano, mes-1);
+				mes--;
+			}
+			while (mes < 0)
+			{
+				ano--;
+				mes += 12;
+			}
+
 			anof = (*it)->getFinal().ano - anof;
 			mesf = (*it)->getFinal().mes - mesf;
 			diaf = (*it)->getFinal().dia - diaf;
 			horasf = (*it)->getFinal().horas - horasf;
 			minutosf = (*it)->getFinal().minutos - minutosf;
+
+			while (minutosf < 0)
+			{
+				horasf--;
+				minutosf += 60;
+			}
+			while (horasf < 0)
+			{
+				diaf--;
+				horasf += 24;
+			}
+			while (diaf < 0)
+			{
+				diaf += diasMes(anof, mesf-1);
+				mesf--;
+			}
+			while (mesf < 0)
+			{
+				anof--;
+				mesf += 12;
+			}
 		}
 
 		inicial = Data(dia, mes, ano, horas, minutos, 0);

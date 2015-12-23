@@ -677,15 +677,50 @@ void Campeonato::EquipasOrdemMedalhadas()
 		cout << "Nao foram encontradas equipas no campeonato!!" << endl;
 		return;
 	}
+
+	for (size_t k = 0; k < Equipas.size(); k++) {
+		Equipas[k].removeMedalhas();
+	}
 	priority_queue<Equipa> temp = EquipasMedalhadas;
-	int i = 1;
+	vector<Equipa> bk;
 	while(!temp.empty())
 	{
-		cout << i << ": " << temp.top().getNomeEquipa() << endl;
+		bk.push_back(temp.top());
 		temp.pop();
+	}
+	for(size_t i = 0;i < provaSimulada.size();i++)
+	{
+		vector<evento * > ev = provaSimulada[i];
+		for (size_t j = 0;j < ev.size();j++)
+		{
+			for(size_t k = 0;k < bk.size();k ++)
+			{
+				bk[k].getMedalhas(ev[j]);
+			}
+		}
+	}
+	medalha medalhas;
+	medalhas.ouro = medalhas.prata = medalhas.bronze = 0;
+	priority_queue<Equipa> temp2;
+	for (size_t k = 0; k < bk.size(); k++) {
+		if(medalhas == bk[k].getMedalhasEquipa())
+		{}
+		else
+		{
+			temp2.push(bk[k]);
+		}
+	}
+	EquipasMedalhadas = temp2;
+
+	int i = 1;
+	while(!temp2.empty())
+	{
+		cout << i << ": " << temp2.top().getNomeEquipa() << endl;
+		temp2.pop();
 		i++;
 	}
 }
+
 
 void Campeonato::criaEquipa()
 {
@@ -1571,16 +1606,17 @@ void Campeonato::simulacaoModalidade()
 
 	for (size_t i = 0; i < Modalidades.size(); i++)
 		cout << i + 1 << ": " << Modalidades[i]->getDesporto() << " - "
-		<< Modalidades[i]->getTipo() << endl;
+				<< Modalidades[i]->getTipo() << endl;
 
 	cout << "Introduza a opcao correspondente a modalidade desejada: ";
 	indiceModalidade = selectMenu('1', Modalidades.size() + '0') - '1';
 
 	vector<evento *> provas = Modalidades[indiceModalidade]->getProvas();
-
+	provaSimulada.clear();
+	provaSimulada.push_back(provas);
 	if (provas.size() == 0) {
 		cout
-		<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
+				<< "A modalidade selecionada nao tem provas. Crie um evento antes de tentar inscrever um atleta.\n";
 	}
 	for(size_t i = 0;i<Equipas.size();i++)
 	{
@@ -1612,9 +1648,11 @@ void Campeonato::simulacaoCampeonato()
 	for (size_t k = 0; k < Equipas.size(); k++) {
 		Equipas[k].removeMedalhas();
 	}
+	provaSimulada.clear();
 	for(size_t i = 0;i < Modalidades.size();i++)
 	{
 		vector<evento * > ev = Modalidades[i]->getProvas();
+		provaSimulada.push_back(ev);
 		for (size_t j = 0;j < ev.size();j++)
 		{
 			for(size_t k = 0;k < Equipas.size();k ++)
@@ -1639,6 +1677,59 @@ void Campeonato::simulacaoCampeonato()
 	EquipasMedalhadas = temp;
 }
 
+void Campeonato::alteraProvaSimulada(string nomeEq,string nomeAtleta, string nomeProva)
+{
+	if(nomeAtleta == "")
+	{
+		priority_queue<Equipa> temp = EquipasMedalhadas;
+		vector<Equipa> bk;
+		int indiceE;
+		while(!temp.empty())
+		{
+			bk.push_back(temp.top());
+			temp.pop();
+		}
+		for(size_t i = 0;i< bk.size();i++)
+		{
+			if(bk[i].getNomeEquipa() == nomeEq)
+			{
+				indiceE = i;
+				break;
+			}
+		}
+		vector<Atleta> at = bk[indiceE].getAtletas();
+		for(size_t i = 0;i<at.size();i++)
+		{
+			nomeAtleta = at[i].getNome();
+			for (size_t i = 0; i < provaSimulada.size(); i++) {
+				vector<evento*> ev = provaSimulada[i];
+				for (size_t j = 0; j < ev.size(); j++) {
+					if (ev[j]->getNome() == nomeProva) {
+						ev[j]->removeLugar(nomeAtleta);
+						provaSimulada.erase(provaSimulada.begin() + i);
+						provaSimulada.push_back(ev);
+						break;
+					}
+				}
+			}
+		}
+	}
+	else {
+		for (size_t i = 0; i < provaSimulada.size(); i++) {
+			vector<evento*> ev = provaSimulada[i];
+			for (size_t j = 0; j < ev.size(); j++) {
+				if (ev[j]->getNome() == nomeProva) {
+					ev[j]->removeLugar(nomeAtleta);
+					provaSimulada.erase(provaSimulada.begin() + i);
+					provaSimulada.push_back(ev);
+					break;
+				}
+			}
+		}
+	}
+
+}
+
 void Campeonato::alteraSimulacao()
 {
 	if (EquipasMedalhadas.empty()) {
@@ -1656,36 +1747,54 @@ void Campeonato::alteraSimulacao()
 		cin >> resposta;
 		if(resposta == "y" || resposta == "Y")
 		{
-			cout << "Pretende desqualificar a equipa? (Y/N) " << endl;
+			cout << "Pretende desqualificar a equipa? (Y/N)" << endl;
+			cin.clear();
+			cin.ignore(1000, '\n');
 			cin >> resposta;
-			if (resposta == "y" || resposta == "Y"){}
-			else {
+			if(resposta == "y" || resposta == "Y")
+			{
+				cout << "Para que prova? " << endl;
+				string answer;
+				cin.clear();
+				cin.ignore(1000, '\n');
+				getline(cin, answer);
+				alteraProvaSimulada(eq.getNomeEquipa(),"", answer);
+			}
+			else
+			{
 				cout << "Pretende desqualificar um atleta? (Y/N)" << endl;
+				cin.clear();
+				cin.ignore(1000, '\n');
 				cin >> resposta;
-				if(resposta == "y" || resposta == "Y")
-				{
-					for(size_t i = 0;i< eq.getAtletas().size();i++)
-					{
-						cout << "O atleta " << eq.getAtletas()[i].getNome() << " ?" << endl;
+				if (resposta == "y" || resposta == "Y") {
+					for (size_t i = 0; i < eq.getAtletas().size(); i++) {
+						cout << "O atleta " << eq.getAtletas()[i].getNome() << " ? (Y/N)"
+								<< endl;
+						cin.clear();
+						cin.ignore(1000, '\n');
 						cin >> resposta;
-						if(resposta == "y" || resposta == "Y")
-						{
-							eq.removeAtleta(eq.getAtletas()[i].getNome());
+						if (resposta == "y" || resposta == "Y") {
+							cout << "Para que prova? " << endl;
+							string answer;
+							cin.clear();
+							cin.ignore(1000,'\n');
+							getline(cin, answer);
+							alteraProvaSimulada(eq.getNomeEquipa(),
+									eq.getAtletas()[i].getNome(), answer);
 							break;
 						}
 					}
 				}
-				bk.push_back(eq);
 			}
 		}
-		else bk.push_back(eq);
+		bk.push_back(eq);
 	}
 
 	for (size_t k = 0; k < bk.size(); k++) {
 		bk[k].removeMedalhas();
 	}
-	for (size_t i = 0; i < Modalidades.size(); i++) {
-		vector<evento *> ev = Modalidades[i]->getProvas();
+	for (size_t i = 0; i < provaSimulada.size(); i++) {
+		vector<evento *> ev = provaSimulada[i];
 		for (size_t j = 0; j < ev.size(); j++) {
 			for (size_t k = 0; k < bk.size(); k++) {
 				bk[k].getMedalhas(ev[j]);

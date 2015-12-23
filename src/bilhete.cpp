@@ -146,3 +146,18 @@ hasBilhete Bilheteira::getVendidos() const
 {
 	return vendidos;
 }
+
+void Bilheteira::RemoveProva(string nome)
+{
+	hasBilhete::iterator it;
+
+		for(it= vendidos.begin(); it != vendidos.end(); it ++)
+		{
+			Bilhete temp = *it;
+			if(temp.Remove_evento(nome))
+			{
+				vendidos.erase(temp);
+				vendidos.insert(temp);
+			}
+		}
+}

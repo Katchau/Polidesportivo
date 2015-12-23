@@ -170,7 +170,7 @@ Campeonato::Campeonato(const string &filename)
 	ifstream Bio(Bilhe.c_str());
 
 	int counter = 999999;
-	cout << " aqui " << endl;
+
 	string amer;
 	getline(Bio,amer,'\n');
 	stringstream ss;
@@ -180,34 +180,30 @@ Campeonato::Campeonato(const string &filename)
 
 
 
-	cout << "entrou" << endl;
+
 	while(!Bio.eof())
 	{
 		getline(Bio,amer);
-		cout <<"ciclo" << endl;
+
 
 		string nome, morada,email;
 		int ID;
 		vector<string> acesso;
 
 		getline(Bio,nome);
-		cout <<"ciclo1" << endl;
+
 
 		getline(Bio,amer,'\n');
 		stringstream dd;
 		dd <<amer;
 		dd>> ID;
 
-		cout <<"ciclo2" << endl;
+
 		getline(Bio,email);
-		cout <<"ciclo3" << endl;
+
 		getline(Bio,morada);
-		cout <<"ciclo4" << endl;
-		cout << nome << endl;
-		cout << ID << endl;
-		cout << email << endl;
-		cout << morada << endl;
-		system("pause");
+
+
 		int ac;
 
 		getline(Bio,amer,'\n');
@@ -221,7 +217,7 @@ Campeonato::Campeonato(const string &filename)
 			acesso.push_back(prova);
 			ac --;
 
-			cout << prova << endl;
+
 		}
 		Bilhete novo = Bilhete(acesso,email,nome,morada,ID);
 		novo.updateCounter(counter);
@@ -1262,7 +1258,7 @@ void Campeonato::removerEventos()
 	nomeEvento = eventos[indiceEvento]->getNome();
 
 	evento *ev = eventos[indiceEvento];
-
+	bilheteira.RemoveProva(ev->getNome()); //TODO  VERIFICAR ISTO
 	CalendarioCompleto.erase(ev);
 
 	for (size_t i = 0; i < Modalidades.size(); i++)

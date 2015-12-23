@@ -150,6 +150,11 @@ public:
 	 * Retorna os bilhetes vendidos
 	 */
 	hasBilhete getVendidos() const;
+	/**
+	 * Remove uma prova dos bilhetes
+	 * @param nome da prova
+	 */
+	void RemoveProva(string nome);
 	/*
 	 * classe para tratamento de excepcoes
 	 */

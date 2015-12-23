@@ -1337,8 +1337,6 @@ bool Campeonato::verificaSobreposicao(evento* ev)
 
 	vector<evento*> eventos = Infraestruturas[indice]->getCalendario()->getEventos();
 
-	cout << Infraestruturas[indice]->getNome() << endl;
-
 	for (size_t j = 0; j < eventos.size(); ++j)
 	{
 		if (eventos_sobrepostos(ev, eventos[j]) && ev->getNome() != eventos[j]->getNome())
@@ -1784,12 +1782,11 @@ void Campeonato::AlterarData()
 
 	set<evento*, evento::EventoCompare>::iterator it;
 
-	cout << "Lista de Eventos do Campeonato: " << endl;
+	cout << "\nLista de Eventos do Campeonato: " << endl;
 
 	for (it = CalendarioCompleto.begin(); it != CalendarioCompleto.end(); ++it)
 	{
-		cout << i <<" - " << (*it)->getNome() << "\nData Inicial: " << (*it)->getInicial() << " - Data Final: " << (*it)->getFinal() << endl;
-		cout << "\n";
+		cout << "\n" << i <<" - " << (*it)->getNome() << "\nData Inicial: " << (*it)->getInicial() << " - Data Final: " << (*it)->getFinal() << endl;
 		++i;
 	}
 
@@ -1909,7 +1906,7 @@ void Campeonato::AlterarData()
 	cout << "Data Inicial: " << (*it)->getInicial() << endl;
 	cout << "Data Final: " << (*it)->getFinal() << endl;
 
-
+	cin.get(); // limpar o cin
 }
 
 void Campeonato::menuCalendario()
